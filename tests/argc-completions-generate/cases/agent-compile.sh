@@ -51,6 +51,13 @@ doc_contains "$doc" \
     "never synthesize one from its name" \
     "Do not call the \`skill\` tool"
 
+# A negated spelling is its own parameter, never a second name of the positive.
+doc_contains "$doc" \
+    "**Negated spellings.**" \
+    '--[no-]color[=WHEN]' \
+    'never invent a "Disable ..." wording' \
+    'skipped as `context-item-missing`'
+
 # Notations: one modifier, on the final notation, on an option only.
 doc_contains "$doc" \
     "**Notation modifiers**" \

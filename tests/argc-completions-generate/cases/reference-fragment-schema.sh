@@ -13,12 +13,15 @@ doc_contains "$doc" \
     'profile%3Amem.json' \
     '"notes": "help unavailable"'
 
-# Names: any count and any order, with duplicates rejected.
+# Names: any count and any order, with duplicates rejected. A positive spelling
+# and its negated form are two items, never two names of one item.
 doc_contains "$doc" \
     'One or more names for a flag/option' \
     'Any count and any order are accepted' \
     'rejects an empty list, a duplicate name' \
-    '`prefixed: true` still takes exactly one literal prefix'
+    '`prefixed: true` still takes exactly one literal prefix' \
+    'A positive spelling and its negated form are two parameters, not two names of one parameter' \
+    'rejects `names` containing both `--x` and `--no-x`'
 
 # Notations: modifiers belong to options, and only to the final notation.
 doc_contains "$doc" \

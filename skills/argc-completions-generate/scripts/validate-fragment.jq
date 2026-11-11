@@ -33,6 +33,14 @@ def source_command_ok:
 def opt_name: no_nl and no_tick and test("^[-+][^[:space:]`|]+$");
 def name_ok:
   if type == "string" then opt_name else false end;
+# A positive spelling and its negated form are two parameters, so one item may
+# not carry both: --foo and --no-foo must be separate items.
+def negated_spellings($names):
+  [ $names[] | select(type == "string" and test("^--no-.")) | .[5:] ] as $rests
+  | [ $rests[]
+      | . as $rest
+      | select(any($names[]; . == "--" + $rest))
+      | "--no-" + $rest ];
 def arg_name: no_nl and no_tick and test("^[A-Za-z0-9_][A-Za-z0-9_.-]*$");
 def meta_key: no_nl and no_tick and test("^[A-Za-z0-9_][A-Za-z0-9_.:-]*$");
 def choice_fn_ok: . == null or (no_nl and no_tick and test("^[A-Za-z_][A-Za-z0-9_]*$"));
@@ -103,6 +111,8 @@ def names_shape($i):
     fail("items[\($i)]: invalid name: \(.names | map(select(name_ok | not)) | .[0])")
   elif ((.names | unique | length) != (.names | length)) then
     fail("items[\($i)]: duplicate name: \(.names | group_by(.) | map(select(length > 1) | .[0]) | join(","))")
+  elif ((negated_spellings(.names)) | length) > 0 then
+    fail("items[\($i)]: negated and positive spellings must be separate items: \(negated_spellings(.names) | join(", "))")
   elif ((.prefixed // false) and ((.names | length) != 1)) then
     fail("items[\($i)]: a prefixed option must have exactly one name")
   else true end;

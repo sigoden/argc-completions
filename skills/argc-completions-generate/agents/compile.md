@@ -135,9 +135,23 @@ Example: `Draw border around the input section [rounded|sharp|none] (default: ro
 
 ### 3.3 Names
 
-- Collect every name the help lists for a flag or option, in help order; one item holds all of them, any count and any order. The field rule (`names`, `~` names, duplicates) is in `<SKILL_ROOT>/references/fragment-schema.md`. Do not split one option into several items and do not reorder names. A name argc cannot parse: keep every other name and warn.
+- Collect every name the help lists for a flag or option, in help order; one item holds all of them, any count and any order. The field rule (`names`, `~` names, duplicates) is in `<SKILL_ROOT>/references/fragment-schema.md`. Do not split one option into several items and do not reorder names, except for the negated spellings below. A name argc cannot parse: keep every other name and warn.
 - With `prefixed: true`, `names` holds exactly one literal prefix without the trailing `-` (§3.6).
 - An item never repeats the command's own name.
+
+**Negated spellings.** A help entry that writes the positive and its negated form together describes two parameters, and one item must never hold both spellings. Split such an entry into two items:
+
+| Help form | Positive item | Negated item |
+|---|---|---|
+| `--[no-]foo`, `-f, --[no-]foo` | `["-f", "--foo"]` (the short name plus the positive long name) | `["--no-foo"]` |
+| `--foo, --no-foo`, `--foo/--no-foo`, `--foo \| --no-foo` | `["--foo"]` | `["--no-foo"]` |
+
+- Emit the negated item immediately after the positive one, so help order is preserved.
+- The positive item keeps every spelling and every value mechanism the entry gives: `notations` with its modifier, `choices`, `choice_fn`, `prefixed`, `delimiter`, `repeatable`, and `terminated` are unchanged.
+- The negated item is always `kind: "flag"`, `repeatable: false`, with no `notations`, `choices`, `choice_fn`, `prefixed`, `delimiter`, or `terminated`: `--[no-]color[=WHEN]` yields the option `--color <WHEN>` plus the flag `--no-color`.
+- Both items take the same normalized description (§3.2) from the shared entry; never invent a "Disable ..." wording.
+- Split only when the entry writes both spellings. A negated spelling listed on its own (`--no-foo` with no positive counterpart in this help) stays one flag item, and a name that merely contains `no-` (`--no-name`, `--noise`) is an ordinary name. A short negated form (`-[no-]f`) keeps the ordinary one-item rule.
+- A `DIFF` row keyed by the old combined names no longer matches after the split, so it is skipped as `context-item-missing` (§3.11). Never re-merge the items to keep the row.
 
 ### 3.4 Values and notations
 
@@ -196,7 +210,7 @@ Write the result to `notations` for an option and `notation` for an arg. If uncl
 
 ### 3.7 Flags
 
-- `kind`: `flag`; `names`: every listed name, in help order (§3.3).
+- `kind`: `flag`; `names`: every listed name, in help order; a negated spelling is its own flag item (§3.3).
 - `repeatable`: true when the help marks a repeatable flag (`*`, `...`, "repeatable").
 - `description`: §3.2.
 - Include `--help` and `--version` only when the help lists them; add only built-ins the help lists, and keep every listed one.
@@ -204,7 +218,7 @@ Write the result to `notations` for an option and `notation` for an arg. If uncl
 
 ### 3.8 Options
 
-- `kind`: `option`; `names` per §3.3.
+- `kind`: `option`; `names` per §3.3, where a negated spelling becomes a separate flag item.
 - `notations` per §3.4, including the modifier on the final notation; `choices` per §3.5; `choice_fn` per §3.11.
 - `repeatable`, `prefixed`, `delimiter` per §3.6.
 - `terminated`: only per §3.10; set `"terminated": true` and warn. Its multiple values are not `repeatable`.

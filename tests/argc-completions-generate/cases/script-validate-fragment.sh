@@ -56,6 +56,28 @@ fragment_with_items "$names_fragments" '[
 ]'
 check "validator accepts multi names in any order" validate_fragment "$names_fragments/_root.json"
 
+# A positive spelling and its negated form are two parameters, so they are two
+# items; one item carrying both is a schema error.
+negation_split="$TMP_DIR/fragments-negation-split"
+fragment_with_items "$negation_split" '[
+  {"kind": "option", "names": ["--color"], "notations": ["<WHEN>"], "choices": [], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Colorize the output"},
+  {"kind": "flag", "names": ["--no-color"], "repeatable": false, "description": "Colorize the output"},
+  {"kind": "flag", "names": ["--no-name"], "repeatable": false, "description": "Do not save the name"}
+]'
+check "validator accepts a positive item and a separate negated item" validate_fragment "$negation_split/_root.json"
+
+negation_combined="$TMP_DIR/fragments-negation-combined"
+fragment_with_items "$negation_combined" '[{"kind": "flag", "names": ["--color", "--no-color"], "repeatable": false, "description": "Colorize the output"}]'
+check_rejects "validator rejects combined positive and negated names" \
+    "negated and positive spellings must be separate items: --no-color" \
+    validate_fragment "$negation_combined/_root.json"
+
+negation_short="$TMP_DIR/fragments-negation-short"
+fragment_with_items "$negation_short" '[{"kind": "flag", "names": ["-f", "--force", "--no-force"], "repeatable": false, "description": "Force the operation"}]'
+check_rejects "validator rejects combined names in a short group" \
+    "negated and positive spellings must be separate items: --no-force" \
+    validate_fragment "$negation_short/_root.json"
+
 duplicate_fragments="$TMP_DIR/fragments-duplicate-name"
 fragment_with_items "$duplicate_fragments" '[{"kind": "flag", "names": ["-a", "--alpha", "-a"], "repeatable": false, "description": "Duplicate"}]'
 check_rejects "validator rejects duplicate name" "duplicate name: -a" \
