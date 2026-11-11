@@ -16,8 +16,7 @@ It prints absolute `key=value` lines. The workflow uses these keys:
 - `cache_dir`, `cache_exists`, `root_fragment_exists`: the cache directory and its state.
 - `cache_version`: the root fragment's `schemaVersion`. A value other than `1` is a schema-invalid cache, so every node recompiles with `reason=schema`.
 - `invoke` and `invoke_source`: the words that actually run the root and how they were resolved. `invoke_source=external-subcommands` means the root is an external subcommand (`cargo-audit` -> `cargo audit`); `invoke_source=root` means `invoke` is `<root>`.
-- `bridge`: the known bridge that generated `<root>`'s installed bash completion (`click`, `typer`, `cobra`, `argcomplete`, `clap`, `urfave`, or `yargs`), or empty when none matches. A non-empty value selects the bridge shortcut in `<SKILL_ROOT>/SKILL.md` §Bridge shortcut before this workflow starts.
-- `completion_bridge`: the bridge name when `completion_file` binds `_choice_bridge_<name>` in `SPEC`, meaning it is a copy of `<REPO_ROOT>/bridges/<name>.sh`; empty when no completion exists or it was generated from fragments. A bridge copy is recognized without any system detection, so it survives the framework's completion being uninstalled. The shortcut rules are in `<SKILL_ROOT>/SKILL.md` §Bridge shortcut.
+- `completion_bridge`: the bridge name when `completion_file` binds `_choice_bridge_<name>` in `SPEC`, meaning it is a copy of `<REPO_ROOT>/bridges/<name>.sh`; empty when no completion exists or it was generated from fragments. A non-empty value means the completion is read-only for this skill: do not generate fragments, assemble, or rewrite it; verify it as-is (`<SKILL_ROOT>/references/verify.md`).
 - `prompt_region`: `1` when the script has a `HINTS` block; diagnostic only.
 
 Rules:

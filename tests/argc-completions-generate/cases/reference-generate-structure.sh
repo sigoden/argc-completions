@@ -76,11 +76,16 @@ doc_contains "$doc" \
     '--output "$output_file"' \
     '"$output_file" --cache-dir'
 
-# A detected bridge is a pre-workflow shortcut owned by SKILL.md.
+# A local bridge copy is read-only; preflight no longer detects bridges from the
+# system and the router no longer offers a bridge generation shortcut.
 doc_contains "$doc" \
-    '`bridge`' \
     '`completion_bridge`' \
-    'bridge shortcut in `<SKILL_ROOT>/SKILL.md` §Bridge shortcut'
+    'do not generate fragments, assemble, or rewrite it' \
+    '`<SKILL_ROOT>/references/verify.md`'
+doc_lacks "$doc" \
+    '`bridge`' \
+    'Bridge shortcut' \
+    'detect-bridge'
 
 # The orchestrator owns the single retry and the fallback fragment.
 doc_contains "$doc" \

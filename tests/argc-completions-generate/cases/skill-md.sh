@@ -31,15 +31,17 @@ doc_contains "$doc" \
     '| `all` | Brand-new command (`existing=0`)' \
     "next=add-choice-fns"
 
-# A detected bridge is a shortcut that replaces generation with a template copy.
-# An existing bridge is refreshed without asking; only a new one prompts.
+# Bridge completions are read-only: the skill never generates or refreshes one,
+# but preflight still reports it so routing stops instead of rebuilding it.
 doc_contains "$doc" \
-    'bridge=<name>' \
-    'completion_bridge=<name>' \
+    'completion_bridge' \
+    'Do not generate fragments, assemble, or rewrite it' \
+    '<SKILL_ROOT>/references/verify.md'
+doc_lacks "$doc" \
     'Bridge shortcut' \
-    '<REPO_ROOT>/bridges/<bridge>.sh' \
-    'output_file' \
-    'Copy the detected bridge without asking and stop'
+    'bridges/<completion_bridge>.sh' \
+    '`bridge=<name>`' \
+    'detect-bridge'
 
 # Root identity vs invocation form for external subcommands.
 doc_contains "$doc" \

@@ -177,11 +177,6 @@ else
     invoke_source="root"
 fi
 
-# A non-empty bridge means the command already has a bash completion generated
-# by a known framework; the skill may copy bridges/<bridge>.sh instead of
-# generating fragments. detect-bridge.sh exits 1 when nothing matches.
-bridge="$(bash "$SCRIPT_DIR/detect-bridge.sh" "$root" 2>/dev/null || true)"
-
 # completion_bridge=<name> is the bridge a local completion was copied from,
 # detected by the `_choice_bridge_<name>` binding in its SPEC. Empty when the
 # completion is generated from fragments or does not exist.
@@ -194,7 +189,6 @@ printf 'root=%s\n' "$root"
 printf 'command=%s\n' "$(command -v "$root")"
 printf 'invoke=%s\n' "$invoke"
 printf 'invoke_source=%s\n' "$invoke_source"
-printf 'bridge=%s\n' "$bridge"
 printf 'completion_bridge=%s\n' "$completion_bridge"
 printf 'os=%s\n' "$(detect_os)"
 printf 'existing=%s\n' "$existing"
