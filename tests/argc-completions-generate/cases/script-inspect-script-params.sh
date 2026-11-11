@@ -22,6 +22,23 @@ inspect_params "$TMP_DIR/demo-with-export.json" "$TMP_DIR/script-params.txt"
 assert_line "script params command header" "$TMP_DIR/script-params.txt" 1 '# command demo-with'
 assert_has_line "script params options" "$TMP_DIR/script-params.txt" '# options'
 assert_has_line "script params positionals" "$TMP_DIR/script-params.txt" '# positionals'
+assert_tsv "script params option names" "$TMP_DIR/script-params.txt" 1=output 2='-o --output' 3=FILE
+
+# Older argc releases export short_name/long_name instead of names; the same
+# table must come out.
+quiet jq_skill_file "$TMP_DIR/demo-with-export.json" -b -c '
+    walk(if type == "object" and has("flag_options") then
+        .flag_options |= map(
+            if has("names") then
+                .short_name = (.names[0] // "")
+                | .long_name = (.names[1] // "")
+                | del(.names)
+            else . end)
+    else . end)
+' >"$TMP_DIR/demo-with-legacy-export.json"
+inspect_params "$TMP_DIR/demo-with-legacy-export.json" "$TMP_DIR/script-params-legacy.txt"
+assert_same "script params reads legacy short/long names" \
+    "$TMP_DIR/script-params.txt" "$TMP_DIR/script-params-legacy.txt"
 
 inspect_params "$TMP_DIR/demo-with-export.json" "$TMP_DIR/script-params-sub.txt" --arg cmd 'remote add'
 assert_line "script params subcommand header" "$TMP_DIR/script-params-sub.txt" 1 '# command demo-with remote add'

@@ -8,9 +8,14 @@
 #
 # Prints the resolved command in a '# command <path>' header, then value-taking
 # options and positionals only; flags are omitted.
-# Option row: id long_name short_name notations choice describe prefixed delimiter terminated
+# Option row: id names notations choice describe prefixed delimiter terminated
 # Positional row: id notation required multiple choice describe delimiter terminated
 # Use this instead of dumping the full export JSON.
+
+def export_names:
+  if ((.names? | type) == "array") then .names
+  else [(.short_name // ""), (.long_name // "")] | map(select(length > 0))
+  end;
 
 def resolve($segs; $path):
   if ($segs | length) == 0 then {cmd: ., path: $path}
@@ -37,7 +42,7 @@ def resolve($segs; $path):
   "# options",
   ($resolved.cmd.flag_options[]
    | select(.flag == false)
-   | [.id, (.long_name // ""), (.short_name // ""), ((.notations // []) | join(" ")),
+   | [.id, (export_names | join(" ")), ((.notations // []) | join(" ")),
       ((.choice // {}) | tostring), (.describe // ""),
       ((.prefixed // false) | tostring), (.delimiter // ""), ((.terminated // false) | tostring)]
    | @tsv),

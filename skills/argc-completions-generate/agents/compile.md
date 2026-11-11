@@ -135,7 +135,7 @@ Example: `Draw border around the input section [rounded|sharp|none] (default: ro
 
 ### 3.3 Names
 
-- One or two names per flag or option, in argc order. The field rule (order, one-character short name first, `~` names) is in `<SKILL_ROOT>/references/fragment-schema.md`. Parse decision: when the help pairs names argc cannot take in that order, emit one item per name with the other fields copied and record the pairing in `notes`. A short name argc cannot represent: keep the long name and warn.
+- Collect every name the help lists for a flag or option, in help order; one item holds all of them, any count and any order. The field rule (`names`, `~` names, duplicates) is in `<SKILL_ROOT>/references/fragment-schema.md`. Do not split one option into several items and do not reorder names. A name argc cannot parse: keep every other name and warn.
 - With `prefixed: true`, `names` holds exactly one literal prefix without the trailing `-` (§3.6).
 - An item never repeats the command's own name.
 
@@ -196,7 +196,7 @@ Write the result to `notations` for an option and `notation` for an arg. If uncl
 
 ### 3.7 Flags
 
-- `kind`: `flag`; `names`: one or two names in argc order (§3.3).
+- `kind`: `flag`; `names`: every listed name, in help order (§3.3).
 - `repeatable`: true when the help marks a repeatable flag (`*`, `...`, "repeatable").
 - `description`: §3.2.
 - Include `--help` and `--version` only when the help lists them; add only built-ins the help lists, and keep every listed one.

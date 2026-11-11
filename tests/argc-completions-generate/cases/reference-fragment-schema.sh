@@ -13,6 +13,13 @@ doc_contains "$doc" \
     'profile%3Amem.json' \
     '"notes": "help unavailable"'
 
+# Names: any count and any order, with duplicates rejected.
+doc_contains "$doc" \
+    'One or more names for a flag/option' \
+    'Any count and any order are accepted' \
+    'rejects an empty list, a duplicate name' \
+    '`prefixed: true` still takes exactly one literal prefix'
+
 # Notations: modifiers belong to options, and only to the final notation.
 doc_contains "$doc" \
     "Notation modifiers: only an option may use them" \

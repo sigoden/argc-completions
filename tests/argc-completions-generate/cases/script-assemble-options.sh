@@ -16,19 +16,19 @@ assert_contains "assemble combined prefix delimiter" "$prefix_script" '# @option
 check "assemble prefixed/delimiter syntax" bash -n "$prefix_script"
 quiet argc_export "$prefix_script" "$TMP_DIR/prefix-delimiter-export.json"
 assert_jq "export prefixed option" \
-    '.flag_options[] | select(.long_name == "-ao") | .prefixed == true and .multiple_occurs == true and .choice.data == ["a", "s", "t", "u"]' \
+    '.flag_options[] | select(.names | index("-ao")) | .prefixed == true and .multiple_occurs == true and .choice.data == ["a", "s", "t", "u"]' \
     "$TMP_DIR/prefix-delimiter-export.json"
 assert_jq "export prefixed non-repeatable" \
-    '.flag_options[] | select(.long_name == "-Q") | .prefixed == true and .multiple_occurs == false and .choice.data == ["X"]' \
+    '.flag_options[] | select(.names | index("-Q")) | .prefixed == true and .multiple_occurs == false and .choice.data == ["X"]' \
     "$TMP_DIR/prefix-delimiter-export.json"
 assert_jq "export delimiter option" \
-    '.flag_options[] | select(.long_name == "--type") | .delimiter == "," and .multiple_occurs == true and .choice.data == ["d", "f"]' \
+    '.flag_options[] | select(.names | index("--type")) | .delimiter == "," and .multiple_occurs == true and .choice.data == ["d", "f"]' \
     "$TMP_DIR/prefix-delimiter-export.json"
 assert_jq "export delimiter arg" \
     '.positionals[] | select(.id == "types") | .delimiter == "," and .multiple == true and .required == false and .choice.data == ["d", "f"]' \
     "$TMP_DIR/prefix-delimiter-export.json"
 assert_jq "export combined prefix delimiter" \
-    '.flag_options[] | select(.long_name == "-Z") | .prefixed == true and .delimiter == "," and .multiple_occurs == true and .choice.data == ["a", "b"]' \
+    '.flag_options[] | select(.names | index("-Z")) | .prefixed == true and .delimiter == "," and .multiple_occurs == true and .choice.data == ["a", "b"]' \
     "$TMP_DIR/prefix-delimiter-export.json"
 verify_check "verify prefixed/delimiter" "$prefix_script" --cache-dir "$PREFIX_FRAGMENTS"
 
@@ -50,7 +50,7 @@ assert_contains "assemble terminated option" "$terminated_script" '# @option --c
 assert_contains "assemble terminated arg" "$terminated_script" '# @arg args~ <ARG>'
 quiet argc_export "$terminated_script" "$TMP_DIR/terminated-export.json"
 assert_jq "export terminated option" \
-    '.flag_options[] | select(.long_name == "--command") | .terminated == true and .multiple_values == true and .multiple_occurs == false' \
+    '.flag_options[] | select(.names | index("--command")) | .terminated == true and .multiple_values == true and .multiple_occurs == false' \
     "$TMP_DIR/terminated-export.json"
 assert_jq "export terminated arg" \
     '.positionals[] | select(.id == "args") | .terminated == true and .multiple == true' \
@@ -104,13 +104,13 @@ assert_contains "assemble notation optional" "$notation_script" '# @option --may
 assert_contains "assemble notation terminated args" "$notation_script" '# @option -l~ <script> <args*>'
 quiet argc_export "$notation_script" "$TMP_DIR/notation-modifiers-export.json"
 assert_jq "export notation plus" \
-    '.flag_options[] | select(.long_name == "--files") | .notations == ["FILE+"] and .num_args[0] == 1 and .num_args[1] > 1 and .multiple_occurs == false' \
+    '.flag_options[] | select(.names | index("--files")) | .notations == ["FILE+"] and .num_args[0] == 1 and .num_args[1] > 1 and .multiple_occurs == false' \
     "$TMP_DIR/notation-modifiers-export.json"
 assert_jq "export notation optional" \
-    '.flag_options[] | select(.long_name == "--maybe") | .notations == ["VALUE?"] and .num_args == [0, 1]' \
+    '.flag_options[] | select(.names | index("--maybe")) | .notations == ["VALUE?"] and .num_args == [0, 1]' \
     "$TMP_DIR/notation-modifiers-export.json"
 assert_jq "export notation terminated args" \
-    '.flag_options[] | select(.long_name == "-l") | .notations == ["SCRIPT", "ARGS*~"] and .terminated == true' \
+    '.flag_options[] | select(.names | index("-l")) | .notations == ["SCRIPT", "ARGS*~"] and .terminated == true' \
     "$TMP_DIR/notation-modifiers-export.json"
 verify_check "verify notation modifiers" "$notation_script" --cache-dir "$notation_fragments"
 

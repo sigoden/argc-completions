@@ -141,7 +141,7 @@ Read the authority file before working in its area.
 
 | Topic | Authority |
 |---|---|
-| Fragment layout (one node = one fragment, file-name encoding) and field semantics: `names` order, `terminated`/`delimiter`/`choices` interactions, `choice_fn` precedence, description rules (mechanical rules in `<SKILL_ROOT>/scripts/description-rules.jq`) | `<SKILL_ROOT>/references/fragment-schema.md` |
+| Fragment layout (one node = one fragment, file-name encoding) and field semantics: `names` count/order, `terminated`/`delimiter`/`choices` interactions, `choice_fn` precedence, description rules (mechanical rules in `<SKILL_ROOT>/scripts/description-rules.jq`) | `<SKILL_ROOT>/references/fragment-schema.md` |
 | Compile child behavior: help scope, one node, no dispatch, when compile may set `terminated`, shared-help sections | `<SKILL_ROOT>/agents/compile.md` §1, §3.10, §3.13 |
 | Cache contents and hygiene, hashes, fragment lifecycle, checks, retry, finalize/prune, full-root deletion | `<SKILL_ROOT>/references/generate-structure.md` §2–3, §6–7, §9; `<SKILL_ROOT>/scripts/fragment-hash.sh`, `<SKILL_ROOT>/scripts/check-fragment.sh`, `<SKILL_ROOT>/scripts/finalize-cache.sh`, `<SKILL_ROOT>/scripts/delete-cache.sh` |
 | Choice bindings (including command-valued and `terminated`), naming, assemble/test loop | `<SKILL_ROOT>/references/add-choice-fns.md` §Ownership, §3–§5 |

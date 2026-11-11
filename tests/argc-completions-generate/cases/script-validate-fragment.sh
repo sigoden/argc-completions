@@ -46,6 +46,31 @@ check_rejects "validator rejects any meta on a subcommand" \
     "meta is root-only" \
     jq_skill_file "$TMP_DIR/meta-root.json" -e -f "$NATIVE_SCRIPTS/validate-fragment.jq" --arg key 'demo|remote'
 
+# Item names: any count and any order, but no empty, duplicate, or malformed
+# entry, and a prefixed option still takes exactly one name.
+names_fragments="$TMP_DIR/fragments-names"
+fragment_with_items "$names_fragments" '[
+  {"kind": "flag", "names": ["--help", "-?", "-h"], "repeatable": false, "description": "Print help"},
+  {"kind": "option", "names": ["-ex", "--eval-command", "-e"], "notations": ["<COMMAND>"], "choices": [], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Execute a command"},
+  {"kind": "flag", "names": ["-~", "--value"], "repeatable": false, "description": "Literal tilde"}
+]'
+check "validator accepts multi names in any order" validate_fragment "$names_fragments/_root.json"
+
+duplicate_fragments="$TMP_DIR/fragments-duplicate-name"
+fragment_with_items "$duplicate_fragments" '[{"kind": "flag", "names": ["-a", "--alpha", "-a"], "repeatable": false, "description": "Duplicate"}]'
+check_rejects "validator rejects duplicate name" "duplicate name: -a" \
+    validate_fragment "$duplicate_fragments/_root.json"
+
+prefixed_multi="$TMP_DIR/fragments-prefixed-multi"
+fragment_with_items "$prefixed_multi" '[{"kind": "option", "names": ["-A", "--alpha"], "notations": ["<V>"], "choices": [], "choice_fn": null, "repeatable": false, "prefixed": true, "delimiter": null, "description": "Prefixed"}]'
+check_rejects "validator rejects prefixed multi names" "a prefixed option must have exactly one name" \
+    validate_fragment "$prefixed_multi/_root.json"
+
+tilde_name="$TMP_DIR/fragments-tilde-name"
+fragment_with_items "$tilde_name" '[{"kind": "option", "names": ["-a", "--alpha~"], "notations": ["<V>"], "choices": [], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Tilde"}]'
+check_rejects "validator rejects non-literal tilde name" "must not end in ~" \
+    validate_fragment "$tilde_name/_root.json"
+
 # source.command is a single-line shell expression; kind/section keep their
 # current semantics.
 source_frag="$TMP_DIR/source-command.json"

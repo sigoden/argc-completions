@@ -669,8 +669,8 @@ check_export_fn_choices() {
 # a lost binding fails here instead of passing silently.
 check_bindings() {
     local fragments_dir export_rows fragment_rows frag_file rel frag_key sub_path export_scope display
-    local row_path row_kind row_id row_short row_long row_fn row_term row_scope row_display row_payload row_described row_name
-    local lookup item_name shown
+    local row_path row_kind row_id row_name row_fn row_term row_scope row_display row_payload row_described item_name shown
+    local lookup
     local -a binding_errors=() terminated_errors=()
     local -A export_name=() export_name_fn=() export_arg=() export_arg_fn=() export_path=()
     local -A export_name_term=() export_arg_term=()
@@ -686,11 +686,19 @@ check_bindings() {
     fragment_rows="$tmp_dir/fragment-rows.tsv"
     if ! jq -b -r '
         def fn_flag: if (((.choice // {}) | .type // "") == "Fn") then "fn" else "-" end;
-        def row($p; $kind; $id; $short; $long):
-          [$p, $kind, $id, $short, $long, fn_flag, ((.terminated // false) | tostring)] | join("\u001f");
+        # argc >= the multi-name change exports `names`; older releases use the
+        # short_name/long_name pair. Read either shape so the skill keeps
+        # working with both.
+        def export_names:
+          if ((.names? | type) == "array") then .names
+          else [(.short_name // ""), (.long_name // "")] | map(select(length > 0))
+          end;
+        def row($p; $kind; $id; $name):
+          [$p, $kind, $id, $name, fn_flag, ((.terminated // false) | tostring)] | join("\u001f");
         def rows($p):
-          ((.flag_options[]? | row($p; "opt"; (.id // ""); (.short_name // ""); (.long_name // "")))),
-          ((.positionals[]? | row($p; "arg"; (.id // ""); ""; ""))),
+          ((.flag_options[]? | . as $o | ($o | export_names)[]? as $n
+            | $o | row($p; "opt"; (.id // ""); $n))),
+          ((.positionals[]? | row($p; "arg"; (.id // ""); ""))),
           (((.subcommands // [])[]?) as $s
             | ($s | rows(if $p == "." then $s.name else "\($p) \($s.name)" end)));
         rows(".")
@@ -699,7 +707,7 @@ check_bindings() {
         return 0
     fi
 
-    while IFS=$'\x1f' read -r row_path row_kind row_id row_short row_long row_fn row_term; do
+    while IFS=$'\x1f' read -r row_path row_kind row_id row_name row_fn row_term; do
         [[ -n "$row_path" ]] || continue
         export_path["$row_path"]=1
         if [[ "$row_kind" == "arg" ]]; then
@@ -710,16 +718,12 @@ check_bindings() {
                     export_arg_fn["$row_path"$'\x1f'"$row_id"]=1
                 fi
             fi
-        else
-            for row_name in "$row_short" "$row_long"; do
-                if [[ -n "$row_name" ]]; then
-                    export_name["$row_path"$'\x1f'"$row_name"]=1
-                    export_name_term["$row_path"$'\x1f'"$row_name"]="$row_term"
-                    if [[ "$row_fn" == "fn" ]]; then
-                        export_name_fn["$row_path"$'\x1f'"$row_name"]=1
-                    fi
-                fi
-            done
+        elif [[ -n "$row_name" ]]; then
+            export_name["$row_path"$'\x1f'"$row_name"]=1
+            export_name_term["$row_path"$'\x1f'"$row_name"]="$row_term"
+            if [[ "$row_fn" == "fn" ]]; then
+                export_name_fn["$row_path"$'\x1f'"$row_name"]=1
+            fi
         fi
     done <"$export_rows"
 
@@ -776,7 +780,7 @@ check_bindings() {
                 fi
                 ;;
             name)
-                # One row per name, so a two-name item reports any single
+                # One row per name, so a multi-name item reports any single
                 # dropped name.
                 item_name="$row_payload"
                 if [[ -n "$item_name" ]]; then
@@ -999,7 +1003,7 @@ check_compgen() {
 }
 
 check_compgen_smoke() {
-    local subcommands_file subcommand_count sub long short assigned prefixed token fn_count sub_key
+    local subcommands_file subcommand_count sub assigned prefixed token fn_count sub_key
     local fn_options_file
     if [[ "$skip_compgen" -eq 1 ]]; then
         log_info "compgen checks skipped"
@@ -1026,17 +1030,31 @@ check_compgen_smoke() {
     # IFS whitespace and would drop an empty subcommand field, shifting the row.
     fn_options_file="$tmp_dir/fn-options.txt"
     : >"$fn_options_file"
-    jq -b -r '.flag_options[]? | select(.choice != null and .choice.type == "Fn") | [".", (.long_name // ""), (.short_name // ""), (.assigned|tostring), (.prefixed|tostring)] | @tsv' "$(native_path "$export_json")" 2>/dev/null >>"$fn_options_file" || true
-    jq -b -r '.subcommands[]? as $s | $s.flag_options[]? | select(.choice != null and .choice.type == "Fn") | [$s.name, (.long_name // ""), (.short_name // ""), (.assigned|tostring), (.prefixed|tostring)] | @tsv' "$(native_path "$export_json")" 2>/dev/null >>"$fn_options_file" || true
+    jq -b -r '
+        def export_names:
+          if ((.names? | type) == "array") then .names
+          else [(.short_name // ""), (.long_name // "")] | map(select(length > 0))
+          end;
+        .flag_options[]? | select(.choice != null and .choice.type == "Fn")
+        | . as $o | ($o | export_names)[]? as $n
+        | [".", $n, ($o.assigned|tostring), ($o.prefixed|tostring)] | @tsv
+    ' "$(native_path "$export_json")" 2>/dev/null >>"$fn_options_file" || true
+    jq -b -r '
+        def export_names:
+          if ((.names? | type) == "array") then .names
+          else [(.short_name // ""), (.long_name // "")] | map(select(length > 0))
+          end;
+        .subcommands[]? as $s | $s.flag_options[]?
+        | select(.choice != null and .choice.type == "Fn")
+        | . as $o | ($o | export_names)[]? as $n
+        | [$s.name, $n, ($o.assigned|tostring), ($o.prefixed|tostring)] | @tsv
+    ' "$(native_path "$export_json")" 2>/dev/null >>"$fn_options_file" || true
     fn_count=0
-    while IFS=$'\t' read -r sub long short assigned prefixed; do
+    while IFS=$'\t' read -r sub token assigned prefixed; do
         sub_key="$sub"
         [[ "$sub_key" == "." ]] && sub_key=""
-        [[ -n "$long$short" ]] || continue
-        [[ "$assigned" == "true" || "$prefixed" == "true" ]] && continue
-        token="$long"
-        [[ -n "$token" ]] || token="$short"
         [[ -n "$token" ]] || continue
+        [[ "$assigned" == "true" || "$prefixed" == "true" ]] && continue
         fn_count=$((fn_count + 1))
         [[ "$fn_count" -le 30 ]] || break
         if [[ -n "$sub_key" ]]; then

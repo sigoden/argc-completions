@@ -47,30 +47,26 @@ reject_fragments "assemble rejects delimiter multiple notations" \
 reject_fragments "assemble rejects invalid delimiter" \
     '{"kind": "option", "names": ["--sep"], "notations": [], "choices": [], "choice_fn": null, "repeatable": true, "prefixed": false, "delimiter": "x", "description": "Bad"}'
 
-# --- two-name shapes ------------------------------------------------------
-# argc silently drops the second name, and the choice with it, when the
-# two-name shape is one it cannot parse. Assembly must reject it instead.
-bad_alias_first="$TMP_DIR/fragments-bad-names-alias-first"
-fragment_with_items "$bad_alias_first" '[{"kind": "option", "names": ["-ex", "--eval-command"], "notations": ["<COMMAND>"], "choices": [], "choice_fn": null, "repeatable": true, "prefixed": false, "delimiter": null, "description": "Execute a single command"}]'
-check_rejects "assemble rejects alias-first two names" "one-character short name" \
-    bash "$SCRIPTS/assemble.sh" demo --cache-dir "$bad_alias_first" --stdout
-bad_help_order="$TMP_DIR/fragments-bad-names-help-order"
-fragment_with_items "$bad_help_order" '[{"kind": "option", "names": ["--eval-command", "-ex"], "notations": ["<COMMAND>"], "choices": [], "choice_fn": null, "repeatable": true, "prefixed": false, "delimiter": null, "description": "Execute a single command"}]'
-check_rejects "assemble rejects help-order two names" "one-character short name" \
-    bash "$SCRIPTS/assemble.sh" demo --cache-dir "$bad_help_order" --stdout
-
-# Accepted two-name shapes: two single-character shorts and a short plus a
-# multi-character single-dash alias.
+# --- name shapes ----------------------------------------------------------
+# Any number of names in any order is accepted; argc matches every spelling and
+# exports them together.
 names_ok="$TMP_DIR/fragments-names-ok"
 fragment_with_items "$names_ok" '[
-  {"kind": "flag", "names": ["-b", "-m"], "repeatable": false, "description": "Ignored for compatibility"},
-  {"kind": "option", "names": ["-x", "-ex"], "notations": ["<V>"], "choices": [], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Two names"}
+  {"kind": "flag", "names": ["-h", "-?", "--help"], "repeatable": false, "description": "Print help"},
+  {"kind": "option", "names": ["--eval-command", "-ex", "-e"], "notations": ["<COMMAND>"], "choices": [], "choice_fn": null, "repeatable": false, "prefixed": false, "delimiter": null, "description": "Execute a single command"}
 ]'
 names_ok_script="$TMP_DIR/names-ok.sh"
 assemble_to "$names_ok_script" demo --cache-dir "$names_ok" --stdout
-assert_contains "assemble two shorts" "$names_ok_script" '# @flag -b -m'
-assert_contains "assemble short plus alias" "$names_ok_script" '# @option -x -ex <V>'
-verify_check "verify two-name shapes" "$names_ok_script" --cache-dir "$names_ok"
+assert_contains "assemble three flag names" "$names_ok_script" '# @flag -h -? --help'
+assert_contains "assemble long name first" "$names_ok_script" '# @option --eval-command -ex -e <COMMAND>'
+quiet argc_export "$names_ok_script" "$TMP_DIR/names-ok-export.json"
+assert_jq "export keeps every name" \
+    '.flag_options[] | select(.names | index("-?")) | .names == ["-h", "-?", "--help"]' \
+    "$TMP_DIR/names-ok-export.json"
+assert_jq "export keeps help order" \
+    '.flag_options[] | select(.names | index("-ex")) | .names == ["--eval-command", "-ex", "-e"]' \
+    "$TMP_DIR/names-ok-export.json"
+verify_check "verify multi-name shapes" "$names_ok_script" --cache-dir "$names_ok"
 
 # A pair argc cannot accept becomes one item per name with every other field
 # copied; both items must keep the dynamic binding.

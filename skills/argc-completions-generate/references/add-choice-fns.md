@@ -14,9 +14,9 @@ Resolve `<completion.sh>` and the cache directory from `<SKILL_ROOT>/scripts/pre
 
 Run the three `<SKILL_ROOT>/SKILL.md` §Inspection commands; the export lands in `/tmp/export.json`.
 
-The summary prints `# command <path>`, then value-taking options and positionals (flags skipped); without `--arg cmd` it lists the root. Option rows end with `prefixed`, `delimiter`, and `terminated`; positional rows include `required`, `multiple`, `delimiter`, and `terminated`; both show the existing `choice`.
+The summary prints `# command <path>`, then value-taking options and positionals (flags skipped); without `--arg cmd` it lists the root. An option row is `id`, the space-joined `names`, then `notations`, `choice`, `describe`, `prefixed`, `delimiter`, and `terminated`; positional rows include `required`, `multiple`, `delimiter`, and `terminated`; both show the existing `choice`.
 
-The export holds one object per command: `name`, `flag_options`, `positionals`, `subcommands`. A `flag_options` entry has `id`, `short_name`, `long_name`, `notations`, `choice`, `describe`, `flag`, `prefixed`, `assigned`, `delimiter`, `terminated`; a `positionals` entry has `id`, `notation`, `required`, `multiple`, `choice`, `delimiter`, `terminated`. There is no top-level `.options` array and no `.name` field on an entry; `flag_options` is an array, so iterate `.flag_options[]` (`.flag_options[0][0]` indexes an entry; `to_entries` yields rows). Names live in `short_name`/`long_name`; `id` suffixes `$argc_<id>`. Read one entry:
+The export holds one object per command: `name`, `flag_options`, `positionals`, `subcommands`. A `flag_options` entry has `id`, `names`, `notations`, `choice`, `describe`, `flag`, `prefixed`, `assigned`, `delimiter`, `terminated`; a `positionals` entry has `id`, `notation`, `required`, `multiple`, `choice`, `delimiter`, `terminated`. There is no top-level `.options` array and no `.name` field on an entry; `flag_options` is an array, so iterate `.flag_options[]` (`.flag_options[0][0]` indexes an entry; `to_entries` yields rows). `names` is an array with every spelling of the flag or option. `id` is argc's canonical identifier, not necessarily the first name, and suffixes `$argc_<id>`. An older argc release exports `short_name`/`long_name` instead; the skill scripts read either shape. Read one entry:
 
 ```sh
 jq -c '.flag_options[] | select(.id == "<id>")' /tmp/export.json
@@ -75,7 +75,7 @@ bash <SKILL_ROOT>/scripts/set-choice-fns.sh "$fragment" \
   '--eval-command[`_choice_value`]' '-ex[`_choice_value`]' '--command~[`_choice_command_args`]'
 ```
 
-Quote each binding with single quotes: inside double quotes the backticks run command substitution, and the bare function name without backticks is also accepted. A name that ends in `~` (only the `-~`/`+~` first name of a two-name item) cannot be written as a binding, because its trailing `~` reads as the terminated marker; bind that item by its other name.
+Quote each binding with single quotes: inside double quotes the backticks run command substitution, and the bare function name without backticks is also accepted. A name that ends in `~` cannot be written as a binding, because its trailing `~` reads as the terminated marker; bind that item by its other name.
 
 ## 4. Function placement and naming
 

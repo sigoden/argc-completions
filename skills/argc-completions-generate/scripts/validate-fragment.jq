@@ -31,8 +31,8 @@ def source_command_ok:
   and test("\\S")
   and (test("[[:cntrl:]]") | not);
 def opt_name: no_nl and no_tick and test("^[-+][^[:space:]`|]+$");
-def short_name: test("^[-+][^-]$");
-def extra_name: test("^[-+][^-]$") or test("^--.") or test("^-[^-].+$");
+def name_ok:
+  if type == "string" then opt_name else false end;
 def arg_name: no_nl and no_tick and test("^[A-Za-z0-9_][A-Za-z0-9_.-]*$");
 def meta_key: no_nl and no_tick and test("^[A-Za-z0-9_][A-Za-z0-9_.:-]*$");
 def choice_fn_ok: . == null or (no_nl and no_tick and test("^[A-Za-z_][A-Za-z0-9_]*$"));
@@ -90,20 +90,25 @@ def subcommands_ok:
       ((.status // "todo") | . == "todo" or . == "succeeded" or . == "failed")
     )
   else false end;
-# argc drops the second name and the item's choice when a multi-character
-# single-dash name comes first or when two names are not in argc order, so the
-# shape is validated here instead of being lost during assembly.
-def names_order($i):
-  if (has("names") and ((.names | type) == "array") and ((.names | length) == 2)) then
-    if ((.names[0] // "") | short_name | not) then
-      fail("items[\($i)]: with two names the first must be a one-character short name such as -x: \(.names[0])")
-    elif ((.names[1] // "") | extra_name | not) then
-      fail("items[\($i)]: invalid second name: \(.names[1])")
-    else true end
+# Any number of names in any order is valid now, so the schema only rejects
+# shapes argc cannot represent: an empty or non-array list, a malformed name,
+# a duplicate spelling, or aliases on a prefixed option.
+def names_shape($i):
+  if (has("names") | not) then true
+  elif (.names | type) != "array" then
+    fail("items[\($i)]: names must be an array")
+  elif (.names | length) < 1 then
+    fail("items[\($i)]: names must contain at least one name")
+  elif any(.names[]; (name_ok | not)) then
+    fail("items[\($i)]: invalid name: \(.names | map(select(name_ok | not)) | .[0])")
+  elif ((.names | unique | length) != (.names | length)) then
+    fail("items[\($i)]: duplicate name: \(.names | group_by(.) | map(select(length > 1) | .[0]) | join(","))")
+  elif ((.prefixed // false) and ((.names | length) != 1)) then
+    fail("items[\($i)]: a prefixed option must have exactly one name")
   else true end;
 def item_base($i):
   only(["kind", "names", "repeatable", "notations", "choices", "choice_fn", "description", "name", "required", "notation", "prefixed", "delimiter", "terminated"]; "items[\($i)]") as $it
-  | ($it | names_order($i)) as $names_ok
+  | ($it | names_shape($i)) as $names_ok
   | ($it | (.choices // []) | choices_shape($i)) as $choices_shape
   | (if ($it | (.choices // []) | choices_valid) then true
      else fail("items[\($i)]: invalid choices: each entry must be {value, description} with a distinct non-empty value and no |, ], tab, newline, backtick, or control characters")
@@ -134,15 +139,11 @@ def flag_option_names_ok:
     end
   else false end;
 # argc reads a trailing "~" as the terminated marker, so a name may end in "~"
-# only when it is the literal "-~"/"+~" first name of a two-name item.
-def tilde_names_ok:
-  ((.names // []) | map(select((type == "string") and endswith("~")))) as $tilde
-  | if ($tilde | length) == 0 then true
-    else
-      ((.names | length) == 2)
-      and ((.names[0] == "-~") or (.names[0] == "+~"))
-      and (((.names[1] // "") | endswith("~")) | not)
-    end;
+# only when it is the literal "-~"/"+~".
+def tilde_names_ok($i):
+  ((.names // []) | map(select((type == "string") and endswith("~") and . != "-~" and . != "+~"))) as $bad
+  | if ($bad | length) == 0 then true
+    else fail("items[\($i)]: a name other than -~/+~ must not end in ~: \($bad | .[0])") end;
 def option_prefixed_ok:
   if (has("prefixed") | not) then true
   elif (.prefixed | type) == "boolean" then
@@ -193,7 +194,7 @@ def item_ok($i):
   item_base($i) as $it
   | ($it.kind) as $k
   | if $k == "flag" then
-      (($it.names // null) | is_arr and length >= 1 and length <= 2 and all(.[]; opt_name)) and
+      (($it.names // null) | is_arr and length >= 1 and all(.[]; opt_name)) and
       (($it.repeatable // false) | type == "boolean") and
       (($it.choices // []) | length == 0) and
       (($it.choice_fn // null) == null) and
@@ -202,12 +203,12 @@ def item_ok($i):
       (($it | has("required")) | not) and
       (($it.notation // null) == null) and
       ($it | flag_option_names_ok) and
-      ($it | tilde_names_ok) and
+      ($it | tilde_names_ok($i)) and
       (($it | has("prefixed")) | not) and
       (($it | has("delimiter")) | not) and
       (($it | has("terminated")) | not)
     elif $k == "option" then
-      (($it.names // null) | is_arr and length >= 1 and length <= 2 and all(.[]; opt_name)) and
+      (($it.names // null) | is_arr and length >= 1 and all(.[]; opt_name)) and
       (($it.repeatable // false) | type == "boolean") and
       (($it.notations // []) | is_arr and all(.[]; notation_ok)) and
       ($it | option_notation_modifiers_ok($i)) and
@@ -215,7 +216,7 @@ def item_ok($i):
       (($it | has("required")) | not) and
       (($it.notation // null) == null) and
       ($it | flag_option_names_ok) and
-      ($it | tilde_names_ok) and
+      ($it | tilde_names_ok($i)) and
       ($it | option_prefixed_ok) and
       ($it | option_delimiter_ok) and
       ($it | terminated_ok)

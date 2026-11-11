@@ -29,7 +29,7 @@ gawk '/^# <<< SPEC$/ { print "# @flag --manual" } { print }' \
 verify_fails "verify detects manual SPEC edit" "$TMP_DIR/manual-edit.sh" --cache-dir "$REGEN_FRAGMENTS"
 
 # A tag that loses its binding is the failure the compgen smoke cannot see.
-sed 's/--foo\[?`_choice_foo`\]/--foo -foo[?`_choice_foo`]/' "$with_script" >"$TMP_DIR/dropped-binding.sh"
+sed 's/--foo\[?`_choice_foo`\]/--foo/' "$with_script" >"$TMP_DIR/dropped-binding.sh"
 verify_rejects "verify detects dropped choice binding" "dropped choice_fn" \
     "$TMP_DIR/dropped-binding.sh" --cache-dir "$FIXTURES/fragments/with-choice"
 

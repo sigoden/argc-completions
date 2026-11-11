@@ -61,6 +61,15 @@ assert_has_line "records: described choices render tag, static function, flags a
 check "records: static function name is the fourth field" \
     test "$(gawk -F'\037' '$1 == "I" && $2 ~ /--color/ { print $4 }' "$static_records")" = '_static_color'
 
+# Multiple names stay on one tag, and a long name drives the static function
+# label even when it is not the last name.
+multi_names="$TMP_DIR/fragments-multi-names"
+fragment_with_items "$multi_names" '[{"kind": "option", "names": ["--color", "-c"], "notations": ["<WHEN>"], "repeatable": false, "choices": [{"value": "auto", "description": "Pick per stream"}], "choice_fn": null, "description": "When to colorize"}]'
+multi_records="$TMP_DIR/multi-names.records"
+quiet run_records "$multi_names/_root.json" demo >"$multi_records"
+assert_has_line "records: multi names render on one tag" "$multi_records" \
+    $'I\x1f@option --color -c[?`_static_color`] <WHEN>\x1fWhen to colorize\x1f_static_color\x1ffalse\x1f1\x1fauto\tPick per stream'
+
 remote_records="$TMP_DIR/remote.records"
 quiet run_records "$FIXTURE/remote.json" 'demo|remote' >"$remote_records"
 assert_has_line "records: R carries every choice_fn" "$remote_records" $'R\x1f_choice_foo'

@@ -27,7 +27,7 @@ Read after a check fails; procedures are in the workflow references, and the cho
 | `static choice function name collision` | Two items sanitize to one `_static_*` name, or the name is already defined outside `STATIC` | Bind a `choice_fn` for one item (or rename the colliding function); never hand-edit `STATIC` |
 | `invalid fragment ... description repeats choices: (a, b)` | Description repeats a static enumeration | Remove the matching `[...]`/`(...)`/`{...}` group; keep `(default: ...)` and `choices`, then re-run the validator (`<SKILL_ROOT>/references/fragment-schema.md`) |
 | `invalid items` after adding prefix/delimiter | Invariant not met | Apply the `prefixed`/`delimiter` rules (`<SKILL_ROOT>/references/fragment-schema.md`) |
-| `invalid items` after adding `terminated` | Combined with `repeatable`/`prefixed`/`delimiter`, used on a flag, or a name ends in `~` | Keep `repeatable: false`, `prefixed: false`, `delimiter: null`; only the first name `-~`/`+~` of a two-name item may end in `~` (`<SKILL_ROOT>/references/fragment-schema.md`) |
+| `invalid items` after adding `terminated` | Combined with `repeatable`/`prefixed`/`delimiter`, used on a flag, or a name ends in `~` | Keep `repeatable: false`, `prefixed: false`, `delimiter: null`; only the literal `-~`/`+~` name may end in `~` (`<SKILL_ROOT>/references/fragment-schema.md`) |
 | `~` missing after regenerate | Compile dropped the terminated flag | Set `"terminated": true` on the fragment item (or re-run the node with context), assemble, verify |
 | `context-item-missing <key>` | A `DIFF` row targets an item the new help no longer produces | The row is skipped; the new help decides what exists, so remove the stale `SPEC` tag if it is still present |
 | `context-terminated-conflict <key>` | The `DIFF` asks for `~` but the new help item is `prefixed` | Keep the prefixed shape; clear `repeatable`/`delimiter` in the fragment if `~` still applies, or drop the `~` from `SPEC` and re-assemble |
@@ -35,7 +35,8 @@ Read after a check fails; procedures are in the workflow references, and the cho
 | Notation modifier missing after regenerate | Compile collapsed a multi-value tail into one notation | Keep the final notation with `*`/`+`/`?`; a command-valued option keeps `["<script>", "<args*>"]` (`<SKILL_ROOT>/agents/compile.md` §3.4 Values and notations) |
 | `invalid items` after a notation modifier | Modifier on a non-final option notation, on an arg, or an empty `<*>` | Use `*`/`+`/`?` inside the final option notation only; args use `required`/`repeatable` (`<SKILL_ROOT>/references/fragment-schema.md`) |
 | `argc --argc-eval` rejects `cmd -l script` although the option has `<args*>` | argc 1.24.0 appends `~` before computing the notation modifier (`ARGS*~`), so `num_args` becomes `[2, MAX]` | Keep the documented `<args*>`; generation, export, and completion still work; report upstream if it affects command execution |
-| `items[N]: with two names the first must be a one-character short name` | Pair in help order or a multi-character single-dash name first | Reorder to `-x`/`+x`, or split into one item per name, then re-run the validator (`<SKILL_ROOT>/references/fragment-schema.md`) |
+| `items[N]: duplicate name: -x` | The same spelling appears twice in `names` | Keep one entry per distinct spelling, then re-run the validator (`<SKILL_ROOT>/references/fragment-schema.md`) |
+| `items[N]: a prefixed option must have exactly one name` | `prefixed: true` combined with multiple names | Keep only the literal prefix name; a prefixed option cannot have aliases (`<SKILL_ROOT>/references/fragment-schema.md`) |
 | `missing choice function definitions` | Stale `choice_fn` or context not passed | Add the wrapper to `CHOICES` or clear `choice_fn` |
 | `argc --argc-export` error with a line | Malformed tag or function | Fix the fragment and re-assemble |
 | `argc --argc-export` reports a jq parse error | stderr merged into jq (`2>&1 \| jq`) | Write stdout to a file and read stderr separately (`<SKILL_ROOT>/SKILL.md` §Inspection) |
@@ -62,7 +63,7 @@ Read after a check fails; procedures are in the workflow references, and the cho
 | `grep -x` finds no candidate | Candidate lines carry a NUL, color, and description fields | Use the `<SKILL_ROOT>/references/compgen.md` §6 pipeline (`tr -d '\000'`, `cut -f1`) |
 | Static choices disappeared | A binding replaced them | Restore `choices`, or keep the dynamic source |
 | `choice_fn` rejected | Not string/null, or contains backticks | Use a local function name such as `_choice_name`, not the tag form |
-| `compgen` prints `__argc_value=<NOTATION>` or nothing for a value with `choice_fn` | Bad `names` order or a multi-character single-dash name first | Fix `names`, split per name, confirm `.choice.type == "Fn"` |
+| `compgen` prints `__argc_value=<NOTATION>` or nothing for a value with `choice_fn` | No item owns that spelling, or the binding was set on a stale split item | Match the name against `.names` (or `.name` for an arg), set `choice_fn` on the owning item, and confirm `.choice.type == "Fn"` (`<SKILL_ROOT>/references/add-choice-fns.md` §3) |
 
 ## Verify
 

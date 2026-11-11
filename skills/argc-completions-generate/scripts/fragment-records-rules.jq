@@ -34,7 +34,12 @@
 def fr_sanitize: gsub("[^A-Za-z0-9_]"; "_");
 def fr_param_label:
   if .kind == "arg" then (.name // "item")
-  else ((.names // []) | .[-1] // "item") | sub("^[-]+"; "") | sub("^\\++"; "")
+  else
+    (.names // []) as $names
+    # Prefer a long name so a help order such as "--color, -c" still names the
+    # generated function after the parameter, not after the short alias.
+    | (([$names[] | select(type == "string" and startswith("--"))] | first) // $names[-1] // "item")
+    | sub("^[-]+"; "") | sub("^\\++"; "")
     | if length == 0 then "item" else . end
   end;
 def fr_described:
