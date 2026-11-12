@@ -53,6 +53,14 @@ The cache contains fragments only. Help text, canonical text, and parent-page co
 
 Every fragment carries a top-level `hash`, defined in `<SKILL_ROOT>/references/fragment-schema.md`: `help`/`man` store a 64-character lowercase SHA-256, `none` stores `""`. `<SKILL_ROOT>/scripts/fragment-hash.sh` is the only writer; `SKILL_CACHE_VERSION` in `<SKILL_ROOT>/scripts/lib.sh` is the global invalidation switch, bumped when the schema, hash framing, or help canonicalization changes. A backward-compatible widening of `source.command` leaves an existing fragment's canonical help and hash body unchanged, so it does not bump the version. The dispatch decision that consumes these hashes is §3.
 
+### Add hints before compiling
+
+When the user asks to add a sentence to `HINTS`, write it before any other work in that run: before dispatching compile children, finalizing, or assembling. A fragment's `hash` covers the `HINTS` resolved for its path (`<SKILL_ROOT>/references/fragment-schema.md`, `<SKILL_ROOT>/scripts/fragment-hash.sh`), so a hint added after a compile makes the affected nodes `invalid` and forces a second regeneration.
+
+- Default to the command the user names: put the line in that path's `# %%<path>` section, creating the section when it is absent.
+- Use a common line above the first `# %%` marker only when the user asks for a global or all-command hint; a common line is part of every node's hash in that root.
+- Then continue with the normal workflow; compile children receive the new line through the resolved hint context.
+
 ### Regenerate intent
 
 When the user asks to regenerate, rebuild, re-crawl, refresh, or start from scratch:

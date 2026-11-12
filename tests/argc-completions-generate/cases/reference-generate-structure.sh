@@ -48,6 +48,16 @@ doc_contains "$doc" \
     'invalidates every node in that root' \
     "minimal failed fragment defined in"
 
+# A hint edit precedes any compile: it is part of the hash, and a late edit
+# would invalidate the node and trigger a second regeneration.
+doc_contains "$doc" \
+    "Add hints before compiling" \
+    "before any other work in that run" \
+    "forces a second regeneration" \
+    'that path'"'"'s `# %%<path>` section' \
+    "global or all-command hint" \
+    "part of every node's hash in that root"
+
 # Fragment layout and file-name encoding are owned by fragment-schema.md.
 doc_contains "$doc" \
     "one-fragment-per-node layout" \
