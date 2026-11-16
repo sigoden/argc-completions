@@ -51,6 +51,16 @@ doc_contains "$doc" \
     "never synthesize one from its name" \
     "Do not call the \`skill\` tool"
 
+# The root description has an explicit source chain: help/man summary, then
+# DESCRIBE, then the man NAME fallback, then a warning.
+doc_contains "$doc" \
+    "man_name_summary" \
+    "root-description-missing" \
+    "The context \`DESCRIBE\` line" \
+    "Never derive the root description from a usage line" \
+    "description-only read" \
+    "changes neither \`source\` nor \`hash\`"
+
 # A negated spelling is its own parameter, never a second name of the positive.
 doc_contains "$doc" \
     "**Negated spellings.**" \

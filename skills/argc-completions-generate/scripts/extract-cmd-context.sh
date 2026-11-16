@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
-# Extract META tags, HINTS text, and a context DIFF for one command path from
-# an existing argc completion script.
+# Extract the root DESCRIBE line, META tags, HINTS text, and a context DIFF for
+# one command path from an existing argc completion script.
 #
 # Usage: extract-cmd-context.sh <command path...> [options]
+#
+# DESCRIBE is root-only: it carries the current root `@describe` line so a
+# recompile can keep the description when the new help has no summary. It is
+# context, not behavior, so --no-meta omits it from the cache hash body.
 #
 # The DIFF compares the command block's notation, choice_fn, and terminated
 # values with the fragment that produced it. Only changed fields are printed;
@@ -12,8 +16,8 @@
 # Skip this script when preflight.sh reports existing=0; there is no context.
 #
 # Stages (see main): parse_args -> resolve_completion -> resolve_baseline
-# -> extract_region -> render_meta/render_hints/render_script_items
-# -> render_fragment_items -> render_diff -> emit.
+# -> extract_region -> render_describe/render_meta/render_hints
+# -> render_script_items -> render_fragment_items -> render_diff -> emit.
 
 set -euo pipefail
 
@@ -31,7 +35,7 @@ Options:
   --completion <file>  Completion script to read (default: resolve by root)
   --cache-dir <dir>    Fragment cache directory
   --fragment <file>    Fragment baseline for the DIFF
-  --no-meta            Omit the META section (for the cache hash body)
+  --no-meta            Omit the META and DESCRIBE sections (cache hash body)
   -h, --help           Show this help
 
 Examples:
@@ -61,6 +65,7 @@ tmp_dir=""
 region_file=""  # command region of the requested path
 structural_file=""  # SPEC block body
 # Rendered sections; the DIFF compares the last two.
+describe_file=""  # root-only current @describe line
 meta_file=""
 hints_file=""
 script_items_file=""
@@ -149,11 +154,13 @@ resolve_baseline() {
 init_state() {
     tmp_dir="$(mktemp -d)"
     trap 'rm -rf "$tmp_dir"' EXIT
+    describe_file="$tmp_dir/describe.txt"
     meta_file="$tmp_dir/meta.txt"
     hints_file="$tmp_dir/hints.txt"
     script_items_file="$tmp_dir/script-items.txt"
     fragment_items_file="$tmp_dir/fragment-items.txt"
     diff_file="$tmp_dir/diff.txt"
+    : >"$describe_file"
     : >"$meta_file"
     : >"$hints_file"
     : >"$script_items_file"
@@ -250,6 +257,18 @@ extract_region() {
 }
 
 # --- sections ---------------------------------------------------------------
+
+# Root-only current description: the first `@describe` line of the root
+# command block. A child has no DESCRIBE section (its description comes from
+# the parent entry), and an absent line leaves the section empty.
+render_describe() {
+    local region_file="$1"
+    [[ ${#words[@]} -eq 1 ]] || return 0
+    gawk '
+        function rtrim(s) { sub(/[ \t]+$/, "", s); return s }
+        /^# @describe( |$)/ { print rtrim($0); exit }
+    ' "$region_file" >"$describe_file"
+}
 
 # Meta tags from the current command block.
 render_meta() {
@@ -423,6 +442,13 @@ emit() {
     fi
 
     if [[ "$no_meta" -eq 0 ]]; then
+        # DESCRIBE is root-only; children keep their existing META-first shape.
+        if [[ ${#words[@]} -eq 1 ]]; then
+            printf '# >>> DESCRIBE\n'
+            cat "$describe_file"
+            printf '# <<< DESCRIBE\n'
+            printf '\n'
+        fi
         printf '# >>> META\n'
         cat "$meta_file"
         printf '# <<< META\n'
@@ -443,6 +469,7 @@ main() {
     resolve_baseline
     init_state
     extract_region
+    render_describe "$region_file"
     render_meta "$region_file"
     render_hints
     render_script_items "$region_file"

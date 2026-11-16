@@ -89,6 +89,9 @@ extract_ctx "$TMP_DIR/context-empty-body.txt" demo --completion "$TMP_DIR/empty-
 check "extract --no-meta empty body" test ! -s "$TMP_DIR/context-empty-body.txt"
 extract_ctx "$TMP_DIR/context-empty-full.txt" demo --completion "$TMP_DIR/empty-context.sh"
 check_matches "extract default keeps markers" "$TMP_DIR/context-empty-full.txt" <<'EXPECTED'
+# >>> DESCRIBE
+# <<< DESCRIBE
+
 # >>> META
 # <<< META
 
@@ -114,12 +117,22 @@ expect_failure "extract rejects missing --fragment" bash "$SCRIPTS/extract-cmd-c
 extract_ctx "$TMP_DIR/root-context.txt" demo --completion "$context" --cache-dir "$cache"
 assert_contains "extract root prompt" "$TMP_DIR/root-context.txt" '# - prompt for demo'
 check_block "extract root empty diff" "$TMP_DIR/root-context.txt" DIFF </dev/null
+check_block "extract root describe" "$TMP_DIR/root-context.txt" DESCRIBE <<'DESCRIBE'
+# @describe Demo CLI
+DESCRIBE
 check "extract section order" gawk '
+    /^# >>> DESCRIBE$/ { describe = NR }
     /^# >>> META$/ { meta = NR }
     /^# >>> HINTS$/ { hints = NR }
     /^# >>> DIFF$/ { diff = NR }
-    END { exit !(meta && hints && diff && meta < hints && hints < diff) }
+    END { exit !(describe && meta && hints && diff && describe < meta && meta < hints && hints < diff) }
 ' "$TMP_DIR/root-context.txt"
+
+# DESCRIBE is root-only, and --no-meta keeps it out of the hash body.
+extract_ctx "$TMP_DIR/describe-child.txt" demo remote --completion "$context"
+assert_not_contains "extract child has no describe section" "$TMP_DIR/describe-child.txt" '# >>> DESCRIBE'
+extract_ctx "$TMP_DIR/describe-root-no-meta.txt" demo --completion "$context" --no-meta
+assert_not_contains "extract --no-meta omits describe" "$TMP_DIR/describe-root-no-meta.txt" '# >>> DESCRIBE'
 
 # --- HINTS body selection -------------------------------------------------
 extract_ctx "$TMP_DIR/hints-root.txt" demo --completion "$context"

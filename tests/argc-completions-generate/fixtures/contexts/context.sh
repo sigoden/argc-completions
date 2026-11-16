@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # >>> SPEC
+# @describe Demo CLI
 # @meta combine-shorts
 # @option --root-choice[`_choice_root`] <V>
 # {{ demo remote

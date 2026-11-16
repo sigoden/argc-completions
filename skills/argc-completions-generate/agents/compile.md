@@ -18,7 +18,7 @@ Read `<SKILL_ROOT>/references/fragment-schema.md` once for the field rules befor
 
 ## 1. Fetch help or man text
 
-Use the first source that works: `<cmd...> --help` (capture stdout and stderr); `<cmd...> help` or `<cmd> help <sub...>`; `man <cmd>-<sub>` or `man <cmd>`, extracting only the relevant section. The list is exhaustive (`-h` is not a source); set `PAGER=cat MANPAGER=cat COLUMNS=9999 NO_COLOR=1` and keep the raw text as data. Once `--help` or `help` succeeds, skip `man`.
+Use the first source that works: `<cmd...> --help` (capture stdout and stderr); `<cmd...> help` or `<cmd> help <sub...>`; `man <cmd>-<sub>` or `man <cmd>`, extracting only the relevant section. The list is exhaustive (`-h` is not a source); set `PAGER=cat MANPAGER=cat COLUMNS=9999 NO_COLOR=1` and keep the raw text as data. Once `--help` or `help` succeeds, skip `man` for definitions. The only exception is the root-description fallback in §3.1: a root node whose captured help has no summary and whose context `DESCRIBE` is empty may read only the `NAME` section of `man <root>` through `man_name_summary` from `<SKILL_ROOT>/scripts/lib.sh`; that is a description-only read and changes neither `source` nor `hash`.
 
 **Invocation form.** When the prompt carries `Invoke command: <words>` (for example `cargo audit`), replace the command path's first segment with those words for every `--help`/`help` source (`cargo audit bin --help`, `cargo audit help bin`). `man` names and all paths stay root-based (`cargo-audit`, `man cargo-audit-bin`); `source.command` records the actual successful expression, so it may start with the invocation form. Without `Invoke command`, the invocation is the command path. Never rewrite `path` or a `# {{ ...` block path to match.
 
@@ -92,9 +92,9 @@ hash="$(bash <SKILL_ROOT>/scripts/fragment-hash.sh <path...> \
 - `--fragment` makes the hash use the **new** fragment as the `DIFF` baseline. After a correct apply the recomputed `DIFF` is empty, so the stored hash is stable; computing against the old on-disk fragment would leave a stale non-empty `DIFF` and force a second recompile.
 - Pass `--help-file` so the hash reuses the canonical text already captured instead of running the expression again. The expression is still validated; a control character is rejected.
 - Pass `--completion` when the prompt supplied one; otherwise omit it and the context body is empty.
-- `<SKILL_ROOT>/scripts/fragment-hash.sh` calls `<SKILL_ROOT>/scripts/extract-cmd-context.sh --no-meta` and hashes `"argc-completions-generate"`, `SKILL_CACHE_VERSION`, the resulting context body (`HINTS` + `DIFF`, no `META`), and the canonical help bytes. Do not compute or edit the hash yourself.
+- `<SKILL_ROOT>/scripts/fragment-hash.sh` calls `<SKILL_ROOT>/scripts/extract-cmd-context.sh --no-meta` and hashes `"argc-completions-generate"`, `SKILL_CACHE_VERSION`, the resulting context body (`HINTS` + `DIFF`, not `META` or `DESCRIBE`), and the canonical help bytes. Do not compute or edit the hash yourself.
 - If the expression cannot be executed or yields empty output, do not compute a hash: write a failed fragment with `source: {"kind": "none"}` and `"hash": ""` (§6).
-- `meta`, `choice_fn`, `description`, `aliases`, and `source.section` are not standalone hash inputs. Notation, `choice_fn`, and `terminated` affect it only through the `DIFF`; an unapplied `DIFF` row therefore keeps the node invalid and forces a recompile.
+- `meta`, `choice_fn`, `description`, `aliases`, `source.section`, and the context `DESCRIBE` line are not standalone hash inputs. The hash body is `<SKILL_ROOT>/scripts/extract-cmd-context.sh --no-meta`, which omits `META` and `DESCRIBE`; editing a root description therefore never invalidates a fragment. Notation, `choice_fn`, and `terminated` affect it only through the `DIFF`; an unapplied `DIFF` row therefore keeps the node invalid and forces a recompile.
 
 A fragment is complete only when it has the hash and passes §5. Never probe or list the cache: the orchestrator alone decides reuse before this node is dispatched.
 
@@ -106,7 +106,14 @@ Sections §3.1–§3.6 are field rules shared by every node; §3.7–§3.9 are t
 
 ### 3.1 Node fields (`description`, `aliases`, `meta`, `subcommands`)
 
-- `description`: the root description or the subcommand summary (§3.2).
+- `description`: for a child node, the summary in the parent's command-list entry (§3.2). For the root node, the tool's own one-line description, taken in this order:
+
+  1. The summary of the captured canonical page. For a help page, use the prose line or paragraph that describes the tool, not a `Usage:`/`SYNOPSIS` line, version/copyright line, option row, or command-list entry. For a man page, use the `NAME` section text after the ` - ` or ` -- ` separator.
+  2. The context `DESCRIBE` line (§3.11), passed through the normalizer; treat an empty result as absent.
+  3. `man_name_summary <root>` from `<SKILL_ROOT>/scripts/lib.sh`, passed through the normalizer. Use it only when 1 and 2 are empty; it reads the man `NAME` line only and is not the definitions source.
+  4. Otherwise `""` and warn `root-description-missing <root>: no summary in help, context, or man NAME`.
+
+  Never derive the root description from a usage line, the executable path, a version string, or the command name; never synthesize or translate one.
 - `aliases`: explicit subcommand aliases only; names containing `_` get a hyphenated alias automatically.
 - `meta`: root fragment only; a child fragment uses `[]`. Copy root `@meta` lines verbatim to `{"key": ..., "value": ...}`. An existing context line always wins. The only keys this skill adds are `combine-shorts` (help-probed) and `external-subcommands` (HINTS-gated); decision rules and values are in `<SKILL_ROOT>/references/fragment-schema.md` §Meta keys.
 - `subcommands`: built from the candidate classification below, never from a bare guess; every new child gets `"status": "todo"` and the `help` pseudo-command is always omitted.
@@ -249,7 +256,7 @@ Set `~` only from a context `DIFF` `terminated` row or the command-family rule; 
 
 ### 3.11 Context diff
 
-`<SKILL_ROOT>/scripts/extract-cmd-context.sh` reports the command's `@meta` lines, prompt text, and a `DIFF` section. Apply the `DIFF` after the help-derived items are composed and before the hash and self-check:
+`<SKILL_ROOT>/scripts/extract-cmd-context.sh` reports the root `@describe` line (`DESCRIBE`, root only), the command's `@meta` lines, prompt text, and a `DIFF` section. Apply the `DIFF` after the help-derived items are composed and before the hash and self-check:
 
 ```text
 # @option --foo
@@ -262,6 +269,7 @@ Set `~` only from a context `DIFF` `terminated` row or the command-family rule; 
 ```
 
 - The item line is the key: `@option` uses the fragment's `names` joined by one space, `@arg` uses `name`. Find the item with that exact key; never create an item from a `DIFF` row.
+- `DESCRIBE` is the root description fallback of §3.1, not a `DIFF` row: normalize its `@describe` text and use it only when the new help/man summary is empty. Never override a summary the new help provides, and never use a child's `@cmd` as this fallback. An empty `DESCRIBE` section means no fallback exists.
 - `notation`: the right side is final. For an option set `notations` by splitting on single spaces; for an arg set `notation`. `(none)` means an empty `notations` array or a null `notation`.
 - `choice_fn`: the right side is final. A function name sets `choice_fn` and empties `choices`; `(none)` sets `choice_fn` to null and keeps the new help's `choices`.
 - `terminated`: `false` sets `terminated: false`. `true` sets `terminated: true` and clears `repeatable` (false) and `delimiter` (null). A prefixed item cannot be cleared without changing its name shape: keep the help-derived `prefixed` and skip the row with `context-terminated-conflict <key>`.
@@ -320,11 +328,11 @@ The key is the fragment `path` joined by `|` (`["gdb"]` -> `gdb`, `["gdb", "add"
 
 ## 6. Failure handling
 
-- If help/man cannot be obtained (every candidate expression returned a non-zero status or empty output), write the minimal fragment with `items: []`, `subcommands: []`, `source: {"kind": "none"}`, `"hash": ""`, and report `status: failed` with the reason. Do not retry: the orchestrator owns the single retry.
+- If help/man cannot be obtained (every candidate expression returned a non-zero status or empty output), write the minimal fragment with `items: []`, `subcommands: []`, `source: {"kind": "none"}`, `"hash": ""`, and report `status: failed` with the reason. Keep the context `DESCRIBE` description when the section carries one; otherwise use `""`. Do not retry: the orchestrator owns the single retry.
 - Never write a partial `help`/`man` fragment without a hash: the orchestrator treats a missing or malformed hash as `invalid` and recompiles the node.
 - A shared-help node that finds no section (§3.13) is `succeeded` with `items: []` and the `shared-help-missing` warning: do not retry it, and do not report `failed`.
 - For a shell builtin with no `--help`, try `help <cmd>` and the man page; take definitions only from output those sources give.
 
 ## 7. Return summary
 
-Return exactly one compact JSON object as the final message and send the same object to the parent agent id from your prompt; the orchestrator does not see your transcript. No prose, headings, fragment body, or help text. Fields: `path` (array), `fragment` (absolute path), `status` (`succeeded`/`failed`), `source` (`help`/`man`/`none`), `hash` (the fragment hash or `""`), `subcommands` (array of `{name, aliases, description, status}`), and `warnings` (short and actionable; keep the fixed tags `terminated`, `no-args-binding`, `mixed-enumeration`, `shared-help`, `shared-help-missing`, `context-item-missing`, `context-terminated-conflict` verbatim so the orchestrator can match them). The `source.section` key stays inside the fragment; this summary reports only the `source` kind. Do not report a `cache` field and do not include a help-file path.
+Return exactly one compact JSON object as the final message and send the same object to the parent agent id from your prompt; the orchestrator does not see your transcript. No prose, headings, fragment body, or help text. Fields: `path` (array), `fragment` (absolute path), `status` (`succeeded`/`failed`), `source` (`help`/`man`/`none`), `hash` (the fragment hash or `""`), `subcommands` (array of `{name, aliases, description, status}`), and `warnings` (short and actionable; keep the fixed tags `terminated`, `no-args-binding`, `mixed-enumeration`, `shared-help`, `shared-help-missing`, `context-item-missing`, `context-terminated-conflict`, `root-description-missing` verbatim so the orchestrator can match them). The `source.section` key stays inside the fragment; this summary reports only the `source` kind. Do not report a `cache` field and do not include a help-file path.

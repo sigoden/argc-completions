@@ -58,6 +58,7 @@ doc_contains "$doc" \
     "SKILL_CACHE_VERSION" \
     "fragment-hash.sh" \
     "context that can change completion behavior" \
+    '`META` and `DESCRIBE` are context, not behavior' \
     '`meta`, descriptions, aliases, and paths are excluded' \
     'The `HINTS` half is the text resolved for that path'
 

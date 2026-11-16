@@ -11,6 +11,7 @@ Read after a check fails; procedures are in the workflow references, and the cho
 | Hand-assembled `__argc_*` control lines or manual splitting | Choice functions |
 | Block, tag, help, or compgen failure after assembly | Verify |
 | No candidates from a choice function | `<SKILL_ROOT>/references/compgen.md` §6 |
+| Missing or stale root `@describe` | Generate and assemble; Cache and hash validation |
 | Hash mismatch, unverified cache, stale fragment, or parent metadata problem | Cache and hash validation |
 
 ## Generate and assemble
@@ -40,6 +41,10 @@ Read after a check fails; procedures are in the workflow references, and the cho
 | `missing choice function definitions` | Stale `choice_fn` or context not passed | Add the wrapper to `CHOICES` or clear `choice_fn` |
 | `argc --argc-export` error with a line | Malformed tag or function | Fix the fragment and re-assemble |
 | `argc --argc-export` reports a jq parse error | stderr merged into jq (`2>&1 \| jq`) | Write stdout to a file and read stderr separately (`<SKILL_ROOT>/SKILL.md` §Inspection) |
+| `root description: missing @describe` | The root fragment `description` is empty, so assembly omitted the `@describe` line | Set `description` in `_root.json` from the help summary or man `NAME` line, then re-assemble; or confirm a full-root regenerate so the compile fallback re-derives it (`<SKILL_ROOT>/agents/compile.md` §3.1) |
+| `root description: @describe is empty` | A hand edit left `# @describe` without text | Remove the line or fill it from the fragment description, then re-assemble |
+| `root description: more than one @describe` | A hand edit duplicated the tag | Keep one line; `SPEC` is assembly output, so fix the fragment and re-assemble |
+| `root description: missing @describe (root help unavailable)` | The root fragment is `source.kind: none` and the context had no description | Reuse the failed fragment; add the description from the tool's docs if known, or accept the warning and re-run with `--no-strict` |
 | A file editor rejects the script as changed since it was read | Formatting or assembly rewrote the whole script | Re-read before editing, or batch `CHOICES` edits before the first assemble |
 
 ## Choice functions
@@ -113,6 +118,7 @@ Read after a check fails; procedures are in the workflow references, and the cho
 | The hash is stable but the captured text is an error message | A pipeline's last command succeeded while the producer failed | Record an expression whose status reflects success (`set -o pipefail`, `&&`, or a non-pipeline source) and confirm the captured text is help |
 | Stale fragment remains after a subcommand was removed | The tree shrank but finalize has not run | Run `<SKILL_ROOT>/scripts/finalize-cache.sh <root> --cache-dir <dir>` before assembly |
 | Parent description/aliases are stale | Child metadata was not synced from the parent entry | Run finalize; those fields are not part of the hash |
+| Root description is missing but `status=hit` | `description` and the context `DESCRIBE` line are excluded from the cache hash, so a missing description never becomes `invalid` | Set `description` in `_root.json` and re-assemble, or confirm a full-root regenerate; the next verify fails until the root block has one |
 | Cache directory contains `.txt` | An old cache or a raw capture | Delete it (verify rejects every `.txt`); do not migrate it into a fragment |
 | Regenerate deleted the cache before confirmation | The warning/confirmation step was skipped | Stop; the cache can only be rebuilt by a full compile |
 | `HINTS`/`CHOICES` disappeared after delete-cache | The completion script was deleted or replaced | Restore it; `<SKILL_ROOT>/scripts/delete-cache.sh` never touches the completion script (`output_file`) |

@@ -134,7 +134,7 @@ Read the authority file before working in its area.
 | Helper signatures; composed recipes | `<REPO_ROOT>/utils/_argc_utils.sh`; `<SKILL_ROOT>/references/compgen-recipes.md` |
 | Verification checks | `<SKILL_ROOT>/references/verify.md` |
 | Tools, shell portability, optional `yq`, runtime restrictions | `<SKILL_ROOT>/references/setup.md` |
-| Block marker parsing and layout verdicts, fragment naming and walking, the fragment record accessors, blank-edge trimming, atomic fragment writes (one implementation, shared by assemble, verify, finalize, format-choices, and the fragment scripts) | `<SKILL_ROOT>/scripts/lib.sh` |
+| Block marker parsing and layout verdicts, fragment naming and walking, the fragment record accessors, blank-edge trimming, atomic fragment writes, help capture and the man `NAME` summary (one implementation, shared by assemble, verify, finalize, format-choices, the fragment scripts, and compile) | `<SKILL_ROOT>/scripts/lib.sh` |
 | Workflow routing, inspection, reporting format (including `next=`), block layout | this file |
 
 ## Reporting

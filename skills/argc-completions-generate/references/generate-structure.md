@@ -65,7 +65,7 @@ When the user asks to add a sentence to `HINTS`, write it before any other work 
 
 When the user asks to regenerate, rebuild, re-crawl, refresh, or start from scratch:
 
-1. Warn that the whole `<root>` cache will be deleted, that every node will be recompiled (time and tokens), that manual fragment corrections are lost, and that `output_file` survives with its `HINTS`/`CHOICES` and the existing notation, `choice_fn`, and terminated preferences recovered from `SPEC`.
+1. Warn that the whole `<root>` cache will be deleted, that every node will be recompiled (time and tokens), that manual fragment corrections are lost, and that `output_file` survives with its `HINTS`/`CHOICES`, the existing notation, `choice_fn`, and terminated preferences recovered from `SPEC`, and the root description recovered from `DESCRIBE`.
 2. Ask for confirmation. If the user declines, stop without changing anything.
 3. On confirmation, run:
 
@@ -121,6 +121,10 @@ bash <SKILL_ROOT>/scripts/extract-cmd-context.sh <path...> \
 A missing script prints empty output. The format is fixed:
 
 ```text
+# >>> DESCRIBE
+# @describe Demo CLI
+# <<< DESCRIBE
+
 # >>> META
 # @meta combine-shorts
 # <<< META
@@ -142,11 +146,11 @@ A missing script prints empty output. The format is fixed:
 # <<< DIFF
 ```
 
-`META` is the command block's `@meta` lines. `HINTS` is the prompt text visible to that path, resolved per `<SKILL_ROOT>/SKILL.md` §Pipeline contract. `DIFF` compares the command block's `@option`/`@arg` tags with the baseline fragment and reports only notation, `choice_fn`, and terminated changes; the left side is the fragment, the right side is the current script, and the right side is what the child applies to the new fragment. `[?`_static_*`]` is assembly-generated and is not a `choice_fn` change, and static `[a|b]` choices are not diffed.
+`DESCRIBE` is the root block's current `@describe` line and appears only for the root path; a child has no such section because its description comes from the parent entry. `META` is the command block's `@meta` lines. `HINTS` is the prompt text visible to that path, resolved per `<SKILL_ROOT>/SKILL.md` §Pipeline contract. `DIFF` compares the command block's `@option`/`@arg` tags with the baseline fragment and reports only notation, `choice_fn`, and terminated changes; the left side is the fragment, the right side is the current script, and the right side is what the child applies to the new fragment. `[?`_static_*`]` is assembly-generated and is not a `choice_fn` change, and static `[a|b]` choices are not diffed.
 
-`<SKILL_ROOT>/scripts/extract-cmd-context.sh` reads the baseline fragment from `--fragment` when given, otherwise from `--cache-dir`. A missing fragment is an empty baseline, so a full regenerate recovers every notation/`choice_fn`/terminated preference from `SPEC` as `(none) => ...`. Items the new help adds, removes, or renames produce no `DIFF` row: their structure comes from the new help, and a row whose item no longer exists is skipped by the child (`context-item-missing`).
+`<SKILL_ROOT>/scripts/extract-cmd-context.sh` reads the baseline fragment from `--fragment` when given, otherwise from `--cache-dir`. A missing fragment is an empty baseline, so a full regenerate recovers every notation/`choice_fn`/terminated preference from `SPEC` as `(none) => ...` and the root description from `DESCRIBE`. Items the new help adds, removes, or renames produce no `DIFF` row: their structure comes from the new help, and a row whose item no longer exists is skipped by the child (`context-item-missing`).
 
-Pass `--no-meta` to emit only `HINTS` and `DIFF`; that output is the cache hash body, so editing a common `HINTS` line invalidates every node in that root while editing one `# %%<path>` section invalidates only that node. Empty sections still print their markers; pass the output unchanged. A `~` in a tag is structural and reaches `DIFF` as a `terminated` row.
+Pass `--no-meta` to emit only `HINTS` and `DIFF`; that output is the cache hash body, so editing a common `HINTS` line invalidates every node in that root while editing one `# %%<path>` section invalidates only that node. `DESCRIBE` and `META` are context, not behavior, so they stay out of the hash: a root description edit never invalidates a fragment. Empty sections still print their markers; pass the output unchanged. A `~` in a tag is structural and reaches `DIFF` as a `terminated` row.
 
 For these three fields the script is the desired state: after editing a fragment directly, run assembly before the next generate-structure, otherwise the `DIFF` sends the fragment back to the script's values. A bare `<SKILL_ROOT>/scripts/assemble.sh` run does not read this context, so a direct `SPEC` edit is captured only through generate-structure (or `all`).
 

@@ -26,6 +26,7 @@ PATH="$TMP_DIR/bin:$PATH"
 cat >"$hash_completion" <<'SCRIPT'
 #!/usr/bin/env bash
 # >>> SPEC
+# @describe Hash demo
 # @flag -v --verbose  Verbose output
 # @option --foo[?`_choice_foo`] <VALUE>  Foo value
 # @arg name <NAME>  Name
@@ -71,6 +72,19 @@ hash_status() {
 hash1="$(hash_run)"
 assert_matches "fragment-hash prints 64 hex" "$hash1" '^[0-9a-f]{64}$'
 check "fragment-hash stable" test "$hash1" = "$(hash_run)"
+
+# The root description lives in DESCRIBE, which --no-meta omits: adding,
+# changing, or removing @describe must not invalidate an existing hash.
+sed 's/^# @describe .*/# @describe A changed description/' "$hash_completion" >"$TMP_DIR/hash-completion-desc.sh"
+check "fragment-hash ignores a changed describe" test "$hash1" = "$(
+    bash "$SCRIPTS/fragment-hash.sh" hash-demo --cache-dir "$hash_cache" \
+        --completion "$TMP_DIR/hash-completion-desc.sh"
+)"
+sed '/^# @describe /d' "$hash_completion" >"$TMP_DIR/hash-completion-nodesc.sh"
+check "fragment-hash ignores a removed describe" test "$hash1" = "$(
+    bash "$SCRIPTS/fragment-hash.sh" hash-demo --cache-dir "$hash_cache" \
+        --completion "$TMP_DIR/hash-completion-nodesc.sh"
+)"
 
 # An empty context body hashes like a missing completion script, so a first
 # generation stays a hit after its script is assembled.

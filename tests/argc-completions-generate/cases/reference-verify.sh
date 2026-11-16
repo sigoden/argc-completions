@@ -36,10 +36,13 @@ doc_contains "$doc" \
 # Tag and choice-function contracts.
 doc_contains "$doc" \
     '`SPEC` defines no `_choice_*` functions' \
+    'the root block carries exactly one non-empty `@describe`' \
     'backticks count in the tag signature only (before two or more spaces)' \
     'before the first `# {{` marker' \
     'every referenced function must be defined in `CHOICES`, once' \
-    '`_argc_util_*` is allowed when the script sources'
+    '`_argc_util_*` is allowed when the script sources' \
+    '| Root description |' \
+    'source.kind: none` only warns'
 
 doc_lacks "$doc" "up to 30, 5s timeout"
 

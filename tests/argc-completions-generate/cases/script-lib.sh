@@ -157,6 +157,50 @@ capture_out="$TMP_DIR/capture-bashenv.txt"
 ( export BASH_ENV="$TMP_DIR/bash-env.sh"; export PATH="$TMP_DIR/bin:$PATH"; skill_fn capture_source_command "$capture_out" 5 "printf 'ok'" )
 check "capture_source_command ignores BASH_ENV" test "$(<"$capture_out")" = ok
 
+# --- man NAME summary -----------------------------------------------------
+# man_name_summary is the root-description fallback: it reads only the NAME
+# section, joins wrapped lines, and cuts the " - "/" -- " name separator.
+cat >"$TMP_DIR/bin/man" <<'MAN'
+#!/usr/bin/env bash
+case "${1:-}" in
+    demo)
+        printf 'DEMO(1)\n\nNAME\n       demo - A demo tool for testing\n\nSYNOPSIS\n       demo [options]\n'
+        ;;
+    alias)
+        printf 'NAME\n       demo, dm -- An aliased demo\n\nSYNOPSIS\n'
+        ;;
+    wrap)
+        printf 'NAME\n       wrap - A wrapped\n       description\n\nSYNOPSIS\n'
+        ;;
+    bare)
+        printf 'NAME\n       bare\n\nSYNOPSIS\n'
+        ;;
+    noname)
+        printf 'SYNOPSIS\n       noname\n'
+        ;;
+    *)
+        exit 1
+        ;;
+esac
+MAN
+chmod +x "$TMP_DIR/bin/man"
+
+man_summary() {
+    local name="$1" rc=0 out
+    out="$(PATH="$TMP_DIR/bin:$PATH" skill_fn man_name_summary "$name")" || rc=$?
+    printf '%s:%s\n' "$rc" "$out"
+}
+
+check "man_name_summary reads the NAME summary" test "$(man_summary demo)" = '0:A demo tool for testing'
+check "man_name_summary handles alias and -- separators" test "$(man_summary alias)" = '0:An aliased demo'
+check "man_name_summary joins wrapped NAME lines" test "$(man_summary wrap)" = '0:A wrapped description'
+check "man_name_summary rejects a bare NAME entry" test "$(man_summary bare)" = '1:'
+check "man_name_summary rejects a page without NAME" test "$(man_summary noname)" = '1:'
+check "man_name_summary rejects a man failure" test "$(man_summary missing)" = '1:'
+check "man_name_summary rejects an invalid name" test "$(man_summary '../x')" = '2:'
+check "man_name_summary rejects a leading dash" test "$(man_summary '-k')" = '2:'
+check "man_name_summary rejects dot" test "$(man_summary '.')" = '2:'
+
 # --- block markers --------------------------------------------------------
 # The helpers are the single source of the # >>> / # <<< contract.
 blocks_file="$TMP_DIR/blocks.sh"

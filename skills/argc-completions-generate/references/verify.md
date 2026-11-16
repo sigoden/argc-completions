@@ -14,7 +14,7 @@ A bridge completion is recognized by a structural tag that binds `_choice_bridge
 
 The table maps each check to its action or to the section that owns the rule; it does not restate the rule.
 
-Acceptance details: `HINTS` holds comment/blank lines only; `SPEC` defines no `_choice_*` functions; backticks count in the tag signature only (before two or more spaces), never in a description; a `# %%<path>` marker must name a canonical command path (the root name or a `# {{ ...` block path, no aliases) and appear exactly once, while a marker without a path fails; `_argc_util_*` is allowed when the script sources `<REPO_ROOT>/utils/_argc_utils.sh`.
+Acceptance details: `HINTS` holds comment/blank lines only; the root block carries exactly one non-empty `@describe`; `SPEC` defines no `_choice_*` functions; backticks count in the tag signature only (before two or more spaces), never in a description; a `# %%<path>` marker must name a canonical command path (the root name or a `# {{ ...` block path, no aliases) and appear exactly once, while a marker without a path fails; `_argc_util_*` is allowed when the script sources `<REPO_ROOT>/utils/_argc_utils.sh`.
 
 | Check | Action or authority |
 |---|---|
@@ -24,6 +24,7 @@ Acceptance details: `HINTS` holds comment/blank lines only; `SPEC` defines no `_
 | Block content | Re-run assembly for `SPEC`/`STATIC`; fix `HINTS` by hand or `CHOICES` with `<SKILL_ROOT>/scripts/format-choices.sh`. The `_static_` prefix is reserved for `STATIC` functions. |
 | `HINTS markers` | `<SKILL_ROOT>/references/troubleshooting.md` §Verify; the marker syntax is `<SKILL_ROOT>/SKILL.md` §Pipeline contract. |
 | Comment tags | `@meta` belongs to the root block, before the first `# {{` marker; a child block must not carry it. Re-assemble, never hand-sort tags. |
+| Root description | Set `description` in the root fragment and re-assemble; a root fragment with `source.kind: none` only warns, and a bridge completion is exempt. |
 | Completion functions | `<SKILL_ROOT>/references/add-choice-fns.md` §4; every referenced function must be defined in `CHOICES`, once. |
 | Export | Fix tags until `argc --argc-export` returns `name`, `flag_options`, `positionals`, and `subcommands`. |
 | Fragment bindings | `<SKILL_ROOT>/references/fragment-schema.md`; fix a dropped `names[]`, `choice_fn`, or `terminated` there, then re-assemble. |

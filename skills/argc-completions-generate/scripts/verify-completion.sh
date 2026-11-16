@@ -547,6 +547,59 @@ check_block_nesting() {
     fi
 }
 
+# The root block must carry exactly one non-empty @describe. Assembly renders
+# it from the root fragment description, so an empty description silently loses
+# the root help text; a root whose help was unavailable (source.kind: none)
+# only warns. A bridge completion has no argparse root and is exempt.
+check_root_describe() {
+    local describe_count describe_text root_kind
+    if [[ -n "$bridge" ]]; then
+        pass "root description (bridge completion)"
+        return 0
+    fi
+    [[ "$layout" == "new" ]] || return 0
+
+    read -r describe_count describe_text < <(gawk '
+        /^# \{+ / { exit }
+        /^[A-Za-z0-9_:.@+.-]+\(\)[[:space:]]*\{/ { exit }
+        /^# @describe( |$)/ {
+            count++
+            line = $0
+            sub(/^# @describe[[:space:]]*/, "", line)
+            text = line
+        }
+        END { printf "%d %s\n", count + 0, text }
+    ' "$gen_region")
+
+    if [[ "${describe_count:-0}" -eq 0 ]]; then
+        root_kind=""
+        if [[ -n "$fragments" && -f "$fragments/_root.json" ]]; then
+            root_kind="$(jq -r '.source.kind // ""' "$fragments/_root.json" 2>/dev/null || true)"
+        fi
+        if [[ "$root_kind" == "none" ]]; then
+            warn "root description: missing @describe (root help unavailable)"
+        elif [[ -z "$fragments" ]]; then
+            warn "root description: missing @describe (pass --cache-dir to confirm help availability)"
+        else
+            fail "root description: missing @describe (set description in the root fragment, then re-assemble)"
+        fi
+        return 0
+    fi
+
+    if [[ "$describe_count" -gt 1 ]]; then
+        fail "root description: more than one @describe in the root block"
+        return 0
+    fi
+
+    describe_text="${describe_text#"${describe_text%%[![:space:]]*}"}"
+    describe_text="${describe_text%"${describe_text##*[![:space:]]}"}"
+    if [[ -z "$describe_text" ]]; then
+        fail "root description: @describe is empty (set description in the root fragment, then re-assemble)"
+    else
+        pass "root description"
+    fi
+}
+
 # --- completion functions ---------------------------------------------------
 
 # Every referenced function must be defined once, before the final eval.
@@ -1101,6 +1154,7 @@ main() {
     check_blocks
     check_tags
     check_tag_order
+    check_root_describe
     check_root_only_meta
     check_block_nesting
     check_choice_refs

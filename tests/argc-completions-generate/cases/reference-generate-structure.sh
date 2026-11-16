@@ -41,6 +41,8 @@ doc_contains "$doc" \
     "Parent help command:" \
     "may be a shell expression" \
     "backward-compatible widening" \
+    "# >>> DESCRIBE" \
+    'root description recovered from `DESCRIBE`' \
     "# >>> DIFF" \
     'only notation, `choice_fn`, and terminated changes' \
     "Pass \`--no-meta\` to emit only \`HINTS\` and \`DIFF\`" \

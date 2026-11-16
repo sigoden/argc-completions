@@ -548,6 +548,64 @@ help_files_equal() {
     return "$rc"
 }
 
+# Print the summary from the NAME section of `man <name>`.
+#
+# Output is the raw one-line text after the NAME entry's " - " or " -- "
+# separator, with wrapped lines joined; pass it to normalize-description.sh.
+# Returns 1 when man or the NAME summary is unavailable, 2 for an invalid name.
+# This is a description-only read: it never supplies items, and it never
+# changes a fragment's source.command, source.kind, or hash.
+man_name_summary() {
+    local name="$1" tmp_dir raw clean summary
+    # A leading "-" would reach man as an option (for example -k), so the man
+    # name is stricter than a generic root name.
+    [[ "$name" != "." && "$name" != ".." && "$name" =~ ^[A-Za-z0-9_.+@][A-Za-z0-9_.+@-]*$ ]] || return 2
+    tmp_dir="$(mktemp -d)"
+    raw="$tmp_dir/man.txt"
+    clean="$tmp_dir/man-clean.txt"
+    if ! capture_source_command "$raw" 10 "LC_ALL=C MANWIDTH=1000 man $name" || [[ ! -s "$raw" ]]; then
+        rm -rf "$tmp_dir"
+        return 1
+    fi
+    if ! canonicalize_help <"$raw" >"$clean"; then
+        rm -rf "$tmp_dir"
+        return 1
+    fi
+    # A man NAME entry is "name[, alias...] - description" (some pages use
+    # " -- "); the first separator ends the name list, and continuation lines
+    # are indented, so join them before cutting.
+    if ! summary="$(gawk '
+        BEGIN { in_name = 0 }
+        /^NAME[[:space:]]*$/ { in_name = 1; next }
+        in_name && /^[^[:space:]]/ { exit }
+        in_name {
+            sub(/^[[:space:]]+/, "")
+            if ($0 == "") next
+            out = (out == "" ? $0 : out " " $0)
+        }
+        END {
+            if (out == "") exit 1
+            i1 = index(out, " - ")
+            i2 = index(out, " -- ")
+            if (i1 == 0 && i2 == 0) exit 1
+            if (i2 > 0 && (i1 == 0 || i2 < i1)) {
+                out = substr(out, i2 + 4)
+            } else {
+                out = substr(out, i1 + 3)
+            }
+            sub(/^[[:space:]]+/, "", out)
+            sub(/[[:space:]]+$/, "", out)
+            if (out == "") exit 1
+            print out
+        }
+    ' "$clean")"; then
+        rm -rf "$tmp_dir"
+        return 1
+    fi
+    rm -rf "$tmp_dir"
+    printf '%s\n' "$summary"
+}
+
 # --- command paths and fragment naming --------------------------------------
 
 # A root command name is limited to the characters a completion file and its
