@@ -19,7 +19,7 @@ Acceptance details: `HINTS` holds comment/blank lines only; `SPEC` defines no `_
 | Check | Action or authority |
 |---|---|
 | File and syntax | Fix the shebang or the `bash -n` failure. |
-| Help output | Make `bash <completion.sh> --help` exit 0 and print output; a bridge completion is exempt. |
+| Help output | Make `bash <completion.sh> --help` exit 0 and print output; a bridge or `_choice_delegate` completion is exempt. |
 | Blocks | Add missing markers by hand, re-run assembly, or drop an empty `STATIC`/`CHOICES` pair. |
 | Block content | Re-run assembly for `SPEC`/`STATIC`; fix `HINTS` by hand or `CHOICES` with `<SKILL_ROOT>/scripts/format-choices.sh`. The `_static_` prefix is reserved for `STATIC` functions. |
 | `HINTS markers` | `<SKILL_ROOT>/references/troubleshooting.md` §Verify; the marker syntax is `<SKILL_ROOT>/SKILL.md` §Pipeline contract. |

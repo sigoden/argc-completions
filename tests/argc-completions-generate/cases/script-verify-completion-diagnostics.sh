@@ -47,6 +47,39 @@ check_output "verify ignores cache-dir for a bridge completion" \
     bash "$SCRIPTS/verify-completion.sh" "$TMP_DIR/bridge-demo.sh" --cmd demo --skip-compgen \
     --cache-dir "$TMP_DIR/absent-cache"
 
+# A delegate completion hands every word to the tool's own engine (mise, aws),
+# so `--help` may print nothing; the SPEC binding is what exempts the probe.
+cat >"$TMP_DIR/delegate.sh" <<'DELEGATE'
+#!/usr/bin/env bash
+
+# >>> SPEC
+# @describe Demo delegate completion
+# @arg words~[?`_choice_delegate`]
+
+# <<< SPEC
+
+# >>> HINTS
+# Complete by delegating to the tool's own engine.
+# <<< HINTS
+
+# >>> CHOICES
+_choice_delegate() {
+    return 0
+}
+# <<< CHOICES
+
+command eval "$(argc --argc-eval "$0" "$@")"
+DELEGATE
+verify_check "verify accepts a delegate completion" "$TMP_DIR/delegate.sh"
+check_output "verify names the delegate help probe" \
+    "PASS  help output (delegate completion)" \
+    bash "$SCRIPTS/verify-completion.sh" "$TMP_DIR/delegate.sh" --skip-compgen
+
+# The exemption is keyed on the binding: without it the same empty help fails.
+sed 's/\[?`_choice_delegate`\]//' "$TMP_DIR/delegate.sh" >"$TMP_DIR/no-delegate.sh"
+verify_rejects "verify rejects empty help without a delegate binding" \
+    "help output is empty" "$TMP_DIR/no-delegate.sh"
+
 # Strict mode turns a warning (no shebang) into a failure; --no-strict does not.
 sed '1d' "$new_script" >"$TMP_DIR/no-shebang.sh"
 verify_fails "verify strict treats warnings as failures" "$TMP_DIR/no-shebang.sh"

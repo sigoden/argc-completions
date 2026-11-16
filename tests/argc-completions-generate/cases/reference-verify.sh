@@ -21,6 +21,11 @@ doc_contains "$doc" \
     'invalid `hash` or `source.command`' \
     'source.command` equals its parent'
 
+# The help probe's exemptions: bridge copies and delegate completions.
+doc_contains "$doc" \
+    '`_choice_delegate`' \
+    'a bridge or `_choice_delegate` completion is exempt'
+
 # HINTS markers.
 doc_contains "$doc" \
     '`HINTS` holds comment/blank lines only' \

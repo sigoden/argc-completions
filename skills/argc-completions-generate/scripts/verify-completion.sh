@@ -97,6 +97,15 @@ derive_cmd() {
 # argparse model to answer --help and never generates cache fragments.
 # completion_bridge_name in lib.sh owns the detection.
 
+# A delegate completion hands its words to the tool's own completion engine
+# through `_choice_delegate` (mise, aws). It models no argparse command tree,
+# so `--help` has nothing to print; only the SPEC binding counts, so an
+# unrelated function cannot exempt a normal completion.
+has_delegate_binding() {
+    grep -E '^# @(arg|option|flag) ' "$1" |
+        grep -q '`_choice_delegate`'
+}
+
 parse_args() {
     while [[ $# -gt 0 ]]; do
         case "$1" in
@@ -195,6 +204,10 @@ check_syntax() {
 check_help_output() {
     if [[ -n "$bridge" ]]; then
         pass "help output (bridge completion)"
+        return 0
+    fi
+    if has_delegate_binding "$file"; then
+        pass "help output (delegate completion)"
         return 0
     fi
     # argparse prints its help to stderr in some argc versions; accept either stream.

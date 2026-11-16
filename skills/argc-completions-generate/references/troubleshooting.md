@@ -71,7 +71,7 @@ Read after a check fails; procedures are in the workflow references, and the cho
 |---|---|---|
 | `missing final argc eval` | Eval removed/moved | Check with `grep -n 'argc --argc-eval' file`; restore `command eval "$(argc --argc-eval "$0" "$@")"` after the blocks |
 | `help output failed` | Syntax/tag error or missing function | Run `bash file --help` and fix the reported line |
-| `help output is empty` | Missing eval or early exit | Inspect the tail; restore the eval |
+| `help output is empty` | Missing eval or early exit | Inspect the tail; restore the eval. A `_choice_delegate` completion is exempt: it defers to the tool's own engine |
 | `block markers must appear exactly once for SPEC/HINTS and at most once for STATIC/CHOICES` | Partial/duplicated markers | `grep -n '^# [<>]\{3\} ' file`; remove extras or regenerate |
 | `empty STATIC block` / `empty CHOICES block` | An empty marker pair left by an older assemble | Re-run `<SKILL_ROOT>/scripts/assemble.sh <root> --force`; empty optional blocks are omitted |
 | `block order must be ...` | Blocks reordered | Order `SPEC` -> `HINTS` -> [`STATIC`] -> [`CHOICES`]; `STATIC` and `CHOICES` are optional but keep that order |
