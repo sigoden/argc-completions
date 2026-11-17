@@ -6,7 +6,7 @@
 bash <SKILL_ROOT>/scripts/verify-completion.sh <completion.sh> [--cache-dir <dir>] [--cmd <name>] [--require-no-choice-fns] [--skip-compgen] [--no-strict] [-v]
 ```
 
-The command name comes from the path: `<REPO_ROOT>/completions/git.sh` -> `git`, `<REPO_ROOT>/completions/cargo/audit.sh` -> `cargo audit`, `<REPO_ROOT>/completions/linux/foo.sh` -> `foo`, and an arbitrary temp path -> its basename without `.sh`. Use `--cmd` only for unusual layouts.
+The command name comes from the path: `<REPO_ROOT>/completions/git.sh` -> `git`, `<REPO_ROOT>/completions/cargo/audit.sh` -> `cargo audit`, `<REPO_ROOT>/completions/linux/foo.sh` -> `foo`, and an arbitrary temp path -> its basename without `.sh`. Use `--cmd` only for unusual layouts. Verify the path preflight resolved and do not move the file to suit the naming: a completion under a platform directory keeps that location, and the derived name already drops the `linux/`, `macos/`, or `windows/` segment.
 
 A bridge completion is recognized by a structural tag that binds `_choice_bridge_<name>` (a copy of `<REPO_ROOT>/bridges/<name>.sh`). It only forwards words to the framework hook, so the help probe is skipped; an explicit `--cache-dir` is reported and ignored because a bridge copy never generates fragments.
 
