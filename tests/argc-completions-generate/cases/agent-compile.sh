@@ -8,11 +8,17 @@ helper_init
 doc="$SKILL_DIR/agents/compile.md"
 
 # Pointers and tooling the compile agent has to use.
+# The child contract is self-contained for normal nodes; the schema is a
+# fallback read, so a compile child does not pay for it on every node.
+doc_contains "$doc" \
+    "This file is the complete contract" \
+    'Read `<SKILL_ROOT>/references/fragment-schema.md` only when the validator rejects'
+
 doc_contains "$doc" \
     "<SKILL_ROOT>/references/fragment-schema.md" \
     "scripts/normalize-description.sh --choice" \
     "machine-local path" \
-    "validate-fragment.jq\` rejects a description" \
+    "The validator rejects a description" \
     'jq -L "<SKILL_ROOT>/scripts" -e -f "<SKILL_ROOT>/scripts/validate-fragment.jq"' \
     "fragment-hash.sh" \
     "--help-file" \
@@ -21,7 +27,7 @@ doc_contains "$doc" \
 # Help capture: placeholders, temporary files, and the no-cache rule.
 doc_contains "$doc" \
     "Preserve each placeholder's text and case" \
-    "Include \`--help\` and \`--version\` only when the help lists them" \
+    "Include \`--help\` and \`--version\` only when listed" \
     'temporary directory outside `$cache_dir`' \
     'canonicalize_help_file "$raw" "$help_txt"' \
     'Never write a `.txt` help file' \
@@ -47,7 +53,7 @@ doc_contains "$doc" \
 
 # The agent never re-reads what it was given, and never invents a description.
 doc_contains "$doc" \
-    "you read none of them" \
+    "Read no skill script" \
     "never synthesize one from its name" \
     "Do not call the \`skill\` tool"
 
@@ -56,8 +62,8 @@ doc_contains "$doc" \
 doc_contains "$doc" \
     "man_name_summary" \
     "root-description-missing" \
-    "The context \`DESCRIBE\` line" \
-    "Never derive the root description from a usage line" \
+    "context \`DESCRIBE\` line" \
+    "Never derive it from a usage line" \
     "description-only read" \
     "changes neither \`source\` nor \`hash\`"
 
@@ -66,15 +72,15 @@ doc_contains "$doc" \
     "**Negated spellings.**" \
     '--[no-]color[=WHEN]' \
     'never invent a "Disable ..." wording' \
-    'skipped as `context-item-missing`'
+    'skipped with `context-item-missing <key>`'
 
 # Notations: one modifier, on the final notation, on an option only.
 doc_contains "$doc" \
     "**Notation modifiers**" \
-    "Only the final notation may carry one modifier" \
-    "never use it for a multi-value notation" \
-    '`required` is not rendered on a terminated item' \
-    'never put a notation modifier (`*`, `+`, `?`) inside it' \
+    "only on the final notation" \
+    "never for a multi-value notation" \
+    '`required` stays in the field but is never rendered' \
+    'never put a modifier inside it' \
     '"notations": ["<script>", "<args*>"]'
 
 # Node fields, in the order the contract documents them.
@@ -90,7 +96,7 @@ doc_contains "$doc" \
     "### 3.9 Positional arguments" \
     "### 3.10 Terminated values" \
     "### 3.11 Context diff" \
-    "### 3.12 Fragment shape and escaping" \
+    "### 3.12 Source and escaping" \
     "### 3.13 Shared help (subcommands without their own help)"
 
 # Shared help: compare with the parent, never read a sibling, never report a
@@ -101,12 +107,12 @@ doc_contains "$doc" \
     "never read a sibling entry" \
     "shared-help-missing" \
     'Never report `failed`' \
-    "Sibling and child help are off limits"
+    "sibling and child help are off limits as data sources"
 
 # Child options stay in the child; value sets are not subcommands.
 doc_contains "$doc" \
-    'never hoisted into this node'"'"'s `items`' \
-    "parameter signatures match" \
+    'never hoist a child'"'"'s definitions into this node'"'"'s `items`' \
+    "signatures match" \
     "Never turn alternation values into subcommands"
 
 # The context diff applies notation/choice_fn/terminated over the baseline.
@@ -119,8 +125,8 @@ doc_contains "$doc" \
 # Choices are objects paired with their descriptions, and a failed fragment
 # carries an empty hash.
 doc_contains "$doc" \
-    'Pair each `choices` value with the description' \
-    'objects `{"value": "...", "description": "..."}`' \
+    'Pair each value with its description' \
+    '`{"value": "...", "description": "..."}` objects' \
     '"hash": ""'
 
 doc_lacks "$doc" \

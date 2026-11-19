@@ -1,8 +1,8 @@
 # Compgen protocol and choice-function reference
 
-Dynamic-completion spec for the `CHOICES` block: protocol, context, paths, config parsing, split model, and debugging. Read by section; workflow lives in `<SKILL_ROOT>/references/add-choice-fns.md` (no workflow steps here). Shell snippets follow `<SKILL_ROOT>/references/setup.md`.
+Dynamic-completion spec for the `CHOICES` block: protocol, context, paths, config parsing, split model, and debugging. Workflow lives in `<SKILL_ROOT>/references/add-choice-fns.md`. Shell snippets follow `<SKILL_ROOT>/references/setup.md`.
 
-Companion references: `<REPO_ROOT>/utils/_argc_utils.sh` for the `_argc_util_*` §*Section map* and one section per helper (signature, sample, notes), `<SKILL_ROOT>/references/compgen-recipes.md` for composed functions covering common value shapes. Both section maps are mandatory reading before writing a `_choice_*`/`_helper_*` body (`<SKILL_ROOT>/references/add-choice-fns.md` §2 *Helpers*).
+Companions: `<REPO_ROOT>/utils/_argc_utils.sh` for helper signatures and `<SKILL_ROOT>/references/compgen-recipes.md` for composed functions. Both section maps are mandatory reading before writing a `_choice_*`/`_helper_*` body (`<SKILL_ROOT>/references/add-choice-fns.md` §2 *Helpers*).
 
 ## Section map
 
@@ -29,19 +29,19 @@ echo -e "value\t/color:green,bold\tBuild output"
 echo -e "value\0\tdescription"        # description, no trailing space
 ```
 
-- A trailing `\0` suppresses the space after the value. Put it at the end of the value field, never after the description.
-- Candidates are deduplicated by value: the first non-empty description wins, and nospace is enabled if any occurrence requests it.
+- A trailing `\0` suppresses the space after the value; put it at the end of the value field, never after the description.
+- Candidates deduplicate by value: the first non-empty description wins, and nospace is enabled if any occurrence requests it.
 - Descriptions are on by default (`ARGC_COMPGEN_DESCRIPTION=1` forces them; any other value disables them; `ARGC_COMPGEN_DESCRIPTION_MAX_WIDTH` defaults to 80).
-- Colors: `black`, `red`, `green`, `yellow`, `blue`, `magenta`, `cyan`, `white`, `default`, optionally `regular` or `bold`; only zsh/PowerShell render them.
-- Return 0 with no output when there is nothing to offer; send diagnostics to stderr. Do not pre-filter by prefix: argc filters, so emit the full current-part candidate.
-- Call the completion's own root command and any prerequisite tool directly: the root exists while its completion runs, and `argc`, `jq`, `bash`, `gawk`, `sed`, `grep`, and `find` are always installed (`<SKILL_ROOT>/SKILL.md` §Prerequisites). No `command -v` probe for either. Call the root in its invocation form: the root name, unless the first command of the root fragment's `source.command` shows an external subcommand (`cargo audit --help`), in which case run `cargo audit ...` and never `cargo-audit ...`; a later pipeline does not change the invocation form.
-- Probe only a tool that may be absent, and use the probe to pick the answer when one value has command-specific implementations (`ip` vs `ifconfig`, `wl-copy` vs `xclip`, `timeout` vs `gtimeout`): `if command -v ip >/dev/null 2>&1; then ...; elif command -v ifconfig >/dev/null 2>&1; then ...; fi`. A tool the candidates can simply skip keeps `command -v <tool> >/dev/null || return 0`.
+- Colors: `black`, `red`, `green`, `yellow`, `blue`, `magenta`, `cyan`, `white`, `default`, optionally `regular`/`bold`; only zsh/PowerShell render them.
+- Return 0 with no output when there is nothing to offer; diagnostics go to stderr. Do not pre-filter by prefix: argc filters, so emit the full current-part candidate.
+- Call the completion's own root command and any prerequisite tool directly: the root exists while its completion runs, and `argc`, `jq`, `bash`, `gawk`, `sed`, `grep`, and `find` are always installed (`<SKILL_ROOT>/SKILL.md` §Paths and prerequisites). No `command -v` probe for either. Call the root in its invocation form: the root name, unless the first command of the root fragment's `source.command` shows an external subcommand (`cargo audit --help`), in which case run `cargo audit ...`, never `cargo-audit ...`; a later pipeline does not change the form.
+- Probe only a tool that may be absent, and use the probe to pick the answer when one value has command-specific implementations (`ip`/`ifconfig`, `wl-copy`/`xclip`, `timeout`/`gtimeout`): `if command -v ip >/dev/null 2>&1; then ...; elif command -v ifconfig >/dev/null 2>&1; then ...; fi`. A tool the candidates can skip keeps `command -v <tool> >/dev/null || return 0`.
 - A candidate query must be read-only and bounded: prefer a local or cached source and cap the result count; a slow or remote query belongs in `_argc_util_cache`.
-- Do not sort or dedupe candidates: argc deduplicates by value and shows them in emission order, so there is no need to use commands like `sort`, `sort -u`, or `uniq`.
+- Do not sort or dedupe candidates: argc deduplicates by value and shows emission order; no `sort`, `sort -u`, or `uniq`.
 - Pass `-b` to `jq`: `jq -b -r ...`. Without `-b`, jq writes `\r\n` on Windows and every candidate keeps a trailing `\r`.
-- Never wrap a query in `timeout` command: argc and the shell own timeouts, and the wrapper hides the exit status and assumes coreutils.
+- Never wrap a query in `timeout` command: argc and the shell own timeouts, and the wrapper hides status and assumes coreutils.
 - A candidate whose first field starts with `__argc_` is a control line; never emit ordinary values with that prefix or the internal `__argc_fn=`/`__argc_multi=` lines (argc generates them).
-- A fragment `choices` list whose entries carry descriptions is rendered by assembly as a generated `_static_*` function in `STATIC`, so those values follow the same protocol.
+- A fragment `choices` list with descriptions is rendered by assembly as a generated `_static_*` function in `STATIC`, so those values follow the same protocol.
 
 ## 2. Context variables
 
@@ -50,14 +50,14 @@ Environment:
 | Variable | Meaning |
 |---|---|
 | `ARGC_COMPGEN` | `1` during completion. |
-| `ARGC_CWORD` | Current word after argc's completion split point; `--option=value` gives `value`. |
+| `ARGC_CWORD` | Current word after argc's split point; `--option=value` gives `value`. |
 | `ARGC_LAST_ARG` | Full last argument, including an `--option=value` prefix and quotes. |
 | `ARGC_OS` | `linux`, `macos`, or `windows`. |
 | `ARGC_COMPLETIONS_ROOT` | Repository root, exported by shell integrations and verify. |
 
 Argc-generated variables work as usual: `$argc_<param>`, arrays for multi-value parameters, and `${argc_name:-}`. The id is usually the long name with `-` replaced by `_` (`-C/--directory` -> `$argc_directory`); `argc__positionals` includes the current word (possibly empty).
 
-During completion, a multi-value parameter's generated array (option or arg) also includes the current word (possibly empty) as its last element: `--pair <TAB>` gives `${argc_pair[@]} = ("")` and `--pair a <TAB>` gives `("a" "")`. For an option that consumes one value per slot, `${#argc_<id>[@]}` is therefore the 1-based slot being completed. The composition, the repeatable adjustment, and the caveats are in `<SKILL_ROOT>/references/compgen-recipes.md` §*Value slots of one option*.
+During completion, a multi-value parameter's array (option or arg) also includes the current word (possibly empty) as its last element: `--pair <TAB>` gives `${argc_pair[@]} = ("")` and `--pair a <TAB>` gives `("a" "")`. For an option that consumes one value per slot, `${#argc_<id>[@]}` is the 1-based slot being completed. Composition, repeatable adjustment, and caveats are in `<SKILL_ROOT>/references/compgen-recipes.md` §*Value slots of one option*.
 
 | Variable | Meaning |
 |---|---|
@@ -87,7 +87,7 @@ Prefer notation over a function:
 # @option --config <FILE:.json,jsonc>
 ```
 
-A function can request paths at runtime with `__argc_value` and `__argc_cd`; `_argc_util_comp_path` wraps the common cases (`<REPO_ROOT>/utils/_argc_utils.sh` §*`_argc_util_comp_path`*).
+A function can request paths at runtime with `__argc_value` and `__argc_cd`; `_argc_util_comp_path` wraps common cases (`<REPO_ROOT>/utils/_argc_utils.sh` §*`_argc_util_comp_path`*).
 
 - `path` and `file` both add file and directory candidates; `file` documents intent only.
 - `dir` adds directories only; extension filters do not apply.
@@ -96,14 +96,14 @@ A function can request paths at runtime with `__argc_value` and `__argc_cd`; `_a
 
 ## 4. Structured config files
 
-Parse YAML, TOML, XML, or INI values with mikefarah/yq inside `_choice_*`.
+Parse YAML, TOML, XML, or INI values with mikefarah/yq inside `_choice_*`:
 
 ```sh
 yq -r '.profiles[].name' config.yaml
 yq -p toml -o yaml -r '.profiles.names[]' config.toml    # -p toml|xml|ini: format or stdin
 ```
 
-`yq` is optional (`<SKILL_ROOT>/references/setup.md` §Environment), so probe it before use: `command -v yq >/dev/null || return 0`.
+`yq` is optional (`<SKILL_ROOT>/references/setup.md` §Environment), so probe it first: `command -v yq >/dev/null || return 0`.
 
 ## 5. Control lines and the split model
 
@@ -114,7 +114,7 @@ word     = prefix + filter
 inserted = prefix + candidate + suffix
 ```
 
-argc infers common splits (`--define=`, `-X`, `+`, comma/pipe-separated values). `-X` and the separator are the fragment's `prefixed`/`delimiter`; `delimiter` applies to options and args. Do not reimplement them, and never write the control lines by hand: construction goes through `<SKILL_ROOT>/references/add-choice-fns.md` §2 *Helpers*. This section is the protocol for reading and debugging the emitted lines:
+argc infers common splits (`--define=`, `-X`, `+`, comma/pipe-separated values). `-X` and the separator are the fragment's `prefixed`/`delimiter`; `delimiter` applies to options and args. Do not reimplement them, and never write the control lines by hand: construction goes through `<SKILL_ROOT>/references/add-choice-fns.md` §2 *Helpers*. This section is the protocol for reading and debugging emitted lines:
 
 | Line | Effect |
 |---|---|
@@ -153,7 +153,7 @@ The candidate is `main.rs`, not `src/main.rs`; argc inserts the prefix.
 
 `generic` is the raw candidate view, control lines included; it is the candidate oracle, while shell-specific modes post-process the list and cannot assert values.
 
-Assert values with the helper: it runs `argc --argc-compgen generic`, strips NULs, keeps the value column, and drops `__argc_*` control lines, so a NUL cannot silently fail a match:
+Assert values with the helper: it runs `argc --argc-compgen generic`, strips NULs, keeps the value column, and drops `__argc_*` lines, so a NUL cannot silently fail a match:
 
 ```sh
 bash <SKILL_ROOT>/scripts/test-compgen.sh -x out.txt <completion.sh> <root> --output ''
@@ -169,10 +169,8 @@ The final word is the word being completed; `''` lists all, `--` lists long opti
 There is no `argc choice-fn` subcommand in argc 1.24. Use the completion engine, or source the block and call the function inside a wrapper:
 
 ```sh
-# End-to-end
 argc --argc-compgen generic <completion.sh> <root> <args> ''
 
-# Function only: source the CHOICES block, then call it
 bash -c '
     script=$1; shift
     eval "$(sed -n "/^# >>> CHOICES/,/^# <<< CHOICES/p" "$script" | sed "1d;\$d")"
@@ -181,13 +179,13 @@ bash -c '
 ' _ <completion.sh> _choice_foo
 ```
 
-`--argc-compgen` sets `ARGC_COMPGEN`, `ARGC_CWORD`, `ARGC_LAST_ARG`, and `ARGC_OS`. Do not declare `local`/`declare` at the harness top level; wrap them in a function (like `run`). The harness does not emulate argc's split, so set `ARGC_CWORD`/`ARGC_LAST_ARG` when read, and `ARGC_COMPLETIONS_ROOT` when calling `_argc_util_*`. The `sed` range needs a `CHOICES` block: a script without dynamic functions has none, so it has no functions to source either.
+`--argc-compgen` sets `ARGC_COMPGEN`, `ARGC_CWORD`, `ARGC_LAST_ARG`, and `ARGC_OS`. Do not declare `local`/`declare` at the harness top level; wrap them in a function (like `run`). The harness does not emulate argc's split, so set `ARGC_CWORD`/`ARGC_LAST_ARG` when read, and `ARGC_COMPLETIONS_ROOT` when calling `_argc_util_*`. The `sed` range needs a `CHOICES` block; a script without dynamic functions has none.
 
 ### Probing tag syntax
 
 Use a scratch script and avoid the two traps that hide results:
 
-- Define every `_choice_*` the probe references (a stub such as `_choice_probe() { :; }`); a helper call needs `_argc_utils.sh` sourced, or use a static `[a|b]`. A missing bound function makes `argc --argc-export` exit 1 with `_choice_x(line N) is missing` on stderr and a partly useful export.
+- Define every `_choice_*` the probe references (a stub such as `_choice_probe() { :; }`); a helper call needs `_argc_utils.sh` sourced, or use a static `[a|b]`. A missing bound function makes `argc --argc-export` exit 1 with `_choice_x(line N) is missing` on stderr.
 - After rewriting a scratch script (`sed`, `cat`, ...), re-read it before an edit or write tool, or a stale-read guard rejects the change.
 
 ```sh

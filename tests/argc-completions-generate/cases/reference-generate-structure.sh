@@ -9,7 +9,7 @@ doc="$SKILL_DIR/references/generate-structure.md"
 
 # Batch compile, preflight report, and assembly invocation.
 doc_contains "$doc" \
-    "fragment-schema.md in one batch" \
+    "follow it exactly" \
     'preflight.sh [<root>]' \
     'assemble.sh <root> [-c <dir>]' \
     "Do not poll a compile child" \
@@ -25,10 +25,10 @@ doc_contains "$doc" \
 
 # Cache-first: never dispatch a node the check already reports.
 doc_contains "$doc" \
-    "Never dispatch a compile subagent for a node this check reports" \
+    "Never dispatch a compile subagent for a node reported as" \
     "root_fragment_exists=0" \
-    "Skip this entire section for a first generation" \
-    "then §3 does not apply" \
+    "Skip this section for a first generation" \
+    "§3 does not apply" \
     "dispatch every node directly from §5" \
     "check-fragment.sh" \
     "status=unverified" \
@@ -42,13 +42,13 @@ doc_contains "$doc" \
     "may be a shell expression" \
     "backward-compatible widening" \
     "# >>> DESCRIBE" \
-    'root description recovered from `DESCRIBE`' \
+    'root description from `DESCRIBE`' \
     "# >>> DIFF" \
     'only notation, `choice_fn`, and terminated changes' \
     "Pass \`--no-meta\` to emit only \`HINTS\` and \`DIFF\`" \
     'resolved per `<SKILL_ROOT>/SKILL.md` §Pipeline contract' \
-    'invalidates every node in that root' \
-    "minimal failed fragment defined in"
+    'invalidates every node in the root' \
+    "minimal failed fragment from"
 
 # A hint edit precedes any compile: it is part of the hash, and a late edit
 # would invalidate the node and trigger a second regeneration.
@@ -57,7 +57,7 @@ doc_contains "$doc" \
     "before any other work in that run" \
     "forces a second regeneration" \
     'that path'"'"'s `# %%<path>` section' \
-    "global or all-command hint" \
+    "global/all-command hint" \
     "part of every node's hash in that root"
 
 # Fragment layout and file-name encoding are owned by fragment-schema.md.
@@ -81,10 +81,10 @@ doc_contains "$doc" \
 # Preflight owns the cache/output state: the block layout case, the write
 # target, and a schema version that is not 1.
 doc_contains "$doc" \
-    '`new` means it already has the block layout' \
+    '`new` = normal update with the block layout' \
     '`output_file`: where assembly writes' \
     '`completion_file` and `other_completion_file`' \
-    'A value other than `1` is a schema-invalid cache' \
+    'any value other than `1` recompiles every node with' \
     '--output "$output_file"' \
     '"$output_file" --cache-dir'
 
@@ -102,7 +102,7 @@ doc_lacks "$doc" \
 # The orchestrator owns the single retry and the fallback fragment.
 doc_contains "$doc" \
     "This is the only retry" \
-    "never overwrite one that exists" \
+    "never overwrite an existing one" \
     'Your parent agent id is "<parent-agent-id>"' \
     'send_message({ agent_id: "<parent-agent-id>"'
 

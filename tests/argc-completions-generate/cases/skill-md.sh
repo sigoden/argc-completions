@@ -46,7 +46,7 @@ doc_lacks "$doc" \
 # Root identity vs invocation form for external subcommands.
 doc_contains "$doc" \
     "keys every artifact path" \
-    "owned by"
+    'preflight owns the `invoke=` form'
 
 # One stream, one jq: a merged stderr breaks the export.
 doc_contains "$doc" "2>&1 | jq"
@@ -54,8 +54,8 @@ doc_contains "$doc" "2>&1 | jq"
 # Block and HINTS contracts the router still states itself.
 doc_contains "$doc" \
     '# >>> STATIC' \
-    'Lines before the first `# %%` marker are common to every command in the root' \
-    'with no inheritance' \
+    'Lines before the first `# %%` are common to every command in the root' \
+    'no inheritance' \
     "Paths compare with collapsed whitespace" \
     '# %%<root> <sub>'
 
@@ -63,9 +63,9 @@ doc_contains "$doc" \
 # instead of being inferred from the examples.
 doc_contains "$doc" \
     "counts line uses fixed fields" \
-    '`commands` is the number of command blocks in `SPEC`' \
-    '`fragments` is the number of `.json` files under the cache directory' \
-    '`pruned` is the `removed` count'
+    '`commands` = command blocks in `SPEC`' \
+    '`fragments` = `.json` files under the cache directory' \
+    '`pruned` = `removed` from'
 
 # Writing a function body is gated on both reference section maps: SKILL.md
 # carries the invariant instead of deferring the lookup.

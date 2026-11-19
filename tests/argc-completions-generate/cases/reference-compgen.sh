@@ -39,7 +39,7 @@ doc_contains "$doc" \
 # The generated array includes the current word; that is the slot counter for
 # an option with several value slots.
 doc_contains "$doc" \
-    "generated array (option or arg) also includes the current word" \
+    "array (option or arg) also includes the current word" \
     '`--pair <TAB>` gives `${argc_pair[@]} = ("")`' \
     "1-based slot being completed" \
     "<SKILL_ROOT>/references/compgen-recipes.md"

@@ -12,7 +12,7 @@ Read when installing tools, when a tool check fails, or before writing shell sni
 ## Environment
 
 - `<REPO_ROOT>/cache/` and `<REPO_ROOT>/completions/` are gitignored work directories; do not commit them. Confirm output with `test -s <file>` and verify, never `git status`.
-- Pipeline tool requirements are in `<SKILL_ROOT>/SKILL.md` §Prerequisites; the shell must also run with the Prerequisites tools only: no `python`, `node`, or other runtimes.
+- Pipeline tool requirements are in `<SKILL_ROOT>/SKILL.md` §Paths and prerequisites; the shell must also run with the Prerequisites tools only: no `python`, `node`, or other runtimes.
 - `yq` is optional and allowed only inside functions in `CHOICES`; never in `SPEC`, `HINTS`, assembly, verification, or preflight.
 
 ## Shell portability
