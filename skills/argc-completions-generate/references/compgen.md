@@ -57,6 +57,8 @@ Environment:
 
 Argc-generated variables work as usual: `$argc_<param>`, arrays for multi-value parameters, and `${argc_name:-}`. The id is usually the long name with `-` replaced by `_` (`-C/--directory` -> `$argc_directory`); `argc__positionals` includes the current word (possibly empty).
 
+During completion, a multi-value parameter's generated array (option or arg) also includes the current word (possibly empty) as its last element: `--pair <TAB>` gives `${argc_pair[@]} = ("")` and `--pair a <TAB>` gives `("a" "")`. For an option that consumes one value per slot, `${#argc_<id>[@]}` is therefore the 1-based slot being completed. The composition, the repeatable adjustment, and the caveats are in `<SKILL_ROOT>/references/compgen-recipes.md` §*Value slots of one option*.
+
 | Variable | Meaning |
 |---|---|
 | `argc__args` | All command-line arguments, including the program name. |

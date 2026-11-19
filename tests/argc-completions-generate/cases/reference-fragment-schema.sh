@@ -42,6 +42,14 @@ doc_contains "$doc" \
     "choices entries must be objects {value, description}" \
     "_static_"
 
+# Both choices and choice_fn are item-level: one list or one binding covers
+# every notation, so a multi-value option branches inside the function.
+doc_contains "$doc" \
+    "One list applies to every value the item consumes" \
+    "One binding serves the whole item, including every entry in \`notations\`" \
+    "there is no per-notation binding" \
+    "<SKILL_ROOT>/references/compgen-recipes.md"
+
 # Shared help, shell expressions, and terminated values.
 doc_contains "$doc" \
     '"section": "<name>"' \

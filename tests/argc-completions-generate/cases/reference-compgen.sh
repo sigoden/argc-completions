@@ -36,6 +36,14 @@ doc_contains "$doc" \
     "never write the control lines by hand" \
     "mandatory reading before writing"
 
+# The generated array includes the current word; that is the slot counter for
+# an option with several value slots.
+doc_contains "$doc" \
+    "generated array (option or arg) also includes the current word" \
+    '`--pair <TAB>` gives `${argc_pair[@]} = ("")`' \
+    "1-based slot being completed" \
+    "<SKILL_ROOT>/references/compgen-recipes.md"
+
 # Candidate pipelines stay plain: argc dedupes and orders, jq stays LF-only on
 # Windows, and timeouts belong to argc and the shell.
 doc_contains "$doc" \

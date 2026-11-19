@@ -11,6 +11,7 @@ Composed choice functions for value shapes that a single helper does not cover. 
 | *Command in a terminated positional* | One positional holds the command and its arguments. | `xargs ARGS...` |
 | *Key-Value Mode* | One word is split into a key and a value, each with its own candidate source. | `scp host:path` |
 | *Multi-Parts Mode* | One word is split into positions, each with its own candidate source. | `rg --colors path:fg:red` |
+| *Value slots of one option* | One option consumes several values, each with its own candidate source. | `prog --pair <LEFT> <RIGHT>` |
 | *Candidates gated by another word* | An earlier positional or a sibling option decides which candidates apply. | `unzip app.zip FILE` |
 | *Values from the nearest project file* | Candidates come from the first project file found above `PWD`. | `node --run RECIPE` |
 | *Word with a literal prefix* | The word starts with `@`, `!`, or `+` before the completable part. | `curl -H @file` |
@@ -141,6 +142,29 @@ _choice_color_spec() {
 ```
 
 The first position selects the third: `fg` and `bg` take colors, `style` takes styles.
+
+## Value slots of one option
+
+**Use when:** One option consumes several values, and each value slot has its own candidate source.
+
+**Example:** `prog --pair <LEFT> <RIGHT>`
+
+```sh
+# @option --pair[?`_choice_pair`] <LEFT> <RIGHT>
+
+_choice_pair() {
+    case "${#argc_pair[@]}" in
+    1) printf '%s\n' abc def ijk ;;
+    2) printf '%s\n' xyz nop ;;
+    esac
+}
+```
+
+Both notations share one `choice_fn`; the generated array includes the current word, so the non-repeatable slot is `${#argc_pair[@]}`. A later slot can read an earlier value, for example `case "${argc_pair[0]}" in ...`.
+
+`argc_pair` accumulates across occurrences: for a repeatable fixed arity use `slot=$(( (${#argc_pair[@]} - 1) % 2 + 1 ))`; when the final notation is optional, set `start` to the index of the option's last spelling in `argc__args` and use `slot=$(( ${#argc__args[@]} - start - 1 ))`.
+
+Keep the binding completion-only (`[?`...`]`); a validating binding cannot express a different list per slot. Use separate words (`--pair left right`): `--pair=left right` does not fill the second slot, and a value starting with `-` is read as an option. `prefixed` and `delimiter` allow at most one notation; use *Multi-Parts Mode* or *Key-Value Mode* for one word with several parts.
 
 ## Candidates gated by another word
 

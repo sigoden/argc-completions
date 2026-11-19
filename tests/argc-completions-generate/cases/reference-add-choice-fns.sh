@@ -28,6 +28,14 @@ doc_contains "$doc" \
     "format-choices.sh" \
     "tool probes"
 
+# A multi-value option stays one item and one binding; the slot decision lives
+# inside the function.
+doc_contains "$doc" \
+    "A multi-value option is still one item" \
+    "Do not split the option into several items" \
+    "branch on the slot inside the function" \
+    "<SKILL_ROOT>/references/compgen-recipes.md"
+
 # A function body starts from both reference section maps; a hand-assembled
 # control line is a reported last resort.
 doc_contains "$doc" \
