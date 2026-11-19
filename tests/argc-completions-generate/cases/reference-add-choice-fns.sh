@@ -36,6 +36,14 @@ doc_contains "$doc" \
     "branch on the slot inside the function" \
     "<SKILL_ROOT>/references/compgen-recipes.md"
 
+# Each notation is a slot with its own source; binding covers every slot and
+# reprints a static list that belongs to only one of them.
+doc_contains "$doc" \
+    "Multi-notation options" \
+    "Inventory every notation" \
+    "reprint those literals in the slot that owns them" \
+    "test every slot"
+
 # A function body starts from both reference section maps; a hand-assembled
 # control line is a reported last resort.
 doc_contains "$doc" \

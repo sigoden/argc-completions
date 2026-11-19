@@ -160,7 +160,7 @@ _choice_pair() {
 }
 ```
 
-Both notations share one `choice_fn`; the generated array includes the current word, so the non-repeatable slot is `${#argc_pair[@]}`. A later slot can read an earlier value, for example `case "${argc_pair[0]}" in ...`.
+Both notations share one `choice_fn`; the generated array includes the current word, so the non-repeatable slot is `${#argc_pair[@]}`. When a later slot's candidates depend on an earlier value, pass the stored element to a query helper, for example `2) _helper_pair_right "${argc_pair[0]}" ;;`; the current word is the array's last element, so the array can be one element longer than the values already typed. A free-form final notation (`rule-specification`, `expression`, `args`) is a slot with no source: return 0 there instead of reusing the previous slot's candidates.
 
 `argc_pair` accumulates across occurrences: for a repeatable fixed arity use `slot=$(( (${#argc_pair[@]} - 1) % 2 + 1 ))`; when the final notation is optional, set `start` to the index of the option's last spelling in `argc__args` and use `slot=$(( ${#argc__args[@]} - start - 1 ))`.
 

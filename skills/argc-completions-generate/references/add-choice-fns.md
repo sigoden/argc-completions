@@ -59,6 +59,32 @@ Fragment lookup: one fragment per node under `<REPO_ROOT>/cache/compile/<root>/`
 
 A multi-value option is still one item: keep every notation and bind the item once. Do not split the option into several items; branch on the slot inside the function (`<SKILL_ROOT>/references/compgen-recipes.md` §*Value slots of one option*).
 
+### Multi-notation options
+
+One binding serves every slot, so write a dispatcher, not one function per notation.
+
+1. Inventory every notation in order before writing the body, and record a source or `none` for each:
+   - `-D <chain> <rulenum?>`: slot 1 chains, slot 2 rule numbers of slot 1's chain, slot 3+ none.
+   - `-P <chain> <target>`: slot 1 built-in chains, slot 2 the literals the help lists for this slot (`ACCEPT`, `DROP`).
+   - `-E <old-chain> <new-chain>`: slot 1 user chains, slot 2 none (the new name is free text).
+2. Read the slot from `${#argc_<id>[@]}`: it is 1-based and the current word is the array's last element. Read a stored earlier value with `${argc_<id>[0]}`; never use `${#...}` as an index into stored values.
+3. `case` on the slot and return 0 with no output for a slot that has no source. A later slot must never repeat the previous slot's candidates.
+4. argc applies a static `choices` list to every value of the item, so a list that belongs to one notation is wrong for the others. Binding empties `choices` for the whole item (`<SKILL_ROOT>/scripts/set-choice-fns.sh`), so the function must reprint those literals in the slot that owns them.
+5. A free-form remainder (`rule-specification`, `expression`, `args`) is a slot with no source: return 0 there; it may contain further options. How that notation is modeled belongs to compile (`<SKILL_ROOT>/agents/compile.md` §3.4).
+6. If the item is `repeatable`, `${#argc_<id>[@]}` counts all occurrences; use the slot formula in `<SKILL_ROOT>/references/compgen-recipes.md` §*Value slots of one option* instead of the simple `case`.
+
+With one helper per source, the dispatcher stays small:
+
+```sh
+# @option -D --delete[?`_choice_delete`] <chain> <rulenum?>
+_choice_delete() {
+    case "${#argc_delete[@]}" in
+    1) _helper_chains ;;
+    2) _helper_rulenum "${argc_delete[0]}" ;;
+    esac
+}
+```
+
 When one option is split across items (one name each), set `choice_fn` on **every** item of that option. The ids differ, so a function reading `$argc_<id>` must switch to `argc__option` (`<SKILL_ROOT>/references/compgen.md` §2) or use an id-independent source.
 
 **Command-valued binding.** When the item's name or notation is a command-family token (`COMMAND`, `CMD`, `PROGRAM`, `PROG`, `EXEC`, `SCRIPT`, case-insensitive), or its description says it executes a command, and the completion needs the command plus its arguments, use the command recipes in `<SKILL_ROOT>/references/compgen-recipes.md`: §*Command in a terminated option* for an option (it copies the option array with a nameref), §*Command plus terminated args* when the command has a separate args parameter, and §*Command in a terminated positional* when one positional holds both. `_choice_command` completes the executable and `_choice_command_args` delegates with `_argc_util_comp_subcommand 0`. Set `terminated: true` on the same item when compile did not mark it and its `repeatable`, `prefixed`, and `delimiter` fields allow it; stop and report instead of overriding them. Leave `required` alone: a terminated arg renders `~` alone, so a required command positional stays `required: true` and needs no downgrade (`<SKILL_ROOT>/references/fragment-schema.md`). Then queue it for the §5 gate. Never fake the behavior with `repeatable` or a `delimiter`.
@@ -121,6 +147,8 @@ Formatting, assembly, and verification each rewrite or re-read the whole script,
    ```
 
    A value followed by an empty positional (`--foo value ''`) completes the next word, not `--foo`; with a terminated command or positional that next word is the command or positional, so command candidates there are expected. Assert values with `<SKILL_ROOT>/scripts/test-compgen.sh` (`-x` exact, `-e` regex, `-a` absent regex, `-c` count, `-l` list) rather than a hand-written `tr`/`cut`/`grep` pipeline; shell-specific modes are integration smoke, not a candidate oracle.
+
+   For a multi-notation option, test every slot: `--pair ''` (slot 1), `--pair left ''` (slot 2), and `--pair left right ''` (no candidates, the arity is exhausted). Assert that slot 1's candidates are absent from slot 2 with `-a '^<slot1-candidate>$'`.
 
 4. Candidate-level checks: use `<SKILL_ROOT>/scripts/test-compgen.sh` for each assertion (details in `<SKILL_ROOT>/references/compgen.md` §6); give each source a unique target name so a wrong source is visible; give each source distinct content; create the directory and default file for a `-C` option; define at least one variable for `VAR=`; assert one known candidate and a no-candidate case for a wrapper (do not only assert exit status); cover an empty directory and a prefix filter, both exiting 0.
 

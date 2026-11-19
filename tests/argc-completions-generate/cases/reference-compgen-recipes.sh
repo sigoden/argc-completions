@@ -21,6 +21,12 @@ doc_contains "$doc" \
     '`--pair=left right` does not fill the second slot' \
     "use *Multi-Parts Mode* or *Key-Value Mode*"
 
+# A later slot may query with an earlier value; a free-form final notation has
+# no candidate source.
+doc_contains "$doc" \
+    "pass the stored element to a query helper" \
+    "A free-form final notation"
+
 # The samples call the root command and the prerequisites directly.
 doc_lacks "$doc" \
     'command -v aichat' \
