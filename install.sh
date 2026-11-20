@@ -11,7 +11,7 @@ set -e
 ROOT_DIR="$(cd -P "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 BIN_DIR="$ROOT_DIR/bin"
 
-MIN_ARGC_VERSION="${MIN_ARGC_VERSION:-1.17.0}"
+MIN_ARGC_VERSION="${MIN_ARGC_VERSION:-1.25.0}"
 MIN_BASH_VERSION=5.0
 MIN_JQ_VERSION="${MIN_JQ_VERSION:-1.6}"
 JQ_VERSION="${JQ_VERSION:-1.7.1}"
@@ -327,7 +327,7 @@ ensure_argc() {
         tag="$(latest_argc_tag)" || tag=""
     fi
     if [ -z "$tag" ]; then
-        tag="v1.24.0"
+        tag="v1.25.0"
         log_warn "could not query the latest argc release; falling back to $tag"
     fi
     case "$tag" in

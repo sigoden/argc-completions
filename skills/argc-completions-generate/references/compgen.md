@@ -166,7 +166,7 @@ The final word is the word being completed; `''` lists all, `--` lists long opti
 
 ### Run a function directly
 
-There is no `argc choice-fn` subcommand in argc 1.24. Use the completion engine, or source the block and call the function inside a wrapper:
+There is no `argc choice-fn` subcommand in argc 1.25. Use the completion engine, or source the block and call the function inside a wrapper:
 
 ```sh
 argc --argc-compgen generic <completion.sh> <root> <args> ''
