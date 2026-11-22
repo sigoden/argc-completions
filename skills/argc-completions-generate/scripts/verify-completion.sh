@@ -1092,6 +1092,9 @@ check_compgen_smoke() {
     done <"$subcommands_file"
 
     # Best-effort choice fn smoke for root and first-level options.
+    # One test per item: aliases share a choice fn, so testing every name only
+    # repeats the same compgen. Prefer a long name and fall back to the last
+    # declared name when an item has none.
     # The root row needs a non-empty first column: read treats a leading tab as
     # IFS whitespace and would drop an empty subcommand field, shifting the row.
     fn_options_file="$tmp_dir/fn-options.txt"
@@ -1101,8 +1104,12 @@ check_compgen_smoke() {
           if ((.names? | type) == "array") then .names
           else [(.short_name // ""), (.long_name // "")] | map(select(length > 0))
           end;
+        def export_test_name:
+          export_names | map(select(length > 0)) as $names
+          | (($names | map(select(startswith("--"))) | last) // ($names | last));
         .flag_options[]? | select(.choice != null and .choice.type == "Fn")
-        | . as $o | ($o | export_names)[]? as $n
+        | . as $o | ($o | export_test_name) as $n
+        | select($n != null)
         | [".", $n, ($o.assigned|tostring), ($o.prefixed|tostring)] | @tsv
     ' "$(native_path "$export_json")" 2>/dev/null >>"$fn_options_file" || true
     jq -b -r '
@@ -1110,9 +1117,13 @@ check_compgen_smoke() {
           if ((.names? | type) == "array") then .names
           else [(.short_name // ""), (.long_name // "")] | map(select(length > 0))
           end;
+        def export_test_name:
+          export_names | map(select(length > 0)) as $names
+          | (($names | map(select(startswith("--"))) | last) // ($names | last));
         .subcommands[]? as $s | $s.flag_options[]?
         | select(.choice != null and .choice.type == "Fn")
-        | . as $o | ($o | export_names)[]? as $n
+        | . as $o | ($o | export_test_name) as $n
+        | select($n != null)
         | [$s.name, $n, ($o.assigned|tostring), ($o.prefixed|tostring)] | @tsv
     ' "$(native_path "$export_json")" 2>/dev/null >>"$fn_options_file" || true
     fn_count=0

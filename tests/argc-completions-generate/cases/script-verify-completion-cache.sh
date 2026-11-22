@@ -55,5 +55,17 @@ check_output "dynamic verify" "PASS  compgen choice --output" \
     env VERBOSE=1 bash "$SCRIPTS/verify-completion.sh" "$DYNAMIC_SCRIPT" \
     --cmd demo --cache-dir "$DYNAMIC_FRAGMENTS"
 assert_not_contains "compgen choice label not shifted" "$CHECK_LOG" "compgen choice --output -o"
+# One choice fn answer per item: the short alias must not be tested too.
+assert_not_contains "compgen tests one name per option" "$CHECK_LOG" "compgen choice -o"
+
+# A long/short pair declared long-first must still test the long name.
+fragment_jq "$DYNAMIC_FRAGMENTS/_root.json" \
+    '.items |= map(if (.names | index("--output")) then .names = ["--output", "-o"] else . end)'
+quiet bash "$SCRIPTS/assemble.sh" demo --cache-dir "$DYNAMIC_FRAGMENTS" \
+    --output "$DYNAMIC_SCRIPT" --force
+check_output "long-first verify" "PASS  compgen choice --output" \
+    env VERBOSE=1 bash "$SCRIPTS/verify-completion.sh" "$DYNAMIC_SCRIPT" \
+    --cmd demo --cache-dir "$DYNAMIC_FRAGMENTS"
+assert_not_contains "compgen prefers the long option name" "$CHECK_LOG" "compgen choice -o"
 
 helper_finish
