@@ -53,17 +53,17 @@ printf 'a\n' | sed -n 's/a/A/p' | grep -qx 'A' || {
 
 failures=0
 
+# One grep per pattern over every file: per-file greps cost thousands of
+# processes and dominate the runtime of this lint.
 lint() {
-    local label="$1" pattern="$2" file matches
-    for file in "${files[@]}"; do
-        matches="$(grep -nE "$pattern" "$file" 2>/dev/null \
-            | grep -vE '^[0-9]+:[[:space:]]*#' \
-            | grep -vE 'lint:[[:space:]]*allow-unportable' || true)"
-        if [ -n "$matches" ]; then
-            printf '%s in %s\n  pattern: %s\n%s\n' "$label" "$file" "$pattern" "$matches" >&2
-            failures=$((failures + 1))
-        fi
-    done
+    local label="$1" pattern="$2" matches
+    matches="$(grep -HnE -- "$pattern" "${files[@]}" 2>/dev/null \
+        | grep -vE '^[^:]+:[0-9]+:[[:space:]]*#' \
+        | grep -vE 'lint:[[:space:]]*allow-unportable' || true)"
+    if [ -n "$matches" ]; then
+        printf '%s\n  pattern: %s\n%s\n' "$label" "$pattern" "$matches" >&2
+        failures=$((failures + 1))
+    fi
 }
 
 # sed: GNU-only, macOS-only, and semantic differences.
@@ -111,7 +111,7 @@ lint 'GNU-only find permission form' \
     '(^|[^[:alnum:]_])find[[:space:]][^|;&]*[[:space:]]?-perm[[:space:]]+/[^[:space:]]+'
 
 if [ "$failures" -ne 0 ]; then
-    printf '%s incompatible sed/grep/find construct(s) found\n' "$failures" >&2
+    printf '%s incompatible sed/grep/find construct group(s) found\n' "$failures" >&2
     exit 1
 fi
 
