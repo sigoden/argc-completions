@@ -94,7 +94,7 @@ check_fragment "check-fragment hash mismatch" "status=invalid reason=hash-mismat
 write_help
 
 # A missing fragment is reported without touching the cache.
-check_fragment "check-fragment missing" "path=check-demo missing status=missing" missing
+check_fragment "check-fragment missing" "path=check-demo/missing status=missing" missing
 
 # A colon subcommand segment (pm2 profile:mem) is a valid path component; on
 # Windows its cache file name encodes the colon so the file can be stored.
@@ -110,7 +110,7 @@ jq -n '{
 colon_hash="$(bash "$SCRIPTS/fragment-hash.sh" check-demo 'profile:mem' --cache-dir "$check_cache" \
     --completion "$completion")"
 fragment_jq "$colon_fragment" --arg hash "$colon_hash" '.hash = $hash'
-check_fragment "check-fragment colon hit" "path=check-demo profile:mem status=hit" 'profile:mem'
+check_fragment "check-fragment colon hit" "path=check-demo/profile:mem status=hit" 'profile:mem'
 rm -f "$colon_fragment"
 
 # A shell-expression source.command is re-executed and compared.

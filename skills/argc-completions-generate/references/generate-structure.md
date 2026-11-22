@@ -83,8 +83,8 @@ bash <SKILL_ROOT>/scripts/check-fragment.sh "$root" "${subs[@]}" \
 It prints one line such as:
 
 ```text
-path=git add status=hit hash=<64-hex>
-path=git remote status=invalid reason=hash-mismatch
+path=git/add status=hit hash=<64-hex>
+path=git/remote status=invalid reason=hash-mismatch
 path=foo status=missing
 path=demo status=failed hash=
 path=bar status=unverified reason=help-unavailable

@@ -31,8 +31,8 @@ Options:
   --completion <file>  Completion script that supplies the context body
   -h, --help           Show this help
 
-Prints `path=<path> status=<hit|invalid|missing|unverified|failed>`. A status
-of invalid also prints reason=<schema|hash-mismatch>.
+Prints `path=<root>[/<sub>...] status=<hit|invalid|missing|unverified|failed>`.
+A status of invalid also prints reason=<schema|hash-mismatch>.
 Exit status is 0 for every reported status; non-zero is reserved for usage
 and dependency errors.
 USAGE
@@ -76,11 +76,17 @@ done
 [[ -n "$root" ]] || { usage >&2; exit 2; }
 
 parts=("$root" "${subs[@]}")
-path_string="${parts[*]}"
 root_name_ok "$root" || die "invalid command path component: $root"
 for part in "${subs[@]}"; do
     [[ -n "$part" ]] || die "empty command path component"
     sub_name_ok "$part" || die "invalid command path component: $part"
+done
+
+# Report the path slash-separated so `path=` stays a single whitespace-free
+# field; "/" cannot occur in a validated component.
+path_string="$root"
+for part in "${subs[@]}"; do
+    path_string+="/$part"
 done
 
 cache_dir="$(fragment_cache_dir "$root" "$cache_override")"
