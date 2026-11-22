@@ -36,7 +36,7 @@ done < <(
     find "$ROOT_DIR/completions" "$ROOT_DIR/utils" "$ROOT_DIR/scripts" "$ROOT_DIR/skills" "$ROOT_DIR/tests" \
         -type f -name '*.sh'
     [ -f "$ROOT_DIR/install.sh" ] && printf '%s\n' "$ROOT_DIR/install.sh"
-    [ -f "$ROOT_DIR/argcfile" ] && printf '%s\n' "$ROOT_DIR/argcfile"
+    [ -f "$ROOT_DIR/Argcfile.sh" ] && printf '%s\n' "$ROOT_DIR/Argcfile.sh"
 )
 
 [ "${#files[@]}" -gt 0 ] || { echo "no shell files found" >&2; exit 1; }
