@@ -1,11 +1,6 @@
 #!/usr/bin/env bash
 set -e
 
-# @describe argc-completions maintenance tasks
-
-# Use the repository's pinned argc, and let the generated CHOICES guard and the
-# _argc_util_* helpers resolve against this checkout. These two are read by
-# subprocesses that may cd elsewhere, so keep them absolute.
 export PATH="$(pwd -P)/bin:$PATH"
 export ARGC_COMPLETIONS_ROOT="$(pwd -P)"
 

@@ -55,14 +55,6 @@ Environment:
   ARGC_VERSION=vX.Y.Z   Pin the argc release (default: latest GitHub release).
   JQ_VERSION=1.7.1      Pin the jq release used when install.sh downloads it.
   YQ_VERSION=4.54.1     Pin the mikefarah/yq release used when install.sh downloads it.
-
-Platform notes:
-  macOS: missing gawk and bash >= 5 are installed with Homebrew; yq falls back to Homebrew.
-  Linux: install missing gawk with your system package manager; yq is downloaded from GitHub.
-  Windows: run this script in Git Bash; gawk is included with Git for Windows; yq is downloaded.
-  System-installed tools are used when they meet the version requirements.
-  Downloaded argc/jq/yq are placed in bin/. On macOS, when the system bash is
-  older than 5, Homebrew's bash is linked there as bin/bash.
 EOF
 }
 
@@ -885,7 +877,7 @@ setup_shell() {
 }
 
 verify_install() {
-    local argc_bin bash_bin gawk_bin yq_bin file cmd
+    local argc_bin bash_bin gawk_bin yq_bin file cmd cli_version
     bash_bin="${BASH_BIN:-}"
     [ -n "$bash_bin" ] || bash_bin="$(system_tool bash || true)"
     [ -n "$bash_bin" ] || bash_bin="$(command -v bash 2>/dev/null || true)"
@@ -919,10 +911,17 @@ verify_install() {
     fi
 
 
-    for file in "$ROOT_DIR"/*.sh "$ROOT_DIR"/scripts/*.sh "$ROOT_DIR"/completions/*.sh "$ROOT_DIR"/utils/*.sh; do
+    for file in "$ROOT_DIR"/*.sh "$ROOT_DIR"/scripts/*.sh "$ROOT_DIR"/completions/*.sh "$ROOT_DIR"/utils/*.sh "$BIN_DIR"/argc-completions; do
         [ -f "$file" ] || continue
         bash -n "$file" || die "syntax error: $file"
     done
+
+    if [ -f "$BIN_DIR/argc-completions" ]; then
+        if ! cli_version="$(bash "$BIN_DIR/argc-completions" --version 2>&1)"; then
+            die "argc-completions smoke test failed"
+        fi
+        log_info "argc-completions: $cli_version"
+    fi
 
     for file in "$ROOT_DIR"/completions/*.sh; do
         [ -f "$file" ] || continue

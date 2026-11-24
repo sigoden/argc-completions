@@ -37,6 +37,7 @@ done < <(
         -type f -name '*.sh'
     [ -f "$ROOT_DIR/install.sh" ] && printf '%s\n' "$ROOT_DIR/install.sh"
     [ -f "$ROOT_DIR/Argcfile.sh" ] && printf '%s\n' "$ROOT_DIR/Argcfile.sh"
+    [ -f "$ROOT_DIR/bin/argc-completions" ] && printf '%s\n' "$ROOT_DIR/bin/argc-completions"
 )
 
 [ "${#files[@]}" -gt 0 ] || { echo "no shell files found" >&2; exit 1; }

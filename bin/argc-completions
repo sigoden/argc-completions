@@ -1,0 +1,768 @@
+#!/usr/bin/env bash
+# Manage the argc-completions checkout from the command line.
+#
+# Completion generation and verification stay in the maintainer-facing
+# Argcfile.sh and skills/ directory. This command is the user-facing entry
+# point: list available completions, install shell integration, check the
+# installation, and upgrade the checkout.
+
+# @meta binname argc-completions
+# @meta version 1.1.0
+# @describe Manage the argc-completions checkout
+
+set -e
+
+MIN_ARGC_VERSION="1.25.0"
+
+# --- repository root --------------------------------------------------------
+
+SOURCE="${BASH_SOURCE[0]}"
+while [ -L "$SOURCE" ]; do
+    SOURCE_DIR="$(cd -P "$(dirname "$SOURCE")" >/dev/null 2>&1 && pwd)"
+    SOURCE="$(readlink "$SOURCE")"
+    case "$SOURCE" in
+    /*) ;;
+    *) SOURCE="$SOURCE_DIR/$SOURCE" ;;
+    esac
+done
+SCRIPT_FILE="$(cd -P "$(dirname "$SOURCE")" >/dev/null 2>&1 && pwd)/$(basename "$SOURCE")"
+ROOT_DIR="$(cd -P "$(dirname "$SCRIPT_FILE")/.." >/dev/null 2>&1 && pwd)"
+
+# Keep the environment the user's shell handed us so doctor can report on it.
+ORIGINAL_PATH="${PATH:-}"
+ORIGINAL_ARGC_ROOT="${ARGC_COMPLETIONS_ROOT:-}"
+ORIGINAL_ARGC_PATH="${ARGC_COMPLETIONS_PATH:-}"
+
+case ":$PATH:" in
+*":$ROOT_DIR/bin:"*) ;;
+*) PATH="$ROOT_DIR/bin:$PATH"; export PATH ;;
+esac
+export ARGC_COMPLETIONS_ROOT="$ROOT_DIR"
+
+# --- helpers ----------------------------------------------------------------
+
+die() {
+    printf '[error] %s\n' "$*" >&2
+    exit 1
+}
+
+info() {
+    printf '[info] %s\n' "$*" >&2
+}
+
+warn() {
+    printf '[warn] %s\n' "$*" >&2
+}
+
+_version_ge() {
+    local a="$1" b="$2" i=1 xi yi
+    while [ "$i" -le 3 ]; do
+        xi="${a%%.*}"
+        yi="${b%%.*}"
+        xi="${xi%%[!0-9]*}"
+        yi="${yi%%[!0-9]*}"
+        [ -n "$xi" ] || xi=0
+        [ -n "$yi" ] || yi=0
+        if [ "$xi" -gt "$yi" ]; then
+            return 0
+        fi
+        if [ "$xi" -lt "$yi" ]; then
+            return 1
+        fi
+        case "$a" in
+        *.*) a="${a#*.}" ;;
+        *) a="" ;;
+        esac
+        case "$b" in
+        *.*) b="${b#*.}" ;;
+        *) b="" ;;
+        esac
+        i=$((i + 1))
+    done
+    return 0
+}
+
+_detect_os() {
+    case "$(uname -s 2>/dev/null)" in
+    Darwin) echo macos ;;
+    Linux) echo linux ;;
+    CYGWIN* | MINGW* | MSYS* | Windows_NT) echo windows ;;
+    *)
+        if [ "${OS:-}" = "Windows_NT" ]; then
+            echo windows
+        else
+            echo linux
+        fi
+        ;;
+    esac
+}
+
+_normalize_shell() {
+    case "${1:-}" in
+    bash | zsh | fish) printf '%s\n' "$1" ;;
+    nu | nushell) printf 'nushell\n' ;;
+    pwsh | powershell) printf 'powershell\n' ;;
+    *) return 1 ;;
+    esac
+}
+
+_detect_current_shell() {
+    local name
+    [ -n "${SHELL:-}" ] || return 1
+    name="${SHELL##*/}"
+    _normalize_shell "$name"
+}
+
+_shell_ext() {
+    case "$1" in
+    bash | zsh) printf 'sh\n' ;;
+    fish) printf 'fish\n' ;;
+    powershell) printf 'ps1\n' ;;
+    nushell) printf 'nu\n' ;;
+    *) return 1 ;;
+    esac
+}
+
+_choice_shell() {
+    printf '%s\n' bash zsh fish powershell nushell
+}
+
+_rc_candidates() {
+    local shell="$1"
+    case "$shell" in
+    bash)
+        printf '%s\n' "$HOME/.bashrc" "$HOME/.bash_profile"
+        ;;
+    zsh)
+        printf '%s\n' "${ZDOTDIR:-$HOME}/.zshrc"
+        ;;
+    fish)
+        printf '%s\n' "${XDG_CONFIG_HOME:-$HOME/.config}/fish/config.fish"
+        ;;
+    powershell)
+        if command -v pwsh >/dev/null 2>&1; then
+            pwsh -NoProfile -Command '$PROFILE' 2>/dev/null | tr -d '\r'
+        elif command -v powershell >/dev/null 2>&1; then
+            powershell -NoProfile -Command '$PROFILE' 2>/dev/null | tr -d '\r'
+        fi
+        ;;
+    nushell)
+        if command -v nu >/dev/null 2>&1; then
+            nu -c '$nu.config-path' 2>/dev/null | tr -d '\r'
+        elif [ -n "${APPDATA:-}" ]; then
+            printf '%s\n' "$APPDATA\\nushell\\config.nu"
+        else
+            printf '%s\n' "${XDG_CONFIG_HOME:-$HOME/.config}/nushell/config.nu"
+        fi
+        ;;
+    esac
+}
+
+_require_checkout() {
+    [ -d "$ROOT_DIR/completions" ] ||
+        die "not an argc-completions checkout: $ROOT_DIR"
+}
+
+_read_version() {
+    local file="${1:-}"
+    local program='
+        /^# @meta version[[:space:]]/ {
+            sub(/^# @meta version[[:space:]]+/, "")
+            sub(/[[:space:]]+$/, "")
+            print
+            exit
+        }
+    '
+    if [ -n "$file" ]; then
+        awk "$program" "$file"
+    else
+        awk "$program"
+    fi
+}
+
+# --- completion listing -----------------------------------------------------
+
+_describe() {
+    [ -f "$1" ] || return 0
+    awk '
+        /^# >>> SPEC$/ { in_spec = 1; next }
+        /^# <<< SPEC$/ { if (in_spec) exit }
+        in_spec && /^# @describe[[:space:]]/ {
+            sub(/^# @describe[[:space:]]+/, "")
+            print
+            exit
+        }
+    ' "$1"
+}
+
+_bridge() {
+    [ -f "$1" ] || return 0
+    sed -n 's/.*_choice_bridge_\([A-Za-z0-9_]*\).*/\1/p' "$1" | head -n 1
+}
+
+# Print name<TAB>os<TAB>path rows for one target OS. Platform scripts come
+# first so the awk dedupe keeps them over a shared script with the same name.
+# A shared script uses "-" for the OS column so no field is empty (read with
+# IFS collapses adjacent tab delimiters).
+_rows_for_os() {
+    local target="$1" file name platform_dir
+    platform_dir="$ROOT_DIR/completions/$target"
+    {
+        if [ -d "$platform_dir" ]; then
+            for file in "$platform_dir"/*.sh; do
+                [ -f "$file" ] || continue
+                name="${file##*/}"
+                name="${name%.sh}"
+                printf '%s\t%s\t%s\n' "$name" "$target" "completions/$target/${file##*/}"
+            done
+        fi
+        for file in "$ROOT_DIR"/completions/*.sh; do
+            [ -f "$file" ] || continue
+            name="${file##*/}"
+            name="${name%.sh}"
+            printf '%s\t%s\t%s\n' "$name" "-" "completions/${file##*/}"
+        done
+    } | awk -F '\t' '!seen[$1]++'
+}
+
+# Print every shared script and every platform variant, duplicates included.
+_rows_all() {
+    local os file name dir
+    for file in "$ROOT_DIR"/completions/*.sh; do
+        [ -f "$file" ] || continue
+        name="${file##*/}"
+        name="${name%.sh}"
+        printf '%s\t%s\t%s\n' "$name" "-" "completions/${file##*/}"
+    done
+    for os in linux macos windows; do
+        dir="$ROOT_DIR/completions/$os"
+        [ -d "$dir" ] || continue
+        for file in "$dir"/*.sh; do
+            [ -f "$file" ] || continue
+            name="${file##*/}"
+            name="${name%.sh}"
+            printf '%s\t%s\t%s\n' "$name" "$os" "completions/$os/${file##*/}"
+        done
+    done
+}
+
+_pattern_match() {
+    local name="$1" pattern
+    shift
+    [ "$#" -gt 0 ] || return 0
+    for pattern in "$@"; do
+        # shellcheck disable=SC2254
+        case "$name" in
+        $pattern) return 0 ;;
+        esac
+    done
+    return 1
+}
+
+# --- commands ---------------------------------------------------------------
+
+# @cmd List available completion scripts
+# @alias ls
+# @flag -a --all Include platform variants and duplicates
+# @option --os[linux|macos|windows] Select the target OS (default: current)
+# @flag -l --long Print descriptions
+# @flag --json Print a JSON array
+# @flag --count Print only the number of matches
+# @arg pattern* Glob patterns matched against command names
+list() {
+    _require_checkout
+    if [ -n "${argc_all:-}" ] && [ -n "${argc_os:-}" ]; then
+        die "--all and --os cannot be used together"
+    fi
+    if [ -n "${argc_count:-}" ] && { [ -n "${argc_json:-}" ] || [ -n "${argc_long:-}" ]; }; then
+        die "--count cannot be combined with --json or --long"
+    fi
+    if [ -n "${argc_json:-}" ] && [ -n "${argc_long:-}" ]; then
+        die "--json and --long cannot be combined"
+    fi
+
+    local current_os target_os name os rel line
+    current_os="$(_detect_os)"
+    target_os="${argc_os:-$current_os}"
+
+    local -a rows
+    rows=()
+    if [ -n "${argc_all:-}" ]; then
+        while IFS=$'\t' read -r name os rel; do
+            if _pattern_match "$name" "${argc_pattern[@]}"; then
+                rows+=("$name"$'\t'"$os"$'\t'"$rel")
+            fi
+        done < <(_rows_all)
+    else
+        while IFS=$'\t' read -r name os rel; do
+            if _pattern_match "$name" "${argc_pattern[@]}"; then
+                rows+=("$name"$'\t'"$os"$'\t'"$rel")
+            fi
+        done < <(_rows_for_os "$target_os")
+    fi
+
+    if [ "${#rows[@]}" -eq 0 ]; then
+        if [ -n "${argc_count:-}" ]; then
+            printf '0\n'
+        fi
+        if [ -n "${argc_json:-}" ]; then
+            printf '[]\n'
+        fi
+        return 0
+    fi
+
+    local -a sorted
+    sorted=()
+    while IFS= read -r line; do
+        sorted+=("$line")
+    done < <(printf '%s\n' "${rows[@]}" | LC_ALL=C sort)
+
+    if [ -n "${argc_count:-}" ]; then
+        printf '%s\n' "${#sorted[@]}"
+        return 0
+    fi
+
+    if [ -n "${argc_json:-}" ]; then
+        command -v jq >/dev/null 2>&1 ||
+            die "jq is required for --json; run $ROOT_DIR/install.sh"
+        local desc bridge
+        {
+            for line in "${sorted[@]}"; do
+                IFS=$'\t' read -r name os rel <<< "$line"
+                if [ "$os" = "-" ]; then
+                    os=""
+                fi
+                desc="$(_describe "$ROOT_DIR/$rel")"
+                desc="${desc//$'\t'/ }"
+                desc="${desc%$'\r'}"
+                bridge="$(_bridge "$ROOT_DIR/$rel")"
+                printf '%s\t%s\t%s\t%s\t%s\n' "$name" "$os" "$rel" "$desc" "$bridge"
+            done
+        } | jq -R -s '
+            split("\n")
+            | map(select(length > 0) | split("\t") | {
+                name: .[0],
+                os: (if .[1] == "" then null else .[1] end),
+                path: .[2],
+                description: .[3],
+                bridge: (if .[4] == "" then null else .[4] end)
+            })
+        '
+        return 0
+    fi
+
+    if [ -n "${argc_long:-}" ]; then
+        local desc display
+        for line in "${sorted[@]}"; do
+            IFS=$'\t' read -r name os rel <<< "$line"
+            if [ "$os" = "-" ]; then
+                os=""
+            fi
+            desc="$(_describe "$ROOT_DIR/$rel")"
+            display="$name"
+            if [ -n "${argc_all:-}" ] && [ -n "$os" ]; then
+                display="$name ($os)"
+            fi
+            printf '%s\t%s\n' "$display" "$desc"
+        done
+        return 0
+    fi
+
+    for line in "${sorted[@]}"; do
+        name="${line%%$'\t'*}"
+        printf '%s\n' "$name"
+    done
+}
+
+# @cmd Install or refresh shell integration
+# @alias init
+# @arg shell[?`_choice_shell`] Shell to configure (default: $SHELL)
+# @flag --print Print the rc line only; do not modify rc
+# @option --rc <FILE> Write the integration block to FILE
+# @flag -y --yes Do not prompt
+init-shell() {
+    _require_checkout
+    local shell
+    shell="${argc_shell:-}"
+    if [ -n "$shell" ]; then
+        shell="$(_normalize_shell "$shell" || true)"
+        if [ -z "$shell" ]; then
+            die "unsupported shell: ${argc_shell}; expected bash, zsh, fish, powershell, or nushell"
+        fi
+    else
+        shell="$(_detect_current_shell || true)"
+        if [ -z "$shell" ]; then
+            die "cannot detect shell; specify one of: bash zsh fish powershell nushell"
+        fi
+    fi
+    [ -f "$ROOT_DIR/install.sh" ] || die "install.sh not found: $ROOT_DIR/install.sh"
+
+    local -a args
+    args=(--no-deps)
+    if [ -n "${argc_print:-}" ]; then
+        args+=(--print)
+    fi
+    if [ -n "${argc_rc:-}" ]; then
+        args+=(--rc "$argc_rc")
+    fi
+    if [ -n "${argc_yes:-}" ]; then
+        args+=(--yes)
+    fi
+    args+=("$shell")
+
+    bash "$ROOT_DIR/install.sh" "${args[@]}"
+
+    if [ -n "${argc_yes:-}" ] && [ -z "${argc_print:-}" ]; then
+        info "start a new shell to load the integration"
+    fi
+}
+
+# @cmd Check the installation and dependencies
+# @option --shell[?`_choice_shell`] Shell integration to check (default: current)
+# @flag --json Print a machine-readable report
+doctor() {
+    _require_checkout
+    local shell
+    shell="${argc_shell:-}"
+    if [ -n "$shell" ]; then
+        shell="$(_normalize_shell "$shell" || true)"
+        if [ -z "$shell" ]; then
+            die "unsupported shell: ${argc_shell}; expected bash, zsh, fish, powershell, or nushell"
+        fi
+    else
+        shell="$(_detect_current_shell || true)"
+    fi
+
+    local deps_out deps_status
+    deps_status="fail"
+    deps_out=""
+    if [ -f "$ROOT_DIR/install.sh" ]; then
+        if deps_out="$(bash "$ROOT_DIR/install.sh" --check 2>&1)"; then
+            deps_status="ok"
+        fi
+    else
+        deps_out="install.sh not found: $ROOT_DIR/install.sh"
+    fi
+
+    local -a checks
+    checks=()
+    local failed=0
+
+    local version
+    version="$(_read_version "$SCRIPT_FILE")"
+    if [ -n "$version" ]; then
+        checks+=("version"$'\t'"ok"$'\t'"$version")
+    else
+        checks+=("version"$'\t'"fail"$'\t'"cannot read # @meta version from $SCRIPT_FILE")
+        failed=1
+    fi
+
+    if [ -d "$ROOT_DIR/completions" ] && [ -f "$ROOT_DIR/scripts/init-shell.sh" ] &&
+        [ -f "$ROOT_DIR/install.sh" ]; then
+        checks+=("layout"$'\t'"ok"$'\t'"$ROOT_DIR")
+    else
+        checks+=("layout"$'\t'"fail"$'\t'"missing completions/, scripts/init-shell.sh, or install.sh")
+        failed=1
+    fi
+
+    local os count
+    os="$(_detect_os)"
+    count="$(_rows_for_os "$os" | wc -l | tr -d ' ')"
+    case "$count" in
+    '' | *[!0-9]*) count=0 ;;
+    esac
+    if [ "$count" -gt 0 ]; then
+        checks+=("completions"$'\t'"ok"$'\t'"$count scripts for $os")
+    else
+        checks+=("completions"$'\t'"fail"$'\t'"no completion scripts for $os")
+        failed=1
+    fi
+
+    if [ -z "$shell" ]; then
+        checks+=("shell"$'\t'"warn"$'\t'"cannot detect shell; pass --shell")
+    else
+        local ext integration rc found
+        ext="$(_shell_ext "$shell")"
+        integration="$ROOT_DIR/cache/init-shell/init-$shell.$ext"
+        if [ -f "$integration" ]; then
+            checks+=("integration"$'\t'"ok"$'\t'"$integration")
+        else
+            checks+=("integration"$'\t'"fail"$'\t'"missing; run: argc-completions init-shell $shell")
+            failed=1
+        fi
+
+        found=""
+        while IFS= read -r rc; do
+            [ -n "$rc" ] || continue
+            if [ -f "$rc" ] && grep -qF '# >>> argc-completions' "$rc" 2>/dev/null; then
+                found="$rc"
+                break
+            fi
+        done <<< "$(_rc_candidates "$shell")"
+        if [ -n "$found" ]; then
+            checks+=("rc"$'\t'"ok"$'\t'"$found")
+        else
+            checks+=("rc"$'\t'"warn"$'\t'"no argc-completions block found; run: argc-completions init-shell $shell")
+        fi
+    fi
+
+    local env_status env_msg
+    env_status="ok"
+    env_msg=""
+    if [ -z "$ORIGINAL_ARGC_ROOT" ]; then
+        env_status="warn"
+        env_msg="ARGC_COMPLETIONS_ROOT is unset; run init-shell and start a new shell"
+    elif [ "$ORIGINAL_ARGC_ROOT" != "$ROOT_DIR" ]; then
+        env_status="warn"
+        env_msg="ARGC_COMPLETIONS_ROOT=$ORIGINAL_ARGC_ROOT (expected $ROOT_DIR)"
+    fi
+    case ":$ORIGINAL_PATH:" in
+    *":$ROOT_DIR/bin:"*) ;;
+    *)
+        if [ "$env_status" = "ok" ]; then
+            env_status="warn"
+        fi
+        env_msg="${env_msg:+$env_msg; }$ROOT_DIR/bin is not on PATH"
+        ;;
+    esac
+    if [ -z "$ORIGINAL_ARGC_PATH" ]; then
+        if [ "$env_status" = "ok" ]; then
+            env_status="warn"
+        fi
+        env_msg="${env_msg:+$env_msg; }ARGC_COMPLETIONS_PATH is unset"
+    fi
+    checks+=("environment"$'\t'"$env_status"$'\t'"${env_msg:-configured}")
+
+    local upstream
+    if command -v git >/dev/null 2>&1 &&
+        git -C "$ROOT_DIR" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+        upstream="$(git -C "$ROOT_DIR" rev-parse --abbrev-ref --symbolic-full-name '@{u}' 2>/dev/null || true)"
+        if [ -n "$upstream" ]; then
+            checks+=("upgrade"$'\t'"ok"$'\t'"git checkout; upstream $upstream")
+        else
+            checks+=("upgrade"$'\t'"warn"$'\t'"git checkout has no upstream; upgrade unavailable")
+        fi
+    else
+        checks+=("upgrade"$'\t'"warn"$'\t'"not a git checkout; upgrade unavailable")
+    fi
+
+    if [ -n "${argc_json:-}" ]; then
+        command -v jq >/dev/null 2>&1 ||
+            die "jq is required for --json; run $ROOT_DIR/install.sh"
+        local checks_tsv ok_json
+        checks_tsv="$(printf '%s\n' "${checks[@]}")"
+        if [ "$failed" -eq 0 ] && [ "$deps_status" = "ok" ]; then
+            ok_json=true
+        else
+            ok_json=false
+        fi
+        jq -n \
+            --argjson ok "$ok_json" \
+            --arg deps_status "$deps_status" \
+            --arg deps_output "$deps_out" \
+            --arg checks "$checks_tsv" \
+            '{
+                ok: $ok,
+                dependencies: {ok: ($deps_status == "ok"), output: $deps_output},
+                checks: ($checks | split("\n") | map(select(length > 0) | split("\t") | {
+                    name: .[0],
+                    status: .[1],
+                    message: .[2]
+                }))
+            }'
+    else
+        printf 'Dependencies:\n'
+        printf '%s\n' "$deps_out"
+        printf '\nInstallation:\n'
+        local line name status message status_label
+        for line in "${checks[@]}"; do
+            IFS=$'\t' read -r name status message <<< "$line"
+            case "$status" in
+            ok) status_label="[ok]" ;;
+            warn) status_label="[warn]" ;;
+            fail) status_label="[fail]" ;;
+            *) status_label="[$status]" ;;
+            esac
+            printf '%-6s %-14s %s\n' "$status_label" "$name" "$message"
+        done
+    fi
+
+    if [ "$failed" -ne 0 ] || [ "$deps_status" != "ok" ]; then
+        if [ -z "${argc_json:-}" ]; then
+            printf '\nSome checks failed.\n' >&2
+        fi
+        exit 1
+    fi
+    if [ -z "${argc_json:-}" ]; then
+        printf '\nAll checks passed.\n'
+    fi
+}
+
+# @cmd Update this checkout from its git upstream
+# @meta require-tools git
+# @flag --check Report whether an update is available; do not change files
+# @flag --dry-run Show what would be done without merging
+# @flag --allow-dirty Allow tracked local changes
+# @flag --json Print JSON with --check
+upgrade() {
+    _require_checkout
+    if [ -n "${argc_check:-}" ] && [ -n "${argc_dry_run:-}" ]; then
+        die "--check and --dry-run cannot be used together"
+    fi
+    if [ -n "${argc_json:-}" ] && [ -z "${argc_check:-}" ]; then
+        die "--json requires --check"
+    fi
+
+    git -C "$ROOT_DIR" rev-parse --is-inside-work-tree >/dev/null 2>&1 ||
+        die "not a git checkout: $ROOT_DIR (update it manually)"
+
+    local upstream remote
+    upstream="$(git -C "$ROOT_DIR" rev-parse --abbrev-ref --symbolic-full-name '@{u}' 2>/dev/null || true)"
+    if [ -z "$upstream" ] || [ "$upstream" = "HEAD" ]; then
+        die "no upstream branch; set one with: git branch --set-upstream-to=origin/<branch>"
+    fi
+    remote="${upstream%%/*}"
+
+    local old_rev old_ver new_rev new_ver
+    old_rev="$(git -C "$ROOT_DIR" rev-parse --short HEAD 2>/dev/null || true)"
+    old_ver="$(_read_version "$SCRIPT_FILE")"
+
+    local dirty=0
+    if ! git -C "$ROOT_DIR" diff-index --quiet HEAD -- >/dev/null 2>&1; then
+        dirty=1
+    fi
+
+    info "fetching $remote"
+    if ! git -C "$ROOT_DIR" fetch --prune "$remote" >/dev/null; then
+        die "git fetch failed for $remote"
+    fi
+
+    local counts ahead behind
+    counts="$(git -C "$ROOT_DIR" rev-list --left-right --count "HEAD...$upstream" 2>/dev/null)" ||
+        die "cannot compare HEAD with $upstream"
+    ahead="${counts%%[[:space:]]*}"
+    behind="${counts##*[[:space:]]}"
+    case "$ahead" in
+    '' | *[!0-9]*) ahead=0 ;;
+    esac
+    case "$behind" in
+    '' | *[!0-9]*) behind=0 ;;
+    esac
+
+    new_rev="$(git -C "$ROOT_DIR" rev-parse --short "$upstream" 2>/dev/null || true)"
+    new_ver="$(git -C "$ROOT_DIR" show "$upstream:bin/argc-completions" 2>/dev/null | _read_version || true)"
+
+    if [ -n "${argc_check:-}" ]; then
+        if [ -n "${argc_json:-}" ]; then
+            command -v jq >/dev/null 2>&1 ||
+                die "jq is required for --json; run $ROOT_DIR/install.sh"
+            local available=0
+            if [ "$behind" -gt 0 ]; then
+                available=1
+            fi
+            jq -n \
+                --arg current_version "$old_ver" \
+                --arg current_revision "$old_rev" \
+                --arg upstream_name "$upstream" \
+                --arg upstream_version "$new_ver" \
+                --arg upstream_revision "$new_rev" \
+                --argjson ahead "$ahead" \
+                --argjson behind "$behind" \
+                --argjson dirty "$dirty" \
+                --argjson available "$available" \
+                '{
+                    current: {
+                        version: $current_version,
+                        revision: (if $current_revision == "" then null else $current_revision end)
+                    },
+                    upstream: {
+                        name: $upstream_name,
+                        version: (if $upstream_version == "" then null else $upstream_version end),
+                        revision: (if $upstream_revision == "" then null else $upstream_revision end)
+                    },
+                    ahead: $ahead,
+                    behind: $behind,
+                    dirty: ($dirty == 1),
+                    updateAvailable: ($available == 1)
+                }'
+        else
+            local noun
+            if [ "$behind" -eq 1 ]; then noun=commit; else noun=commits; fi
+            printf 'current:  %s (%s)\n' "${old_ver:-unknown}" "${old_rev:-unknown}"
+            if [ -n "$new_ver" ]; then
+                printf 'upstream: %s (%s) %s\n' "$new_ver" "${new_rev:-unknown}" "$upstream"
+            else
+                printf 'upstream: %s %s\n' "${new_rev:-unknown}" "$upstream"
+            fi
+            if [ "$dirty" -eq 1 ]; then
+                printf 'worktree: dirty\n'
+            fi
+            if [ "$ahead" -gt 0 ] && [ "$behind" -gt 0 ]; then
+                printf 'status:   diverged (ahead %s, behind %s)\n' "$ahead" "$behind"
+            elif [ "$behind" -gt 0 ]; then
+                printf 'status:   %s %s behind\n' "$behind" "$noun"
+            elif [ "$ahead" -gt 0 ]; then
+                printf 'status:   %s commits ahead (nothing to pull)\n' "$ahead"
+            else
+                printf 'status:   up to date\n'
+            fi
+        fi
+        if [ "$behind" -gt 0 ]; then
+            exit 1
+        fi
+        exit 0
+    fi
+
+    if [ -n "${argc_dry_run:-}" ]; then
+        if [ "$behind" -eq 0 ]; then
+            printf 'Already up to date.\n'
+            exit 0
+        fi
+        if [ "$ahead" -gt 0 ]; then
+            printf 'Branch has diverged (ahead %s, behind %s); would not fast-forward.\n' "$ahead" "$behind"
+            exit 1
+        fi
+        if [ "$dirty" -eq 1 ] && [ -z "${argc_allow_dirty:-}" ]; then
+            warn "worktree has tracked changes; upgrade would refuse without --allow-dirty"
+        fi
+        local noun
+        if [ "$behind" -eq 1 ]; then noun=commit; else noun=commits; fi
+        printf 'Would update %s (%s) -> %s (%s) [%s %s]\n' \
+            "${old_ver:-unknown}" "${old_rev:-unknown}" "${new_ver:-unknown}" "${new_rev:-unknown}" "$behind" "$noun"
+        printf 'Would run: git merge --ff-only %s\n' "$upstream"
+        exit 0
+    fi
+
+    if [ "$behind" -eq 0 ]; then
+        printf 'Already up to date.\n'
+        exit 0
+    fi
+    if [ "$ahead" -gt 0 ]; then
+        die "branch has diverged (ahead $ahead, behind $behind); resolve manually"
+    fi
+    if [ "$dirty" -eq 1 ] && [ -z "${argc_allow_dirty:-}" ]; then
+        die "worktree has tracked changes; commit or stash them, or pass --allow-dirty"
+    fi
+
+    local changed
+    changed="$(git -C "$ROOT_DIR" diff --name-only "HEAD..$upstream" 2>/dev/null || true)"
+
+    info "updating $upstream"
+    git -C "$ROOT_DIR" merge --ff-only "$upstream" >/dev/null ||
+        die "git merge --ff-only failed; run git pull manually"
+
+    local noun
+    if [ "$behind" -eq 1 ]; then noun=commit; else noun=commits; fi
+    printf 'Updated %s (%s) -> %s (%s) [%s %s]\n' \
+        "${old_ver:-unknown}" "${old_rev:-unknown}" "${new_ver:-unknown}" "${new_rev:-unknown}" "$behind" "$noun"
+
+    if printf '%s\n' "$changed" | grep -qxF 'scripts/init-shell.sh'; then
+        printf 'Shell integration changed; run: argc-completions init-shell\n'
+    fi
+    if printf '%s\n' "$changed" | grep -qxF 'install.sh'; then
+        printf 'Dependencies may have changed; run: ./install.sh\n'
+    fi
+    printf 'Start a new shell to load the new completions.\n'
+}
+
+eval "$(argc --argc-eval "$0" "$@")"
