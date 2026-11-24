@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+    - '*'
+  push:
+    branches:
+    - main
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  all:
+    name: All
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup Tools
+      run: |
+        ./install.sh bash --yes
+        echo "$GITHUB_WORKSPACE/bin" >> "$GITHUB_PATH"
+
+    - name: Check versions
+      run: argc version
+
+    - name: Run tests
+      run: argc test
+
+    - name: Verify completions
+      run: argc verify:all
