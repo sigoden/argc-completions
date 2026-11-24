@@ -9,7 +9,8 @@
 #
 # With names, generate completions for those commands only; without names,
 # scan ARGC_COMPLETIONS_PATH, and ARGC_SCRIPTS overrides the scan when
-# the generated script runs.
+# the generated script runs. ARGC_SCRIPTS_EXCLUDE removes space-separated
+# exact command names from the resulting list.
 
 set -e
 
@@ -127,9 +128,7 @@ _script_sh() {
     printf 'export ARGC_COMPLETIONS_ROOT=%s\n' "$root_expr"
     printf 'export ARGC_COMPLETIONS_PATH=%s\n' "$path_expr"
     cat <<'EOF'
-if [ -d "$ARGC_COMPLETIONS_ROOT/bin" ] && [ -n "$(command ls -A "$ARGC_COMPLETIONS_ROOT/bin" 2>/dev/null)" ]; then
-    export PATH="$ARGC_COMPLETIONS_ROOT/bin:$PATH"
-fi
+export PATH="$ARGC_COMPLETIONS_ROOT/bin:$PATH"
 if [ -n "${ARGC_SCRIPTS:-}" ]; then
     argc_scripts=( $(printf '%s\n' "$ARGC_SCRIPTS" | tr ' ' '\n' | awk 'NF') )
 EOF
@@ -168,7 +167,26 @@ EOF
 
     cat <<'EOF'
 fi
-unset _argc_dir _argc_file _argc_name
+if [ -n "${ARGC_SCRIPTS_EXCLUDE:-}" ]; then
+    _argc_exclude=()
+    while IFS= read -r _argc_excluded; do
+        [ -n "$_argc_excluded" ] || continue
+        _argc_exclude+=("$_argc_excluded")
+    done < <(printf '%s\n' "$ARGC_SCRIPTS_EXCLUDE" | tr ' ' '\n')
+    _argc_filtered=()
+    for _argc_script in "${argc_scripts[@]}"; do
+        _argc_skip=
+        for _argc_excluded in "${_argc_exclude[@]}"; do
+            if [ "$_argc_script" = "$_argc_excluded" ]; then
+                _argc_skip=1
+                break
+            fi
+        done
+        [ -n "$_argc_skip" ] || _argc_filtered+=("$_argc_script")
+    done
+    argc_scripts=( "${_argc_filtered[@]}" )
+fi
+unset _argc_dir _argc_file _argc_name _argc_exclude _argc_filtered _argc_script _argc_excluded _argc_skip
 EOF
     printf 'source <(argc --argc-completions %s "${argc_scripts[@]}")\n' "$shell"
 }
@@ -180,9 +198,7 @@ _script_fish() {
     printf 'set -gx ARGC_COMPLETIONS_ROOT %s\n' "$root_expr"
     printf 'set -gx ARGC_COMPLETIONS_PATH %s\n' "$path_expr"
     cat <<'EOF'
-if test -d "$ARGC_COMPLETIONS_ROOT/bin"; and count (command ls -A "$ARGC_COMPLETIONS_ROOT/bin" 2>/dev/null) >/dev/null
-    fish_add_path "$ARGC_COMPLETIONS_ROOT/bin"
-end
+fish_add_path "$ARGC_COMPLETIONS_ROOT/bin"
 if set -q ARGC_SCRIPTS; and test -n "$ARGC_SCRIPTS"
     set argc_scripts (string split -n ' ' -- $ARGC_SCRIPTS)
 EOF
@@ -219,6 +235,17 @@ EOF
 
     cat <<'EOF'
 end
+if set -q ARGC_SCRIPTS_EXCLUDE; and test -n "$ARGC_SCRIPTS_EXCLUDE"
+    set _argc_exclude (string split -n ' ' -- $ARGC_SCRIPTS_EXCLUDE)
+    set _argc_filtered
+    for _argc_script in $argc_scripts
+        if not contains -- $_argc_script $_argc_exclude
+            set -a _argc_filtered $_argc_script
+        end
+    end
+    set argc_scripts $_argc_filtered
+    set -e _argc_exclude _argc_filtered _argc_script
+end
 argc --argc-completions fish $argc_scripts | source
 EOF
 }
@@ -233,9 +260,7 @@ _script_powershell() {
     printf '$env:ARGC_COMPLETIONS_PATH = %s\n' "$path_expr"
     printf '$argc_completions_bin = "$env:ARGC_COMPLETIONS_ROOT%sbin"\n' "$psep"
     cat <<'EOF'
-if ((Test-Path -LiteralPath $argc_completions_bin -PathType Container) -and (@(Get-ChildItem -LiteralPath $argc_completions_bin -Force -ErrorAction SilentlyContinue).Count -gt 0)) {
-    $env:PATH = $argc_completions_bin + [IO.Path]::PathSeparator + $env:PATH
-}
+$env:PATH = $argc_completions_bin + [IO.Path]::PathSeparator + $env:PATH
 if ($env:ARGC_SCRIPTS) {
     $argc_scripts = @($env:ARGC_SCRIPTS -split '\s+' | Where-Object { $_ })
 EOF
@@ -258,6 +283,10 @@ EOF
     fi
 
     cat <<'EOF'
+if ($env:ARGC_SCRIPTS_EXCLUDE) {
+    $argc_exclude = @($env:ARGC_SCRIPTS_EXCLUDE -split '\s+' | Where-Object { $_ })
+    $argc_scripts = @($argc_scripts | Where-Object { $argc_exclude -notcontains $_ })
+}
 argc --argc-completions powershell $argc_scripts | Out-String | Invoke-Expression
 EOF
 }
@@ -271,11 +300,9 @@ _script_nushell() {
     printf '$env.ARGC_COMPLETIONS_PATH = %s\n' "$path_expr"
     cat <<'EOF'
 let argc_completions_bin = ($argc_completions_root | path join 'bin')
-if (($argc_completions_bin | path exists) and ((ls $argc_completions_bin | length) > 0)) {
 EOF
-    printf '    $env.%s = ($env.%s | prepend $argc_completions_bin)\n' "$path_var" "$path_var"
+    printf '$env.%s = ($env.%s | prepend $argc_completions_bin)\n' "$path_var" "$path_var"
     cat <<'EOF'
-}
 let argc_scripts = if (($env.ARGC_SCRIPTS? | default '') | is-not-empty) {
     $env.ARGC_SCRIPTS | split row ' ' | where {|item| $item != ''}
 } else {
@@ -304,8 +331,14 @@ EOF
 
     cat <<'EOF'
 }
+let argc_exclude = if (($env.ARGC_SCRIPTS_EXCLUDE? | default '') | is-not-empty) {
+    $env.ARGC_SCRIPTS_EXCLUDE | split row ' ' | where {|item| $item != ''}
+} else {
+    []
+}
+let argc_scripts_filtered = $argc_scripts | where {|item| $argc_exclude | all {|excluded| $excluded != $item}}
 const argc_completions_cache = ($argc_completions_root | path join 'cache' 'init-shell' 'argc-completions.nu')
-argc --argc-completions nushell ...$argc_scripts | save -f $argc_completions_cache
+argc --argc-completions nushell ...$argc_scripts_filtered | save -f $argc_completions_cache
 source $argc_completions_cache
 EOF
 }
