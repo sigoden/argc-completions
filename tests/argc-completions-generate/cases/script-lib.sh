@@ -300,8 +300,9 @@ check "records_provenance keeps an empty hash field" \
     $'help\x1f\x1fdemo --help\x1fsection'
 expect_failure "records_provenance fails without an X record" \
     skill_fn records_provenance "D$(printf '\x1f')desc"
+# BSD wc (macOS) pads its count to seven columns; -eq compares the number.
 check "records_declared_subcommands keeps S records" \
-    test "$(skill_fn records_declared_subcommands "$records" | wc -l)" = 2
+    test "$(skill_fn records_declared_subcommands "$records" | wc -l)" -eq 2
 
 check "json_string_array escapes values" \
     test "$(skill_fn json_string_array a 'b"c' 'd\e')" = '["a","b\"c","d\\e"]'
@@ -309,16 +310,20 @@ check "json_string_array renders an empty array" \
     test "$(skill_fn json_string_array)" = '[]'
 
 # --- trim variants --------------------------------------------------------
+# Compare bytes through a fixture file (cmp via assert_same): BSD od -c pads
+# every field with a trailing space, so parsing its layout is not portable.
 printf '\n \nx\n\n' >"$TMP_DIR/trim-lead-in.txt"
+printf 'x\n\n' >"$TMP_DIR/trim-lead-expected.txt"
 check "trim_leading_blank_edges keeps trailing blanks" \
     skill_fn trim_leading_blank_edges "$TMP_DIR/trim-lead-in.txt" "$TMP_DIR/trim-lead-out.txt"
-check "trim_leading_blank_edges body" \
-    test "$(od -An -c "$TMP_DIR/trim-lead-out.txt" | tr -s ' ')" = " x \\n \\n"
+assert_same "trim_leading_blank_edges body" \
+    "$TMP_DIR/trim-lead-out.txt" "$TMP_DIR/trim-lead-expected.txt"
 printf '\n \nx\n\n' >"$TMP_DIR/trim-trail-in.txt"
+printf '\n \nx\n' >"$TMP_DIR/trim-trail-expected.txt"
 check "trim_trailing_blank_edges keeps leading blanks" \
     skill_fn trim_trailing_blank_edges "$TMP_DIR/trim-trail-in.txt" "$TMP_DIR/trim-trail-out.txt"
-check "trim_trailing_blank_edges body" \
-    test "$(od -An -c "$TMP_DIR/trim-trail-out.txt" | tr -s ' ')" = " \\n \\n x \\n"
+assert_same "trim_trailing_blank_edges body" \
+    "$TMP_DIR/trim-trail-out.txt" "$TMP_DIR/trim-trail-expected.txt"
 
 # --- cli and path guards --------------------------------------------------
 check "path_args_valid accepts a root and subcommand" skill_fn path_args_valid demo remote

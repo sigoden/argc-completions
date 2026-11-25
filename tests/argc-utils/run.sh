@@ -667,6 +667,15 @@ assert_stdout "filter matches a word containing a backslash" 'b' \
 # ---------------------------------------------------------------------------
 CACHE_ROOT="$TMP_DIR/cacheroot"
 CACHE_DIR="$CACHE_ROOT/cache/argc-util-cache"
+# _argc_util_cache picks its stat flavor from ARGC_OS, which is the host OS in
+# production. The harness pins ARGC_OS=linux for deterministic path checks, so
+# restore the real host here: BSD stat rejects -c, and a failed probe leaves
+# mod_time empty, which makes every entry look stale and recompute on each hit.
+case "$(uname -s 2>/dev/null || true)" in
+    Darwin) cache_os=macos ;;
+    CYGWIN* | MINGW* | MSYS*) cache_os=windows ;;
+    *) cache_os=linux ;;
+esac
 COUNTER="$TMP_DIR/counter"
 COUNT_FN="$TMP_DIR/count.sh"
 cat >"$COUNT_FN" <<EOF
@@ -707,7 +716,7 @@ reset_cache_dir() { rm -rf "$CACHE_DIR"; }
 # cache_call TIMEOUT [KEY] [ARGS]: run _count through _argc_util_cache.
 cache_call() {
     local secs="$1" key="${2-}" args="${3-mytool sub}" snippet
-    snippet="ARGC_COMPLETIONS_ROOT='$CACHE_ROOT'; source '$COUNT_FN'; argc__args=($args); argc__cmd_arg_index=1; "
+    snippet="ARGC_COMPLETIONS_ROOT='$CACHE_ROOT'; ARGC_OS='$cache_os'; source '$COUNT_FN'; argc__args=($args); argc__cmd_arg_index=1; "
     if [[ -n "$key" ]]; then
         snippet+="_argc_util_cache $secs _count '$key'"
     else

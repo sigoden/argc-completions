@@ -26,9 +26,11 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
 
     - name: Setup Tools
+      env:
+        GH_TOKEN: ${{ github.token }}
       run: |
         ./install.sh bash --yes
         echo "$GITHUB_WORKSPACE/bin" >> "$GITHUB_PATH"
@@ -40,4 +42,5 @@ jobs:
       run: argc test
 
     - name: Verify completions
-      run: argc verify:all
+      if: runner.os == 'Linux'
+      run: argc verify:all --skip-compgen

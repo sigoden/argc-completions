@@ -12,8 +12,8 @@
 
 set -euo pipefail
 
-TEST_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ROOT_DIR="$(cd "$TEST_DIR/../.." && pwd)"
+TEST_DIR="$(cd -P "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
+ROOT_DIR="$(cd -P "$TEST_DIR/../.." && pwd -P)"
 export PATH="$ROOT_DIR/bin:$PATH"
 
 if [ "${BASH_VERSINFO[0]:-0}" -lt 5 ]; then

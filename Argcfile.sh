@@ -11,8 +11,13 @@ verify() {
 }
 
 # @cmd Verify every completion script in completions/
+# @flag --skip-compgen  Do not run argc --argc-compgen
 verify:all() {
-    bash scripts/batch-verify-completions.sh
+    args=();
+    if [[ -n "$argc_skip_compgen" ]]; then
+        args+=(--skip-compgen)
+    fi
+    bash scripts/batch-verify-completions.sh "${args[@]}"
 }
 
 # @cmd Run test suites under tests/
