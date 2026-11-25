@@ -68,16 +68,26 @@ timeout_guard() {
 
 # assert_pid_gone <label> <pid-file>: the fixture recorded its pid and that
 # process is no longer running.
+#
+# Windows ends a process asynchronously: taskkill returns before the pid leaves
+# the process table, so a single probe can race the cleanup. Poll for a short
+# grace period; a process that really leaked (say, the fixture's 30s sleep) is
+# still alive when the loop gives up. The passing path never forks.
 assert_pid_gone() {
-    local label="$1" pid_file="$2" pid=""
+    local label="$1" pid_file="$2" pid="" i retries=20
     [[ -s "$pid_file" ]] && pid="$(<"$pid_file")"
     if [[ -z "$pid" ]]; then
         fail "$label (no pid recorded in ${pid_file##*/})"
-    elif kill -0 "$pid" 2>/dev/null; then
-        fail "$label (process $pid still running)"
-    else
-        pass "$label"
+        return 0
     fi
+    for ((i = 0; i < retries; i++)); do
+        if ! kill -0 "$pid" 2>/dev/null; then
+            pass "$label"
+            return 0
+        fi
+        sleep 0.05
+    done
+    fail "$label (process $pid still running)"
 }
 
 # assert_timeout_returns <label> <fixture> <minimal-path>: the wrapper must

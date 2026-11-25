@@ -1,0 +1,4 @@
+# Check out text files with LF on every platform. The script suite runs under
+# bash, compares repository files line by line and formats completions byte for
+# byte, so CRLF would break it. Windows runners default to core.autocrlf=true.
+* text=auto eol=lf
