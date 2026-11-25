@@ -11,12 +11,10 @@ set -e
 ROOT_DIR="$(cd -P "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 BIN_DIR="$ROOT_DIR/bin"
 
-MIN_ARGC_VERSION="${MIN_ARGC_VERSION:-1.25.0}"
+MIN_ARGC_VERSION=1.25.0
 MIN_BASH_VERSION=5.0
-MIN_JQ_VERSION="${MIN_JQ_VERSION:-1.6}"
-JQ_VERSION="${JQ_VERSION:-1.7.1}"
-MIN_YQ_VERSION="${MIN_YQ_VERSION:-4.33.1}"
-YQ_VERSION="${YQ_VERSION:-4.54.1}"
+MIN_JQ_VERSION=1.6
+MIN_YQ_VERSION=4.33.1
 
 os=""
 arch=""
@@ -50,11 +48,6 @@ Options:
   --no-deps        Skip dependency setup; only configure the shell.
   --force, -f      Re-download argc/jq/yq even if system versions are available.
   -h, --help       Show this help.
-
-Environment:
-  ARGC_VERSION=vX.Y.Z   Pin the argc release (default: latest GitHub release).
-  JQ_VERSION=1.7.1      Pin the jq release used when install.sh downloads it.
-  YQ_VERSION=4.54.1     Pin the mikefarah/yq release used when install.sh downloads it.
 EOF
 }
 
@@ -261,11 +254,31 @@ require_base_tools() {
     fi
 }
 
-latest_argc_tag() {
-    local tag
-    tag="$(curl -fsSL https://api.github.com/repos/sigoden/argc/releases/latest 2>/dev/null \
+latest_release_tag() {
+    local repo="$1" tag
+    tag="$(curl -fsSL "https://api.github.com/repos/$repo/releases/latest" 2>/dev/null \
         | sed -n 's/.*"tag_name"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' \
         | head -n 1)"
+    [ -n "$tag" ] || return 1
+    printf '%s\n' "$tag"
+}
+
+latest_argc_tag() {
+    latest_release_tag sigoden/argc
+}
+
+latest_jq_version() {
+    local tag
+    tag="$(latest_release_tag jqlang/jq)" || return 1
+    tag="${tag#jq-}"
+    [ -n "$tag" ] || return 1
+    printf '%s\n' "$tag"
+}
+
+latest_yq_version() {
+    local tag
+    tag="$(latest_release_tag mikefarah/yq)" || return 1
+    tag="${tag#v}"
     [ -n "$tag" ] || return 1
     printf '%s\n' "$tag"
 }
@@ -314,14 +327,8 @@ ensure_argc() {
         fi
     fi
 
-    tag="${ARGC_VERSION:-}"
-    if [ -z "$tag" ]; then
-        tag="$(latest_argc_tag)" || tag=""
-    fi
-    if [ -z "$tag" ]; then
-        tag="v1.25.0"
-        log_warn "could not query the latest argc release; falling back to $tag"
-    fi
+    tag="$(latest_argc_tag)" || tag=""
+    [ -n "$tag" ] || die "could not query the latest argc release"
     case "$tag" in
     v*) ;;
     *) tag="v$tag" ;;
@@ -468,7 +475,8 @@ jq_asset() {
     macos-amd64) printf 'jq-macos-amd64\n' ;;
     macos-aarch64) printf 'jq-macos-arm64\n' ;;
     windows-amd64) printf 'jq-windows-amd64.exe\n' ;;
-    # jq 1.7.1 has no native Windows ARM64 build; use amd64 under emulation.
+    # Prefer the amd64 build on Windows ARM64 so the download works across jq
+    # releases; it runs under emulation.
     windows-aarch64) printf 'jq-windows-amd64.exe\n' ;;
     windows-i686) printf 'jq-windows-i386.exe\n' ;;
     *) return 1 ;;
@@ -476,7 +484,7 @@ jq_asset() {
 }
 
 ensure_jq() {
-    local bin version asset url tmp brew_jq candidate
+    local bin version jq_version asset url tmp brew_jq candidate
     bin="$(bin_path jq)"
 
     if [ "$force" -eq 0 ]; then
@@ -501,8 +509,11 @@ ensure_jq() {
         fi
     fi
 
+    jq_version="$(latest_jq_version)" || jq_version=""
+    [ -n "$jq_version" ] || die "could not query the latest jq release"
+
     asset="$(jq_asset)" || die "no jq binary for $os-$arch; install jq with your package manager"
-    url="https://github.com/jqlang/jq/releases/download/jq-$JQ_VERSION/$asset"
+    url="https://github.com/jqlang/jq/releases/download/jq-$jq_version/$asset"
     tmp="$(make_tmp)"
     if ! curl -fsSL "$url" -o "$tmp/jq"; then
         cleanup_tmp
@@ -551,7 +562,7 @@ yq_asset() {
 }
 
 ensure_yq() {
-    local bin version asset url tmp brew_yq candidate tag
+    local bin version yq_version asset url tmp brew_yq candidate tag
     bin="$(bin_path yq)"
 
     if [ "$force" -eq 0 ]; then
@@ -574,8 +585,11 @@ ensure_yq() {
         fi
     fi
 
+    yq_version="$(latest_yq_version)" || yq_version=""
+    [ -n "$yq_version" ] || die "could not query the latest yq release"
+
     asset="$(yq_asset)" || die "no yq binary for $os-$arch; install mikefarah/yq from GitHub"
-    tag="v${YQ_VERSION#v}"
+    tag="v$yq_version"
     url="https://github.com/mikefarah/yq/releases/download/$tag/$asset"
     tmp="$(make_tmp)"
     if ! curl -fsSL "$url" -o "$tmp/yq"; then
@@ -998,8 +1012,6 @@ main() {
         ensure_argc
         ensure_jq
         ensure_yq
-    else
-        log_info "skipping dependency setup (--no-deps)"
     fi
 
     setup_shell
