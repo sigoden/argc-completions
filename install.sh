@@ -254,11 +254,65 @@ require_base_tools() {
     fi
 }
 
+# GitHub API tokens are optional, but anonymous requests are limited to 60 per
+# hour per IP. CI runners share their egress IPs, so the quota is often already
+# exhausted. GH_TOKEN takes precedence, matching the gh CLI convention.
+latest_release_tag_api() {
+    local repo="$1" token="${GH_TOKEN:-${GITHUB_TOKEN:-}}" tmp code tag
+    tmp="$(make_tmp)" || return 1
+    if [ -n "$token" ]; then
+        code="$(curl -sSL -o "$tmp/body" -w '%{http_code}' \
+            -H "Authorization: Bearer $token" \
+            -H 'Accept: application/vnd.github+json' \
+            "https://api.github.com/repos/$repo/releases/latest" 2>/dev/null)" || code=""
+    else
+        code="$(curl -sSL -o "$tmp/body" -w '%{http_code}' \
+            -H 'Accept: application/vnd.github+json' \
+            "https://api.github.com/repos/$repo/releases/latest" 2>/dev/null)" || code=""
+    fi
+    if [ "$code" = 200 ] && [ -f "$tmp/body" ]; then
+        tag="$(sed -n 's/.*"tag_name"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' "$tmp/body" \
+            | head -n 1)"
+    fi
+    cleanup_tmp
+    case "$code" in
+    200) ;;
+    403|429)
+        log_warn "GitHub API rate limited ($repo); set GH_TOKEN to raise the limit"
+        ;;
+    ""|000)
+        log_warn "GitHub API unreachable ($repo)"
+        ;;
+    *)
+        log_warn "GitHub API request failed ($repo, HTTP $code)"
+        ;;
+    esac
+    [ -n "$tag" ] || return 1
+    printf '%s\n' "$tag"
+}
+
+# Fallback that does not consume API quota: the /releases/latest page is a plain
+# 302 to /releases/tag/<tag>. Do not use -L here, or the Location header is gone.
+latest_release_tag_redirect() {
+    local repo="$1" location
+    location="$(curl -sSI -o /dev/null -w '%{redirect_url}' \
+        "https://github.com/$repo/releases/latest" 2>/dev/null)" || return 1
+    case "$location" in
+    */releases/tag/*) ;;
+    *) return 1 ;;
+    esac
+    location="${location##*/releases/tag/}"
+    location="${location%%[?#]*}"
+    [ -n "$location" ] || return 1
+    printf '%s\n' "$location"
+}
+
 latest_release_tag() {
     local repo="$1" tag
-    tag="$(curl -fsSL "https://api.github.com/repos/$repo/releases/latest" 2>/dev/null \
-        | sed -n 's/.*"tag_name"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' \
-        | head -n 1)"
+    tag="$(latest_release_tag_api "$repo")" || tag=""
+    if [ -z "$tag" ]; then
+        tag="$(latest_release_tag_redirect "$repo")" || tag=""
+    fi
     [ -n "$tag" ] || return 1
     printf '%s\n' "$tag"
 }
@@ -328,7 +382,7 @@ ensure_argc() {
     fi
 
     tag="$(latest_argc_tag)" || tag=""
-    [ -n "$tag" ] || die "could not query the latest argc release"
+    [ -n "$tag" ] || die "could not query the latest argc release; set GH_TOKEN if the GitHub API is rate limited"
     case "$tag" in
     v*) ;;
     *) tag="v$tag" ;;
@@ -510,7 +564,7 @@ ensure_jq() {
     fi
 
     jq_version="$(latest_jq_version)" || jq_version=""
-    [ -n "$jq_version" ] || die "could not query the latest jq release"
+    [ -n "$jq_version" ] || die "could not query the latest jq release; set GH_TOKEN if the GitHub API is rate limited"
 
     asset="$(jq_asset)" || die "no jq binary for $os-$arch; install jq with your package manager"
     url="https://github.com/jqlang/jq/releases/download/jq-$jq_version/$asset"
@@ -586,7 +640,7 @@ ensure_yq() {
     fi
 
     yq_version="$(latest_yq_version)" || yq_version=""
-    [ -n "$yq_version" ] || die "could not query the latest yq release"
+    [ -n "$yq_version" ] || die "could not query the latest yq release; set GH_TOKEN if the GitHub API is rate limited"
 
     asset="$(yq_asset)" || die "no yq binary for $os-$arch; install mikefarah/yq from GitHub"
     tag="v$yq_version"
