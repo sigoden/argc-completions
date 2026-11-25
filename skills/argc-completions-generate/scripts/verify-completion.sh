@@ -605,23 +605,76 @@ check_root_describe() {
 # Every referenced function must be defined once, before the final eval.
 # Completion helpers are named _choice_* or _argc_util_*; literal backtick text
 # in a meta value is not a reference.
+#
+# One gawk pass collects the refs, the eval line, the sourced-util flag, and
+# every function definition. The previous per-ref `grep -nE "$file"` cost one
+# process per reference (plus a cut), which dominated the run on Windows where
+# every process costs ~100ms.
 check_choice_refs() {
-    local ref definition_lines count def_line
+    local ref count last util=0
     local -a missing_refs=() late_refs=() duplicate_refs=()
-    : >"$tmp_dir/refs.txt"
-    gawk '
-        function rtrim(s) { sub(/[ \t]+$/, "", s); return s }
-        /^# @(option|flag|arg) / {
-            rest = $0
-            sub(/^# @[a-z]+ /, "", rest)
-            idx = match(rest, /\t|[ ][ ]+/)
-            sig = idx ? substr(rest, 1, idx - 1) : rest
-            if (index(sig, "`") > 0) print sig
-        }
-        /^# @meta( |$)/ { print }
-    ' "$region_file" | grep -o '`[^`]*`' | tr -d '`' | LC_ALL=C sort -u >"$tmp_dir/refs.txt" || true
+    local -a scan_args=("$region_file")
+    local -A def_count=() def_last=()
+    eval_line=""
+    [[ "$region_file" == "$file" ]] || scan_args+=("$file")
 
-    eval_line="$(grep -nE '^(command )?eval "\$\(argc --argc-eval' "$file" | head -n 1 | cut -d: -f1)"
+    # refs.txt keeps the sorted, unique, backtick-stripped list that
+    # check_no_choice_mode reads. The scan writes both outputs itself so no
+    # pipeline of grep/tr/sort is needed. Create refs.txt first: gawk opens an
+    # output file only on its first print, so a script without refs would
+    # otherwise leave it missing.
+    : >"$tmp_dir/refs.txt"
+    LC_ALL=C gawk -v region="$region_file" -v compfile="$file" \
+        -v reffile="$tmp_dir/refs.txt" '
+        BEGIN { split("", ref); split("", def_count); split("", def_last) }
+        function add_refs(line,    name) {
+            while (match(line, /`[^`]*`/)) {
+                name = substr(line, RSTART + 1, RLENGTH - 2)
+                ref[name] = 1
+                line = substr(line, RSTART + RLENGTH)
+            }
+        }
+        {
+            if (FILENAME == region) {
+                if ($0 ~ /^# @(option|flag|arg) /) {
+                    rest = $0
+                    sub(/^# @[a-z]+ /, "", rest)
+                    idx = match(rest, /\t|[ ][ ]+/)
+                    sig = idx ? substr(rest, 1, idx - 1) : rest
+                    if (index(sig, "`") > 0) add_refs(sig)
+                } else if ($0 ~ /^# @meta( |$)/) {
+                    add_refs($0)
+                }
+            }
+            if (FILENAME != compfile) next
+            if (eval_line == 0 && (index($0, "eval \"$(argc --argc-eval") == 1 ||
+                                   index($0, "command eval \"$(argc --argc-eval") == 1)) {
+                eval_line = FNR
+            }
+            if (!util && index($0, "utils/_argc_utils.sh") > 0) util = 1
+            if (match($0, /^[[:space:]]*(function[[:space:]]+)?([A-Za-z_][A-Za-z0-9_]*)\(\)[[:space:]]*\{/, m)) {
+                def_count[m[2]]++
+                def_last[m[2]] = FNR
+            }
+        }
+        END {
+            n = asorti(ref, sorted)
+            for (i = 1; i <= n; i++) print sorted[i] > reffile
+            printf "E\t%d\n", eval_line
+            printf "U\t%d\n", util
+            for (name in def_count) printf "D\t%s\t%d\t%d\n", name, def_count[name], def_last[name]
+        }
+    ' "${scan_args[@]}" >"$tmp_dir/refs-scan.tsv" || true
+
+    local kind a b c
+    while IFS=$'\t' read -r kind a b c; do
+        case "$kind" in
+            E) [[ "$a" == "0" ]] || eval_line="$a" ;;
+            U) util="$a" ;;
+            D) def_count["$a"]="$b"; def_last["$a"]="$c" ;;
+        esac
+    done <"$tmp_dir/refs-scan.tsv"
+
     if [[ -n "$eval_line" ]]; then
         pass "final argc eval"
     else
@@ -632,27 +685,21 @@ check_choice_refs() {
         [[ -n "$ref" ]] || continue
         # Ignore literal backtick text that may appear in a meta value.
         [[ "$ref" == _* ]] || continue
-        definition_lines="$(grep -nE "^[[:space:]]*(${ref}|function[[:space:]]+${ref})\(\)[[:space:]]*\{" "$file" | cut -d: -f1 || true)"
-        if [[ -z "$definition_lines" ]]; then
-            if [[ "$ref" == _argc_util_* ]] && grep -q 'utils/_argc_utils.sh' "$file"; then
+        count="${def_count[$ref]:-0}"
+        if [[ "$count" -eq 0 ]]; then
+            if [[ "$ref" == _argc_util_* ]] && [[ "$util" -eq 1 ]]; then
                 : # provided by the sourced _argc_utils.sh
             else
                 missing_refs+=("$ref")
             fi
             continue
         fi
-        count="$(printf '%s\n' "$definition_lines" | grep -c . || true)"
         if [[ "$count" -gt 1 ]]; then
             duplicate_refs+=("$ref")
         fi
-        if [[ -n "$eval_line" ]]; then
-            while IFS= read -r def_line; do
-                [[ -n "$def_line" ]] || continue
-                if [[ "$def_line" -gt "$eval_line" ]]; then
-                    late_refs+=("$ref")
-                    break
-                fi
-            done <<<"$definition_lines"
+        last="${def_last[$ref]:-0}"
+        if [[ -n "$eval_line" && "$last" -gt "$eval_line" ]]; then
+            late_refs+=("$ref")
         fi
     done <"$tmp_dir/refs.txt"
 

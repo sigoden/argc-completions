@@ -55,6 +55,15 @@ quiet bash "$SCRIPTS/format-choices.sh" "$unformatted"
 assert_same "format idempotent" "$unformatted" "$TMP_DIR/choice-formatted.txt"
 verify_check "verify formatted CHOICES" "$unformatted"
 
+# Syntax validation also applies when formatting would leave the file unchanged.
+malformed="$TMP_DIR/choice-malformed.sh"
+block_append "$choices_base" "$malformed" CHOICES '_choice_probe() { :; }'
+quiet bash "$SCRIPTS/format-choices.sh" "$malformed"
+insert_before "$malformed" "$TMP_DIR/choice-malformed.tmp" "$COMMAND_EVAL_LINE" 'if'
+mv "$TMP_DIR/choice-malformed.tmp" "$malformed"
+expect_failure "format --check rejects syntax error in unchanged output" \
+    bash "$SCRIPTS/format-choices.sh" --check "$malformed"
+
 # --- rejection paths -----------------------------------------------------
 # A local name that would collide with the renamed helper keeps the file as is.
 collision="$TMP_DIR/choice-collision.sh"

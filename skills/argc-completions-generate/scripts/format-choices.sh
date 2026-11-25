@@ -360,8 +360,12 @@ check_outside_references() {
 }
 
 # Abort when a to-be-renamed function is also used as a shell variable.
+# Every target is read in one gawk pass: one process per function body is the
+# dominant cost on Windows, where each process costs ~100ms.
 check_variable_collisions() {
-    local target="$1" map="$2" file="$3"
+    local map="$1" file="$2"
+    shift 2
+    [[ $# -gt 0 ]] || return 0
     gawk -v mapfile="$map" -v file="$file" '
     function fail(msg) {
         printf "format-choices: %s: %s\n", file, msg > "/dev/stderr"
@@ -420,6 +424,7 @@ check_variable_collisions() {
         }
         in_heredoc = 0
     }
+    FNR == 1 { in_heredoc = 0 }
     {
         line = $0
         if (in_heredoc) {
@@ -437,11 +442,16 @@ check_variable_collisions() {
         if (line !~ /^[ \t]*#/) starts_heredoc(line)
     }
     END { if (failed) exit 1 }
-    ' "$target"
+    ' "$@"
 }
 
-replace_words() {
-    local input="$1" output="$2" map="$3"
+# Apply the renames to every input, writing "<input>.renamed" for each.
+# One gawk pass over all inputs keeps the process count constant; a per-body
+# run costs one process per function.
+replace_words_many() {
+    local map="$1"
+    shift
+    [[ $# -gt 0 ]] || return 0
     gawk -v mapfile="$map" '
     function replace_word(s, old, new,    out, pos, before, after, prev, nxt) {
         out = ""
@@ -500,68 +510,81 @@ replace_words() {
         }
         in_heredoc = 0
     }
+    FNR == 1 {
+        if (NR > 1 && out != "") close(out)
+        in_heredoc = 0
+    }
     {
+        out = FILENAME ".renamed"
         line = $0
         if (in_heredoc) {
-            print line
+            print line > out
             cmp = line
             if (heredoc_strip) sub(/^\t+/, "", cmp)
             if (cmp == heredoc_delim) in_heredoc = 0
             next
         }
         for (i = 1; i <= count; i++) line = replace_word(line, old[i], new[old[i]])
-        print line
+        print line > out
         if (line !~ /^[ \t]*#/) starts_heredoc(line)
     }
-    ' "$input" >"$output"
+    ' "$@"
 }
 
 # Reject a rename whose name is referenced outside CHOICES, or used as a shell
 # variable anywhere the rename touches (preamble, SPEC, every function body).
 check_sources() {
-    local work="$1" file="$2" idx body
+    local work="$1" file="$2" idx
     local map="$work/map.tsv"
+    local -a targets=("$work/preamble.txt")
 
     gawk -v s="${BLOCK_START[SPEC]:-0}" -v e="${BLOCK_END[SPEC]:-0}" '
         s > 0 && e > s && NR > s && NR < e { print }
     ' "$file" >"$work/SPEC.txt"
 
     check_outside_references "$work/SPEC.txt" "$map" "$file" || return 1
-    check_variable_collisions "$work/preamble.txt" "$map" "$file" || return 1
     while IFS=$'\t' read -r _ idx; do
         [[ -n "$idx" ]] || continue
-        body="$work/body.$idx.txt"
-        check_variable_collisions "$body" "$map" "$file" || return 1
+        targets+=("$work/body.$idx.txt")
     done <"$work/names.tsv"
+    check_variable_collisions "$map" "$file" "${targets[@]}" || return 1
 }
 
 # Apply the renames and sort the functions by their final name.
 rewrite_sections() {
-    local work="$1" file="$2" old new idx body
+    local work="$1" file="$2" old new idx
     local map="$work/map.tsv"
     local names="$work/names.tsv"
     local content="$work/content.txt"
+    local -a inputs=()
+    local -A idx_of=()
 
     trim_blank_edges "$work/preamble.txt" "$work/preamble.trim"
-    replace_words "$work/preamble.trim" "$work/preamble.renamed" "$map" || return 1
+
+    while IFS=$'\t' read -r old idx; do
+        [[ -n "$old" ]] || continue
+        idx_of["$old"]="$idx"
+    done <"$names"
 
     : >"$work/sort.tsv"
     while IFS=$'\t' read -r old new; do
         [[ -n "$old" ]] || continue
-        printf '%s\t%s\n' "$new" "$(gawk -v n="$old" '$1 == n { print $2; exit }' "$names")" >>"$work/sort.tsv"
+        printf '%s\t%s\n' "$new" "${idx_of[$old]:-}" >>"$work/sort.tsv"
     done <"$map"
 
+    inputs=("$work/preamble.trim")
     while IFS=$'\t' read -r _ idx; do
         [[ -n "$idx" ]] || continue
-        body="$work/body.$idx.txt"
-        replace_words "$body" "$work/body.$idx.renamed" "$map" || return 1
+        inputs+=("$work/body.$idx.txt")
     done <"$names"
+
+    replace_words_many "$map" "${inputs[@]}" || return 1
 
     LC_ALL=C sort "$work/sort.tsv" >"$work/sort.sorted"
 
     : >"$content"
-    if [[ -s "$work/preamble.renamed" ]]; then
-        cat "$work/preamble.renamed" >>"$content"
+    if [[ -s "$work/preamble.trim.renamed" ]]; then
+        cat "$work/preamble.trim.renamed" >>"$content"
         if [[ -s "$work/sort.sorted" ]]; then
             printf '\n' >>"$content"
         fi
@@ -577,7 +600,7 @@ rewrite_sections() {
         if [[ "$first" -eq 0 ]]; then
             printf '\n' >>"$content"
         fi
-        cat "$work/body.$idx.renamed" >>"$content"
+        cat "$work/body.$idx.txt.renamed" >>"$content"
         first=0
     done <"$work/sort.sorted"
 }
@@ -619,6 +642,8 @@ install_output() {
     fi
 
     cat "$output" >"$file"
+    # The block boundaries may have moved; discard facts loaded before rewrite.
+    BLOCK_FACTS_LOADED=0
     printf 'formatted: %s\n' "$file"
     return 0
 }
