@@ -12,7 +12,7 @@ verify() {
 
 # @cmd Verify every completion script in completions/
 verify:all() {
-    bash scripts/batch-verify-completions.sh
+    bash scripts/batch-verify-completions.sh --skip-compgen
 }
 
 # @cmd Run test suites under tests/

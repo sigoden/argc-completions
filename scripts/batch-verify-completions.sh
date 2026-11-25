@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # Verify every completion script under completions/ in parallel.
 #
-# By default each script is checked the same way `argc verify:all` does it:
-# one verify-completion.sh run without fragment comparison. Pass --with-cache
-# to also compare a script with cache/compile/<root> when that directory
-# exists. Exit status: 0 when every script passes, 1 otherwise.
+# Each script is checked with one verify-completion.sh run without fragment
+# comparison. Pass --skip-compgen to skip compgen (argc verify:all passes it),
+# and --with-cache to also compare a script with cache/compile/<root> when that
+# directory exists. Exit status: 0 when every script passes, 1 otherwise.
 #
 # @describe Verify every completion script under completions/ in parallel
 # @option -j --jobs <n>    Parallel workers (default: JOBS or min(CPUs, 16))
