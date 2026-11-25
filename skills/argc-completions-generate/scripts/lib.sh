@@ -834,6 +834,21 @@ block_line() {
 # message, because assemble treats 2 as fatal and verify as a check failure.
 extract_block() {
     local file="$1" name="$2" dest="$3" starts ends start_line end_line
+    # block_facts_load already parsed every boundary for this file, so reuse it
+    # instead of running count_marker/block_line (six processes) again.
+    if [[ "$BLOCK_FACTS_LOADED" -eq 1 && "$BLOCK_FACTS_FILE" == "$file" ]]; then
+        starts="${BLOCK_OPENS[$name]:-0}"
+        ends="${BLOCK_CLOSES[$name]:-0}"
+        if [[ "$starts" -eq 0 && "$ends" -eq 0 ]]; then
+            return 1
+        fi
+        [[ "$starts" -eq 1 && "$ends" -eq 1 ]] || return 2
+        start_line="${BLOCK_START[$name]:-0}"
+        end_line="${BLOCK_END[$name]:-0}"
+        [[ "$start_line" -gt 0 && "$end_line" -gt 0 && "$start_line" -lt "$end_line" ]] || return 2
+        gawk -v start="$start_line" -v end="$end_line" 'NR > start && NR < end { print }' "$file" >"$dest"
+        return 0
+    fi
     starts="$(count_marker "$file" '>>>' "$name")"
     ends="$(count_marker "$file" '<<<' "$name")"
     if [[ "$starts" -eq 0 && "$ends" -eq 0 ]]; then
@@ -901,10 +916,13 @@ block_facts() {
     ' "$file"
 }
 
-# Facts of the last block_facts_load call.
+# Facts of the last block_facts_load call, plus the file they describe so
+# extract_block can reuse them instead of re-grepping the same file.
 BLOCK_FACTS_LAYOUT=""
 BLOCK_FACTS_FIRST=0
 BLOCK_FACTS_LAST=0
+BLOCK_FACTS_FILE=""
+BLOCK_FACTS_LOADED=0
 declare -A BLOCK_OPENS=() BLOCK_START=() BLOCK_END=() BLOCK_CLOSES=()
 
 # Parse block_facts for one file into the BLOCK_* globals above, so a caller
@@ -912,6 +930,13 @@ declare -A BLOCK_OPENS=() BLOCK_START=() BLOCK_END=() BLOCK_CLOSES=()
 # Usage: block_facts_load <file>
 block_facts_load() {
     local file="$1" name f2 f3 f4 f5
+    # check_blocks loads the facts and block_layout_ok used to load them again
+    # right after; a second parse of the same file cannot add anything.
+    if [[ "$BLOCK_FACTS_LOADED" -eq 1 && "$BLOCK_FACTS_FILE" == "$file" ]]; then
+        return 0
+    fi
+    BLOCK_FACTS_LOADED=0
+    BLOCK_FACTS_FILE=""
     BLOCK_FACTS_LAYOUT=""
     BLOCK_FACTS_FIRST=0
     BLOCK_FACTS_LAST=0
@@ -932,6 +957,8 @@ block_facts_load() {
                 ;;
         esac
     done < <(block_facts "$file")
+    BLOCK_FACTS_FILE="$file"
+    BLOCK_FACTS_LOADED=1
 }
 
 # True when the block layout is the supported one: SPEC and HINTS exactly once,
