@@ -14,9 +14,16 @@ defaults:
 
 jobs:
   all:
-    name: All
+    name: All (${{ matrix.os }})
 
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os:
+        - ubuntu-latest
+        - macos-latest
+        - windows-latest
+
+    runs-on: ${{ matrix.os }}
 
     steps:
     - uses: actions/checkout@v4
