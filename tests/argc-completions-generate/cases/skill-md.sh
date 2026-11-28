@@ -31,6 +31,13 @@ doc_contains "$doc" \
     '| `all` | Brand-new command (`existing=0`)' \
     "next=add-choice-fns"
 
+# The `next=` criterion must also recognize list-backed enumerable sources, or
+# the add-choice-fns list rule stays unreachable from the normal handoff.
+doc_contains "$doc" \
+    'a terminated command line qualifies' \
+    'a `list` subcommand or a `--list*` option is a signal' \
+    'that a `name`/`id`/`key` is enumerable'
+
 # Bridge completions are read-only: the skill never generates or refreshes one,
 # but preflight still reports it so routing stops instead of rebuilding it.
 doc_contains "$doc" \
