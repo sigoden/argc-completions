@@ -31,7 +31,7 @@ doc_contains "$doc" \
 # A `list` subcommand or a `--list*` option means the resource is enumerable;
 # its choice-fns must not be skipped as free text.
 doc_contains "$doc" \
-    'A `list` subcommand or a `--list`/`--list*` option' \
+    'A `list` subcommand or a `--list*` option' \
     "not free text"
 
 # A multi-value option stays one item and one binding; the slot decision lives

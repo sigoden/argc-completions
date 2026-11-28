@@ -130,7 +130,7 @@ Report workflow, root, counts, `failed` nodes, verify result, and the next step.
 
 The counts line uses fixed fields: `commands` = command blocks in `SPEC` (one per node); `fragments` = `.json` files under the cache directory (equals `commands`); `items` = sum of every fragment's `items` length; `choice_fns` = items with non-null `choice_fn`; `reused` = nodes served from cache without dispatch (`hit`, `unverified`, `failed`); `compiled` = nodes dispatched and succeeded this run; `unverified` = reused nodes whose fragment is unverified; `pruned` = `removed` from `<SKILL_ROOT>/scripts/finalize-cache.sh`.
 
-Report `next=add-choice-fns` when an exported value has neither a static nor a dynamic choice and has an enumerable source (a terminated command line qualifies). A static `choices` list, described or not, already counts as a choice. Otherwise report `next=complete`. Handoff mechanics are in `<SKILL_ROOT>/references/generate-structure.md` §9.
+Report `next=add-choice-fns` when an exported value has neither a static nor a dynamic choice and has an enumerable source (a terminated command line qualifies; a `list` subcommand or a `--list*` option is a signal that a `name`/`id`/`key` is enumerable). A static `choices` list, described or not, already counts as a choice. Otherwise report `next=complete`. Handoff mechanics are in `<SKILL_ROOT>/references/generate-structure.md` §9.
 
 ```text
 workflow=all root=make commands=1 fragments=1 items=35 choice_fns=2 failed=0 reused=0 compiled=1 unverified=0 pruned=0 verify=PASS next=complete

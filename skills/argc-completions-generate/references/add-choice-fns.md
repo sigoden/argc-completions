@@ -26,7 +26,7 @@ The command tree: `jq -r '.. | objects | select(has("subcommands")) | .name' /tm
 
 The fragment summary shows the existing `choice_fn`/`choices` (`<SKILL_ROOT>/SKILL.md` §Inspection).
 
-Skip flags; values with a non-null `choice`; complete static enumerations (described or not); path notation (`<path>`, `<file>`, `<dir>`, `<folder>`); and free text (message, name, url, regex, number, plain description). A terminated value is not free text: its array holds a command line and has an enumerable source. A `list` subcommand or a `--list`/`--list*` option is the clearest sign that a `name`/`id`/`key` is enumerable, not free text: check for one before skipping, and bind what it prints wherever the same resource is consumed, including on the `list` subcommand itself.
+Skip flags; values with a non-null `choice`; complete static enumerations (described or not); path notation (`<path>`, `<file>`, `<dir>`, `<folder>`); and free text (message, name, url, regex, number, plain description). A terminated value is not free text: its array holds a command line and has an enumerable source. A `list` subcommand or a `--list*` option is the clearest sign that a `name`/`id`/`key` is enumerable, not free text: check for one before skipping, and bind what it prints wherever the same resource is consumed, including on the `list` subcommand itself.
 
 ### Helpers
 
